@@ -1,0 +1,9 @@
+BACKEND
+- configurazione nodemailer email.service.js => createTransport
+- configurazione server => server.js
+- definizione rotte autenticazione => authorization.router.js
+- definizione schema parziale utenti per accesso google => users.schema.js
+- configurazione google strategy => passport.config.js
+- configurazione jwt sign => passport.config.js
+- configurazione autenticazione => authorization.middleware.js
+- definizione funzioni vuote CRUD per autenticazione => authorization.controller.js
