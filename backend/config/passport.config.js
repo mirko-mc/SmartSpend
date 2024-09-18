@@ -40,7 +40,7 @@ const GoogleStrategy = new PassportGoogleStrategy(
     // todo richiamare funzione per generare il token
     const Token = await JwtCreation(user._id);
     if (!Token) return res.status(401).send();
-    return passportNext(null, { JwtToken });
+    return passportNext(null, { token: Token });
   }
 );
 export default GoogleStrategy;

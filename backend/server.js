@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import AuthorizationRouter from "./routes/authorization.router.js";
+import AuthenticationRouter from "./routes/authentication.router.js";
 import cors from "cors";
 import moongoose from "mongoose";
 import morgan from "morgan";
@@ -8,6 +8,8 @@ import helmet from "helmet";
 import endpoints from "express-list-endpoints";
 import passport from "passport";
 import GoogleStrategy from "./config/passport.config.js";
+import { Authorization } from "./middlewares/authorization.middleware.js";
+import UsersRouter from "./routes/users.router.js";
 
 /** dichiaro il server */
 const Server = express();
@@ -42,10 +44,15 @@ Server.use(cors());
 // fine configurazione cors
 /** abilitazione all'utilizzo di json */
 Server.use(express.json());
-// * rotte
 /** non è un middleware ma semplicemente abilito l'uso della strategia google di passport */
 passport.use("google", GoogleStrategy);
-Server.use("/api/v1/auth", AuthorizationRouter);
+// * rotte
+// autenticazione
+Server.use("/api/v1/auth", AuthenticationRouter);
+// ??? posso utilizzare il middleware di autorizzazione perché da qui in poi saranno tutte rotte protette?
+// Server.use(Authorization());
+// utenti
+Server.use("/api/v1/user", Authorization, UsersRouter);
 /** connessione al database */
 await moongoose
   .connect(process.env.MONGO_CONNECTION_URI)

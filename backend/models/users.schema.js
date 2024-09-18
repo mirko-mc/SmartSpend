@@ -5,6 +5,7 @@ const Users = new Schema(
     // googleId
     googleId: {
       type: String,
+      // ??? 2 google id a null non si possono avere
       unique: true,
     },
     // todo facebookId

@@ -1,4 +1,29 @@
 @endpoint="http://localhost:5000/api/v1/auth"
+@numero=1
+@stringa="b"
+@data="2020-01-01"
 
-### login mail + password
+
+### /login mail + password
 POST http://localhost:5000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": {{stringa}},
+  "password": {{stringa}}
+}
+
+### /register mail + password
+POST http://localhost:5000/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "googleId": {{stringa}},
+  "name": {{stringa}},
+  "surname": {{stringa}},
+  "email": {{stringa}},
+  "password": {{stringa}},
+  "avatar": "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png",
+  "favoriteTheme": "dark",
+  "verifiedAt": {{data}}
+}
