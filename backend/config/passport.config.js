@@ -1,7 +1,7 @@
 import "dotenv/config";
 import PassportGoogleStrategy from "passport-google-oauth20";
-import Jwt from "jsonwebtoken";
 import usersSchema from "../models/users.schema.js";
+import { JwtCreation } from "./jwt.config.js";
 
 console.log("CONFIG => passport.config.js - GoogleStrategy");
 /** definisco la strategia google indicando le credenziali d'accesso e l'indirizzo della callbackGoogle */
@@ -32,29 +32,15 @@ const GoogleStrategy = new PassportGoogleStrategy(
         email,
       });
       /** salvo l'utente nel database */
-      user =await NewUser.save();
+      user = await NewUser.save();
       /** mi assicuro che l'utente sia stato creato */
       user = NewUser;
       console.log(user);
     }
-
-    // TODO centralizzare la funzione di creazione del jwt
-    /** creiamo il JwtToken per l'utente passandogli */
-    Jwt.sign(
-      /** i dati che deve contenere */
-      { user: user._id },
-      /** il mio segreto */
-      process.env.JWT_SECRET,
-      /** la durata del token (solo numero sono secondi, stringa numero lettera sono tempi più lunghi (1h, 1m, 1M) */
-      { expiresIn: "3h" },
-      (err, JwtToken) => {
-        /** in caso di errore chiudo la funzione col return */
-        if (err) return res.status(401).send();
-        /** richiamo il prossimo middleware di passport, NON di express */
-        /** il primo argomento è l'eventuale errore, il secondo argomento è il valore che passport assegnerà a req.user e cioè un oggetto con la chiave token */
-        return passportNext(null, { JwtToken });
-      }
-    );
+    // todo richiamare funzione per generare il token
+    const Token = await JwtCreation(user._id);
+    if (!Token) return res.status(401).send();
+    return passportNext(null, { JwtToken });
   }
 );
 export default GoogleStrategy;
