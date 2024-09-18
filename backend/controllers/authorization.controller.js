@@ -1,7 +1,6 @@
 /**
  * todo POST /login => restituisce token di accesso, non protetta */
 export const PostLogin = async (req, res) => {
-  const { email, password } = req.body;
 };
 
 /**

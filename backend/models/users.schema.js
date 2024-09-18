@@ -1,39 +1,54 @@
 import { model, Schema } from "mongoose";
-/** new Schema({},{}) vuole 2 oggetti:
- *  1. schema (struttura dei dati)
- *  2. collection (nome della collection in mongo)
- */
+
 const Users = new Schema(
   {
+    // googleId
     googleId: {
       type: String,
       unique: true,
     },
+    // todo facebookId
+    // todo telegramId
+    // nome dell'utente
     name: {
       type: String,
       required: true,
     },
+    // cognome dell'utente
     surname: {
       type: String,
     },
+    // email dell'utente
     email: {
       type: String,
       required: true,
       unique: true,
     },
+    // password hashata dall'utente
     password: {
       type: String,
-      // required: true,
       select: false,
     },
+    // immagine profilo dell'utente
     avatar: {
       type: String,
       default:
         "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png",
     },
+    // tema preferito
+    favoriteTheme: {
+      type: String,
+      enum: ["light", "dark"],
+      default: "light",
+    },
+    // se l'utente ha effettuato la verifica comparirà la data
+    verifiedAt: {
+      type: Date,
+    },
   },
-  /** naming convention: la collection plurale */
-  { collection: "users" }
+  {
+    collection: "users",
+    timestamps: true,
+  }
 );
-/** naming convention: il model singolare */
 export default model("User", Users);
