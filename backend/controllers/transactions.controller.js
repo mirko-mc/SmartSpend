@@ -1,0 +1,1 @@
+export const GetTransactions = async (req, res) => {};

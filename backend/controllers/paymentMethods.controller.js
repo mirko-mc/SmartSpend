@@ -1,0 +1,1 @@
+export const GetPaymentMethods = async (req, res) => {};
