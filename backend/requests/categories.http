@@ -1,0 +1,29 @@
+@endpoint="http://localhost:5000/api/v1/auth"
+@numero=1
+@stringa="c"
+@data="2020-01-01"
+
+### GET http://localhost:5000/api/v1/user/:userId/categories recuperare una o tutti i metodi di pagamento
+GET http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/categories
+
+### POST http://localhost:5000/api/v1/user/:userId/category creare un nuovo metodo di pagamento
+POST http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category
+Content-Type: application/json
+
+{
+  "name": {{stringa}},
+  "user": {{stringa}},
+  "type": "in",
+  "description": {{stringa}}
+}
+
+### PUT http://localhost:5000/api/v1/user/:userId/category/:categoryId modificare un metodo di pagamento
+PUT http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category/66ed5896edb792ee46a8d0d8
+Content-Type: application/json
+
+{
+  "type": "out"
+}
+
+### DELETE http://localhost:5000/api/v1/user/:userId/category/:categoryId eliminare un metodo di pagamento
+DELETE http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category/66ed54e5e2535cb66b18cb32

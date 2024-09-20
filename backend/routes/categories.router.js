@@ -1,5 +1,5 @@
 import express from "express";
-import * as CategoriesController from "../controllers/categories.controller.js"
+import * as CategoriesController from "../controllers/categories.controller.js";
 
 const Router = express.Router();
 // todo
@@ -10,9 +10,15 @@ Router.get("/user/:userId/categories", CategoriesController.GetCategories);
 Router.post("/user/:userId/category", CategoriesController.PostCategory);
 // todo
 /** PUT /user/:userId/category/:categoryId modificare una categoria */
-Router.put("/user/:userId/category/:categoryId", CategoriesController.PutCategory);
+Router.put(
+  "/user/:userId/category/:categoryId",
+  CategoriesController.PutCategory
+);
 // todo
 /** DELETE /user/:userId/category/:categoryId eliminare una categoria */
-Router.delete("/user/:userId/category/:categoryId", CategoriesController.DeleteCategory);
+Router.delete(
+  "/user/:userId/category/:categoryId",
+  CategoriesController.DeleteCategory
+);
 
 export default Router;

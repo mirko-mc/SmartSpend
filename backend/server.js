@@ -10,6 +10,8 @@ import passport from "passport";
 import GoogleStrategy from "./config/passport.config.js";
 import { Authorization } from "./middlewares/authorization.middleware.js";
 import UsersRouter from "./routes/users.router.js";
+import CategoriesRouter from "./routes/categories.router.js";
+import PaymentMethodsRouter from "./routes/paymentMethods.router.js";
 
 /** dichiaro il server */
 const Server = express();
@@ -52,7 +54,9 @@ Server.use("/api/v1/auth", AuthenticationRouter);
 // ??? posso utilizzare il middleware di autorizzazione perché da qui in poi saranno tutte rotte protette?
 // Server.use(Authorization());
 // utenti
-Server.use("/api/v1/user", Authorization, UsersRouter);
+Server.use("/api/v1/user", /** Authorization, */ UsersRouter);
+Server.use("/api/v1/", /** Authorization, */ CategoriesRouter);
+Server.use("/api/v1/", /** Authorization, */ PaymentMethodsRouter);
 /** connessione al database */
 await moongoose
   .connect(process.env.MONGO_CONNECTION_URI)
