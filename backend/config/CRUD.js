@@ -1,22 +1,33 @@
-export const CrudGet = async (req, schema) => {
-  return await schema.findById(req.params.userId);
+export const CrudGet = async (id, schema) => {
+  console.log("CONFIG => CRUD.js - CrudGet");
+  try {
+    console.log(id);
+    /** se è un utente */
+    if (id?.userId) return await schema.findById(id.userId);
+    /** se non è un utente */
+    if (!id?.userId) return await schema.find({ user: id.id }).populate("user");
+  } catch (err) {
+    console.log(err);
+  }
 };
+
 export const CrudPost = async (req, schema) => {
-  return await schema.create({ ...req.body, user: req.params.userId });
+  console.log("CONFIG => CRUD.js - CrudPost");
+  return await schema.create({ ...req.body, user: req.LoggedUser.id });
 };
+
 export const CrudPut = async (req, schema) => {
-  /** creo una tupla contenente l'errore e i dati da modificare */
-  const [error, results] = await schema.findByIdAndUpdate(
-    req.params.categoryId,
+  console.log("CONFIG => CRUD.js - CrudPut");
+  return await schema.findByIdAndUpdate(
+    req.LoggedUser.id,
     { ...req.body },
     { new: true }
   );
-  return error, results;
 };
+
 export const CrudDelete = async (req, schema) => {
-  /** creo una tupla contenente l'errore e i dati da eliminare */
-  const [error, results] = await schema.findByIdAndDelete(
-    req.params.categoryId
-  );
-  return error, results;
+  console.log("CONFIG => CRUD.js - CrudDelete");
+  return await schema.findByIdAndDelete(req.LoggedUser.id, {
+    new: true,
+  });
 };

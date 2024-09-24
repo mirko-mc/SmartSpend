@@ -4,28 +4,28 @@ import * as PaymentMethodsController from "../controllers/paymentMethods.control
 const Router = express.Router();
 
 // todo
-/** GET /user/:userId/paymentMethods recuperare uno o tutti i metodi di pagamento */
+/** GET s recuperare uno o tutti i metodi di pagamento */
 Router.get(
-  "/user/:userId/paymentMethods",
+  "s",
   PaymentMethodsController.GetPaymentMethods
 );
 // todo
-/** POST /user/:userId/paymentMethod creare un nuovo metodo di pagamento */
+/** POST / creare un nuovo metodo di pagamento */
 Router.post(
-  "/user/:userId/paymentMethod",
+  "/",
   PaymentMethodsController.PostPaymentMethod
 );
 // todo
-/** PUT /user/:userId/paymentMethod/:paymentMethodId modificare un metodo di pagamento */
+/** PUT /:paymentMethodId modificare un metodo di pagamento */
 Router.put(
-  "/user/:userId/paymentMethod/:paymentMethodId",
+  "/:paymentMethodId",
   PaymentMethodsController.PutPaymentMethod
 );
 // todo
-/** DELETE /user/:userId/paymentMethod/:paymentMethodId eliminare un metodo di pagamento */
+/** DELETE /:paymentMethodId eliminare un metodo di pagamento */
 Router.delete(
-  "/user/:userId/paymentMethod/:paymentMethodId",
-  PaymentMethodsController.DeletePaymentMethods
+  "/:paymentMethodId",
+  PaymentMethodsController.DeletePaymentMethod
 );
 
 export default Router;

@@ -1,14 +1,19 @@
-@endpoint="http://localhost:5000/api/v1/auth"
+@endpoint=http://localhost:5000/api/v1/categor
 @numero=1
 @stringa="c"
 @data="2020-01-01"
+@categoryId=66ed5896edb792ee46a8d0d8
+@userId=66f14faf556888342a9546ae
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTY2NDUyLCJleHAiOjE3MjcxNzcyNTJ9.7gBZxY1tqXGb3Eh-5eqFb02IJP_AYeFs5E0X9PRBTNg
 
-### GET http://localhost:5000/api/v1/user/:userId/categories recuperare una o tutti i metodi di pagamento
-GET http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/categories
+### GET http://localhost:5000/api/v1//categories recuperare una o tutti i metodi di pagamento
+GET {{endpoint}}ies
+Authorization: {{token}}
 
-### POST http://localhost:5000/api/v1/user/:userId/category creare un nuovo metodo di pagamento
-POST http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category
+### POST http://localhost:5000/api/v1/category creare un nuovo metodo di pagamento
+POST {{endpoint}}y
 Content-Type: application/json
+Authorization: {{token}}
 
 {
   "name": {{stringa}},
@@ -18,12 +23,14 @@ Content-Type: application/json
 }
 
 ### PUT http://localhost:5000/api/v1/user/:userId/category/:categoryId modificare un metodo di pagamento
-PUT http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category/66ed5896edb792ee46a8d0d8
+PUT {{endpoint}}y/{{categoryId}}
 Content-Type: application/json
+Authorization: {{token}}
 
 {
   "type": "out"
 }
 
 ### DELETE http://localhost:5000/api/v1/user/:userId/category/:categoryId eliminare un metodo di pagamento
-DELETE http://localhost:5000/api/v1/user/66eb352d7d0bd027aff61a8b/category/66ed54e5e2535cb66b18cb32
+DELETE {{endpoint}}y/{{categoryId}}
+Authorization: {{token}}

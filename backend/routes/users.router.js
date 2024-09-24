@@ -3,19 +3,19 @@ import * as UserController from "../controllers/users.controller.js";
 
 const Router = express.Router();
 // todo
-/** GET /user/:userId recupera l'utente */
-Router.get("/user/:userId", UserController.GetUser);
+/** GET /:userId recupera l'utente */
+Router.get("/:userId", UserController.GetUser);
 // todo
-/** POST /user crea un nuovo utente */
-Router.post("/user", UserController.PostUser);
+/** POST / crea un nuovo utente */
+Router.post("/", UserController.PostUser);
 // todo
-/** PUT /user/:userId modifica l'utente */
-Router.put("/user/:userId", UserController.PutUser);
+/** PUT /:userId modifica l'utente */
+Router.put("/:userId", UserController.PutUser);
 // todo
-/** DELETE /user/:userId elimina l'utente */
-Router.delete("/user/:userId", UserController.DeleteUser);
+/** DELETE /:userId elimina l'utente */
+Router.delete("/:userId", UserController.DeleteUser);
 // todo
-/** PATCH /user/:userId aggiunge l'avatar dell'utente */
-Router.patch("/user/:userId", UserController.PatchUser);
+/** PATCH /:userId aggiunge l'avatar dell'utente */
+Router.patch("/:userId", UserController.PatchUser);
 
 export default Router;

@@ -12,6 +12,7 @@ import { Authorization } from "./middlewares/authorization.middleware.js";
 import UsersRouter from "./routes/users.router.js";
 import CategoriesRouter from "./routes/categories.router.js";
 import PaymentMethodsRouter from "./routes/paymentMethods.router.js";
+import TransactionsRouter from "./routes/transactions.router.js";
 
 /** dichiaro il server */
 const Server = express();
@@ -54,9 +55,10 @@ Server.use("/api/v1/auth", AuthenticationRouter);
 // ??? posso utilizzare il middleware di autorizzazione perché da qui in poi saranno tutte rotte protette?
 // Server.use(Authorization());
 // utenti
-Server.use("/api/v1/user", /** Authorization, */ UsersRouter);
-Server.use("/api/v1/", /** Authorization, */ CategoriesRouter);
-Server.use("/api/v1/", /** Authorization, */ PaymentMethodsRouter);
+Server.use("/api/v1/user", Authorization, UsersRouter);
+Server.use("/api/v1/categor", Authorization, CategoriesRouter);
+Server.use("/api/v1/paymentMethod", Authorization, PaymentMethodsRouter);
+Server.use("/api/v1/transaction", Authorization, TransactionsRouter);
 /** connessione al database */
 await moongoose
   .connect(process.env.MONGO_CONNECTION_URI)

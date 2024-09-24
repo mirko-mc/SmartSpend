@@ -1,12 +1,12 @@
 import { JwtCreation } from "../config/jwt.config.js";
 import usersSchema from "../models/users.schema.js";
 import Bcrypt from "bcrypt";
+import { userCheck } from "../utils/bodyCheck.js";
 // TODO integrare controlli di validazione campi required
 // TODO passare i dati uno alla volta anziché il body completo
 // todo integrare controlli se l'utente esiste nel database (regex sulla mail)
 
-/**
- * todo POST /login => restituisce token di accesso, non protetta */
+// todo POST /login => restituisce token di accesso, non protetta */
 export const PostLogin = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostLogin");
   try {
@@ -31,8 +31,7 @@ export const PostLogin = async (req, res) => {
   }
 };
 
-/**
- * todo GET /me => restituisce l'utente collegato al token di accesso, protetta */
+// todo GET /me => restituisce l'utente collegato al token di accesso, protetta */
 export const GetMeInfo = async (req, res) => {
   try {
     console.log("AUTHENTICATION CONTROLLER => GetMeInfo");
@@ -47,15 +46,17 @@ export const GetMeInfo = async (req, res) => {
   }
 };
 
-/**
- * todo POST - crea un nuovo utente */
+// todo POST - crea un nuovo utente */
 export const PostRegister = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostRegister");
   try {
-    // hash della password
-    req.body.password = await Bcrypt.hash(req.body.password, 10);
+    // se l'utente è già presente nel database genero un errore
+    if (await usersSchema.findOne({ email: req.body.email }))
+      throw new Error("User already exists");
+    // dal body controllo che siano presenti almeno i dati obbligatori e recupero solo i dati da inviare al database
+    const Data = await userCheck(req.body);
     // creazione utente
-    const User = await usersSchema.create(req.body);
+    const User = await usersSchema.create(Data);
     // genero un token di accesso
     const Token = await JwtCreation(User._id);
     // se il token è vuoto genero un errore
@@ -71,12 +72,10 @@ export const PostRegister = async (req, res) => {
 // TODO - POST /logout logout utente (per JWT base non serve backend, basta togliere il token dal localStorage)
 export const PostLogout = async (req, res) => {};
 
-/**
- * todo GET - login Google è il link al server google */
+// todo GET - login Google è il link al server google */
 export const GetLoginGoogle = async (req, res) => {};
 
-/**
- * todo GET - callback Google */
+// todo GET - callback Google */
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
   /** qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author */

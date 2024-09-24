@@ -15,7 +15,6 @@ const Transactions = new Schema(
     // indirizzo del negozio
     address: {
       type: String,
-      required: true,
     },
     // descrizione della transazione
     description: {
@@ -30,12 +29,12 @@ const Transactions = new Schema(
     // categoria della transazione
     category: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Category",
     },
     // metodo di pagamento usato per effettuare la transazione
     paymentMethod: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "PaymentMethod",
     },
     // utente che ha effettuato la transazione
     user: {

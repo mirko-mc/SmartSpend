@@ -14,6 +14,7 @@ const PaymentMethods = new Schema(
     },
     // tipo di metodo di pagamento
     type: {
+      type: String,
       enum: ["cash", "debitCard", "creditCard", "digitalWallet"],
     },
     // saldo iniziale

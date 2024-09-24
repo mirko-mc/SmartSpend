@@ -1,0 +1,41 @@
+@endpoint=http://localhost:5000/api/v1/user
+@userId=66f14faf556888342a9546ae
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
+@stringa1=asdfg
+@stringa2=qwerty
+
+### GET http://localhost:5000/api/v1/user/:userId recuperare un utente
+GET {{endpoint}}/{{userId}}
+Authorization: {{token}}
+
+### POST http://localhost:5000/api/v1/user creare un nuovo utente
+POST {{endpoint}}/
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "{{stringa1}}",
+  "surname": "{{stringa1}}",
+  "email": "{{stringa1}}@{{stringa1}}.{{stringa1}}",
+  "password": "{{stringa1}}",
+  "avatar": "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png",
+  "favoriteTheme": "dark",
+  "verifiedAt": "2020-01-01"
+}
+
+### PUT http://localhost:5000/api/v1/user/:userId modificare un utente
+PUT {{endpoint}}/{{userId}}
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "{{stringa2}}",
+  "surname": "{{stringa2}}",
+  "email": "{{stringa2}}@{{stringa2}}.{{stringa2}}",
+  "password": "{{stringa2}}",
+  "passwordConfirm": "{{stringa2}}"
+}
+
+### DELETE http://localhost:5000/api/v1/user/:userId eliminare un utente
+DELETE {{endpoint}}/{{userId}}
+Authorization: {{token}}

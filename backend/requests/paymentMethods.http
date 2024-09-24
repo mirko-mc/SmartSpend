@@ -1,0 +1,35 @@
+@endpoint=http://localhost:5000/api/v1/paymentMethod
+@paymentMethodId=66f140ba648ab760269653ec
+@userId=66f14faf556888342a9546ae
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
+
+### GET http://localhost:5000/api/v1/paymentMethods recuperare uno o tutti i metodi di pagamento
+GET {{endpoint}}s
+Authorization: {{token}}
+
+### POST http://localhost:5000/api/v1/paymentMethod creare un nuovo metodo di pagamento
+POST {{endpoint}}
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Carta di credito",
+  "user": "66eb352d7d0bd027aff61a8b",
+  "type": "creditCard",
+  "description": "Carta di credito",
+  "initialBalance": 0
+}
+
+### PUT http://localhost:5000/api/v1/paymentMethod/:paymentMethodId modificare un metodo di pagamento
+PUT {{endpoint}}/{{paymentMethodId}}
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Carta di debito",
+  "type": "debitCard"
+}
+
+### DELETE http://localhost:5000/api/v1/paymentMethod/:paymentMethodId eliminare un metodo di pagamento
+DELETE {{endpoint}}/{{paymentMethodId}}
+Authorization: {{token}}

@@ -4,16 +4,16 @@ import * as TransactionsController from "../controllers/transactions.controller.
 const Router = express.Router();
 
 // todo
-/** GET /user/:userId/transaction recuperare una o tutte le transazioni */
-Router.get("/user/:userId/transaction", TransactionsController.GetTransactions);
+/** GET / recuperare una o tutte le transazioni */
+Router.get("s", TransactionsController.GetTransactions);
 // todo
-/** POST /user/:userId/transaction creare un nuovo metodo di pagamento */
-Router.post("/user/:userId/transaction", TransactionsController.PostTransaction);
+/** POST /transaction creare un nuovo metodo di pagamento */
+Router.post("/", TransactionsController.PostTransaction);
 // todo
-/** PUT /user/:userId/transaction/:transactionId modificare un metodo di pagamento */
-Router.put("/user/:userId/transaction/:transactionId", TransactionsController.PutTransaction);
+/** PUT /transaction/:transactionId modificare un metodo di pagamento */
+Router.put("/:transactionId", TransactionsController.PutTransaction);
 // todo
-/** DELETE /user/:userId/transaction/:transactionId eliminare un metodo di pagamento */
-Router.delete("/user/:userId/transaction/:transactionId", TransactionsController.DeleteTransaction);
+/** DELETE /transaction/:transactionId eliminare un metodo di pagamento */
+Router.delete("/:transactionId", TransactionsController.DeleteTransaction);
 
 export default Router;

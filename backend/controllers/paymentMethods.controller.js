@@ -1,4 +1,3 @@
-import { CrudDelete, CrudGet, CrudPost, CrudPut } from "../config/CRUD.js";
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 // TODO
 // * passare i dati uno ad uno anziché il body completo
@@ -7,52 +6,58 @@ import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 // todo
 /** GET /user/:userId/paymentMethods recuperare uno o tutti i metodi di pagamento */
 export const GetPaymentMethods = async (req, res) => {
-  const [Err, Results] = await CrudGet(req, paymentMethodsSchema);
-  /** se l'errore è valorizzato, loggo l'errore e restituisco errore all'utente
-   * altrimenti invio i dati all'utente
-   * */
-  if (Err) {
-    console.log(Err);
-    res.status(400).send("Error while getting payment methods");
-  } else res.status(200).send(Results);
+  console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
+  try {
+    const PaymentMethods = await CrudGet(req, paymentMethodsSchema);
+    if (!PaymentMethods) throw new Error("Error while getting payment methods");
+    res.status(200).send(PaymentMethods);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
 };
 
 // todo
 /** POST /user/:userId/paymentMethod creare un nuovo metodo di pagamento */
 export const PostPaymentMethod = async (req, res) => {
-  const [Err, Results] = await CrudPost(req, paymentMethodsSchema);
-  /** se l'errore è valorizzato, loggo l'errore e restituisco l'errore all'utente
-   * altrimenti invio all'utente il metodo di pagamento appena creato
-   * */
-  if (Err) {
-    console.log(Err);
-    res.status(400).send("Error while creating payment method");
-  } else res.status(200).send(Results);
+  console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
+  try {
+    const NewPaymentMethod = await CrudPost(req, paymentMethodsSchema);
+    if (!NewPaymentMethod)
+      throw new Error("Error while creating payment method");
+    res.status(200).send(NewPaymentMethod);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
 };
 
 // todo
 /** PUT /user/:userId/paymentMethod/:paymentMethodId modificare un metodo di pagamento */
 export const PutPaymentMethod = async (req, res) => {
-  const [Err, Results] = await CrudPut(req, paymentMethodsSchema);
-  /** se l'errore è valorizzato, loggo l'errore
-   * altrimenti invio i dati modificati all'utente
-   * */
-  if (Err) {
-    console.log(Err);
-    res.status(400).send("Error while updating payment method");
-  } else res.status(200).send(Results);
+  console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
+  try {
+    const EditPaymentMethod = await CrudPut(req, paymentMethodsSchema);
+    if (!EditPaymentMethod)
+      throw new Error("Error while updating payment method");
+    res.status(200).send(EditPaymentMethod);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
 };
 
 // todo
 /** DELETE /user/:userId/paymentMethod/:paymentMethodId eliminare un metodo di pagamento */
-export const DeletePaymentMethods = async (req, res) => {
-  const [Err, Results] = await CrudDelete(req, paymentMethodsSchema);
-  console.log(Results);
-  /** se l'errore è valorizzato, loggo l'errore
-   * altrimenti invio all'utente che il metodo di pagamento è stata eliminato
-   * */
-  if (Err) {
-    console.log(Err);
-    res.status(400).send("Error while deleting payment method");
-  } else res.status(200).send("Payment method deleted successfully");
+export const DeletePaymentMethod = async (req, res) => {
+  console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
+  try {
+    const DeletedPaymentMethod = await CrudDelete(req, paymentMethodsSchema);
+    if (!DeletedPaymentMethod)
+      throw new Error("Error while deleting payment method");
+    res.status(200).send("Payment method deleted successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
 };

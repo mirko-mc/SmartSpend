@@ -1,20 +1,25 @@
-@endpoint="http://localhost:5000/api/v1/auth"
+@endpoint=http://localhost:5000/api/v1/auth
 @numero=1
-@stringa="b"
+@stringa="asdf"
 @data="2020-01-01"
+@userId=66f14faf556888342a9546ae
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
 
+### /me
+GET {{endpoint}}/me
+Authorization: {{token}}
 
 ### /login mail + password
-POST http://localhost:5000/api/v1/auth/login
+POST {{endpoint}}/login
 Content-Type: application/json
 
 {
-  "email": {{stringa}},
+  "email": "asdf@asdf.asdf",
   "password": {{stringa}}
 }
 
 ### /register mail + password
-POST http://localhost:5000/api/v1/auth/register
+POST {{endpoint}}/register
 Content-Type: application/json
 
 {
@@ -23,7 +28,8 @@ Content-Type: application/json
   "surname": {{stringa}},
   "email": {{stringa}},
   "password": {{stringa}},
-  "avatar": "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png",
+  "passwordConfirm": {{stringa}},
+  "avatar": "",
   "favoriteTheme": "dark",
   "verifiedAt": {{data}}
 }

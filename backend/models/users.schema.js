@@ -22,7 +22,6 @@ const Users = new Schema(
     // email dell'utente
     email: {
       type: String,
-      required: true,
       unique: true,
     },
     // password hashata dall'utente
@@ -46,6 +45,14 @@ const Users = new Schema(
     verifiedAt: {
       type: Date,
     },
+    // paymentMethods: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "PaymentMethod",
+    // },
+    // categories: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Category",
+    // },
   },
   {
     collection: "users",

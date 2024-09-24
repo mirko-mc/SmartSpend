@@ -11,7 +11,7 @@ export const GetCategories = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => GetCategories");
   try {
     /** creo una tupla contenente l'errore e i dati letti dal database */
-    const Categories = await categoriesSchema.find({ user: req.params.userId });
+    const Categories = await categoriesSchema.find({ user: req.LoggedUser.id });
     console.log(Categories);
     // se l'errore è valorizzato restituisco errore
     if (!Categories)
@@ -26,12 +26,12 @@ export const GetCategories = async (req, res) => {
 // TODO
 /** POST /category creare una nuova categoria */
 export const PostCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => PostCategories");
+  console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
     /** creo una tupla contenente l'errore e i dati per creare una nuova categoria */
     const Category = await categoriesSchema.create({
       ...req.body,
-      user: req.params.userId,
+      user: req.LoggedUser.id,
     });
     console.log(Category);
     // se l'errore è valorizzato restituisco errore
@@ -47,7 +47,7 @@ export const PostCategory = async (req, res) => {
 // todo
 /** PUT /category/:categoryId modificare una categoria */
 export const PutCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => PutCategories");
+  console.log("CONTROLLER CATEGORIES => PutCategory");
   try {
     /** creo una tupla contenente l'errore e i dati della categoria da modificare */
     const Category = await categoriesSchema.findByIdAndUpdate(
@@ -68,7 +68,7 @@ export const PutCategory = async (req, res) => {
 // todo
 /** DELETE /category/:categoryId eliminare una categoria */
 export const DeleteCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => DeleteCategories");
+  console.log("CONTROLLER CATEGORIES => DeleteCategory");
   try {
     /** elimino la categoria */
     await categoriesSchema.findByIdAndDelete(req.params.categoryId);
