@@ -49,23 +49,25 @@ export const transactionCheck = async (body) => {
   try {
     const Date = body?.date;
     const Shop = body?.shop;
+    const Address = body?.address;
     const Description = body?.description;
     const Amount = body?.amount;
-    // const Category = body?.category.id;
-    // const PaymentMethod = body?.paymentMethod.id;
-    // const User = body?.LoggedUser.id;
-    if (!Date || !Shop || !Description || !Amount)
+    const Category = body?.category;
+    const PaymentMethod = body?.paymentMethod;
+    const User = body?.user;
+    if (!Date || !Shop || !Description || !Amount || !Address)
       throw new Error("Please fill all the fields");
     if (!Category || !PaymentMethod || !User)
       throw new Error("Error while creating payment method");
     return {
       date: Date,
       shop: Shop,
+      address: Address,
       description: Description,
       amount: Amount,
-      // category: Category,
-      // paymentMethod: PaymentMethod,
-      // user: User,
+      category: Category,
+      paymentMethod: PaymentMethod,
+      user: User,
     };
   } catch (err) {
     return err;

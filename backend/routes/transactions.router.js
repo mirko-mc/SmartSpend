@@ -5,10 +5,10 @@ const Router = express.Router();
 
 // todo
 /** GET / recuperare una o tutte le transazioni */
-Router.get("s", TransactionsController.GetTransactions);
+Router.get("", TransactionsController.GetTransactions);
 // todo
 /** POST /transaction creare un nuovo metodo di pagamento */
-Router.post("/", TransactionsController.PostTransaction);
+Router.post("", TransactionsController.PostTransaction);
 // todo
 /** PUT /transaction/:transactionId modificare un metodo di pagamento */
 Router.put("/:transactionId", TransactionsController.PutTransaction);

@@ -4,20 +4,23 @@ import * as CategoriesController from "../controllers/categories.controller.js";
 const Router = express.Router();
 // todo
 /** GET ies recuperare una o tutte le categorie */
-Router.get("ies", CategoriesController.GetCategories);
+Router.get("", CategoriesController.GetCategories);
+
 // todo
 /** POST y creare una nuova categoria */
-Router.post("y", CategoriesController.PostCategory);
+Router.post("", CategoriesController.PostCategory);
+
 // todo
 /** PUT /:categoryId modificare una categoria */
 Router.put(
-  "y/:categoryId",
+  "/:categoryId",
   CategoriesController.PutCategory
 );
+
 // todo
 /** DELETE /:categoryId eliminare una categoria */
 Router.delete(
-  "y/:categoryId",
+  "/:categoryId",
   CategoriesController.DeleteCategory
 );
 

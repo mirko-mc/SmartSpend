@@ -3,12 +3,15 @@ import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 // * passare i dati uno ad uno anziché il body completo
 // ??? i req.params.userId devono diventare req.LoggedUser.id e rimuovere :userId dalla rotta?
 
-// todo
-/** GET /user/:userId/paymentMethods recuperare uno o tutti i metodi di pagamento */
+// todo FUNZIONA
+/** GET /paymentMethods recuperare uno o tutti i metodi di pagamento */
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
-    const PaymentMethods = await CrudGet(req, paymentMethodsSchema);
+    const PaymentMethods = await paymentMethodsSchema.find({
+      user: req.LoggedUser.id,
+    })
+    console.log(!PaymentMethods);
     if (!PaymentMethods) throw new Error("Error while getting payment methods");
     res.status(200).send(PaymentMethods);
   } catch (err) {
@@ -17,12 +20,12 @@ export const GetPaymentMethods = async (req, res) => {
   }
 };
 
-// todo
-/** POST /user/:userId/paymentMethod creare un nuovo metodo di pagamento */
+// todo FUNZIONA
+/** POST /paymentMethod creare un nuovo metodo di pagamento */
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
-    const NewPaymentMethod = await CrudPost(req, paymentMethodsSchema);
+    const NewPaymentMethod = await paymentMethodsSchema.create({ ...req.body });
     if (!NewPaymentMethod)
       throw new Error("Error while creating payment method");
     res.status(200).send(NewPaymentMethod);
@@ -32,12 +35,16 @@ export const PostPaymentMethod = async (req, res) => {
   }
 };
 
-// todo
-/** PUT /user/:userId/paymentMethod/:paymentMethodId modificare un metodo di pagamento */
+// todo FUNZIONA
+/** PUT /paymentMethod/:paymentMethodId modificare un metodo di pagamento */
 export const PutPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
-    const EditPaymentMethod = await CrudPut(req, paymentMethodsSchema);
+    const EditPaymentMethod = await paymentMethodsSchema.findByIdAndUpdate(
+      req.params.paymentMethodId,
+      { ...req.body },
+      { new: true }
+    );
     if (!EditPaymentMethod)
       throw new Error("Error while updating payment method");
     res.status(200).send(EditPaymentMethod);
@@ -47,12 +54,15 @@ export const PutPaymentMethod = async (req, res) => {
   }
 };
 
-// todo
-/** DELETE /user/:userId/paymentMethod/:paymentMethodId eliminare un metodo di pagamento */
+// todo FUNZIONA
+/** DELETE /paymentMethod/:paymentMethodId eliminare un metodo di pagamento */
 export const DeletePaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {
-    const DeletedPaymentMethod = await CrudDelete(req, paymentMethodsSchema);
+    const DeletedPaymentMethod = await paymentMethodsSchema.findByIdAndDelete(
+      req.params.paymentMethodId,
+      { new: true }
+    );
     if (!DeletedPaymentMethod)
       throw new Error("Error while deleting payment method");
     res.status(200).send("Payment method deleted successfully");

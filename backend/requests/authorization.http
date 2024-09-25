@@ -1,9 +1,9 @@
 @endpoint=http://localhost:5000/api/v1/auth
 @numero=1
-@stringa="asdf"
+@stringa=qwerty
 @data="2020-01-01"
-@userId=66f14faf556888342a9546ae
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
+@userId=66f40e032feb3bee2234e9df
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDBlMDMyZmViM2JlZTIyMzRlOWRmIiwiaWF0IjoxNzI3MjcwNDAzLCJleHAiOjE3MjcyODEyMDN9.2eTeaQLNKK7kdfLnu__Kx0qpTw2ZaEdgIPlsilmkzNc
 
 ### /me
 GET {{endpoint}}/me
@@ -14,8 +14,8 @@ POST {{endpoint}}/login
 Content-Type: application/json
 
 {
-  "email": "asdf@asdf.asdf",
-  "password": {{stringa}}
+  "email": "{{stringa}}@{{stringa}}.{{stringa}}",
+  "password": "{{stringa}}"
 }
 
 ### /register mail + password
@@ -23,12 +23,12 @@ POST {{endpoint}}/register
 Content-Type: application/json
 
 {
-  "googleId": {{stringa}},
-  "name": {{stringa}},
-  "surname": {{stringa}},
-  "email": {{stringa}},
-  "password": {{stringa}},
-  "passwordConfirm": {{stringa}},
+  "googleId": "{{stringa}}",
+  "name": "{{stringa}}",
+  "surname": "{{stringa}}",
+  "email": "{{stringa}}@{{stringa}}.{{stringa}}",
+  "password": "{{stringa}}",
+  "passwordConfirm": "{{stringa}}",
   "avatar": "",
   "favoriteTheme": "dark",
   "verifiedAt": {{data}}

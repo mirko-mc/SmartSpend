@@ -5,73 +5,66 @@ import categoriesSchema from "../models/categories.schema.js";
 // ??? i req.params.userId devono diventare req.LoggedUser.id e rimuovere :userId dalla rotta?
 // ??? avrò bisogno di recuperarne una sola se non per modifica o eliminazione?
 
-// TODO
+// TODO FUNZIONA
 /** GET /categories/:userId recuperare una o tutte le categorie */
 export const GetCategories = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => GetCategories");
   try {
-    /** creo una tupla contenente l'errore e i dati letti dal database */
     const Categories = await categoriesSchema.find({ user: req.LoggedUser.id });
     console.log(Categories);
-    // se l'errore è valorizzato restituisco errore
     if (!Categories)
       throw new Error({ message: "Error while getting categories" });
-    // altrimenti invio i dati all'utente
     else res.status(200).send(Categories);
   } catch (err) {
     res.status(400).send(err.message);
   }
 };
 
-// TODO
+// TODO FUNZIONA
 /** POST /category creare una nuova categoria */
 export const PostCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
-    /** creo una tupla contenente l'errore e i dati per creare una nuova categoria */
     const Category = await categoriesSchema.create({
       ...req.body,
       user: req.LoggedUser.id,
     });
     console.log(Category);
-    // se l'errore è valorizzato restituisco errore
     if (!Category)
       throw new Error({ message: "Error while creating category" });
-    // altrimenti invio i dati all'utente
     else res.status(200).send(Category);
   } catch (err) {
     res.status(400).send(err.message);
   }
 };
 
-// todo
+// todo FUNZIONA
 /** PUT /category/:categoryId modificare una categoria */
 export const PutCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PutCategory");
   try {
-    /** creo una tupla contenente l'errore e i dati della categoria da modificare */
     const Category = await categoriesSchema.findByIdAndUpdate(
       req.params.categoryId,
       { ...req.body },
       { new: true }
     );
-    // se l'errore è valorizzato restituisco errore
     if (!Category)
       throw new Error({ message: "Error while updating category" });
-    // altrimenti invio i dati all'utente
     else res.status(200).send(Category);
   } catch (err) {
     res.status(400).send(err.message);
   }
 };
 
-// todo
+// todo FUNZIONA
 /** DELETE /category/:categoryId eliminare una categoria */
 export const DeleteCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => DeleteCategory");
   try {
-    /** elimino la categoria */
-    await categoriesSchema.findByIdAndDelete(req.params.categoryId);
+    const Category = await categoriesSchema.findByIdAndDelete(
+      req.params.categoryId
+    );
+    if (!Category) throw new Error("Error while deleting category");
     res.status(200).send("Category deleted successfully");
   } catch (err) {
     console.log(err);

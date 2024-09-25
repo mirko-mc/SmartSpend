@@ -1,7 +1,7 @@
 import usersSchema from "../models/users.schema.js";
 import { userCheck } from "../utils/bodyCheck.js";
 
-// todo
+// todo FUNZIONA
 // GET /:userId recupera l'utente
 export const GetUser = async (req, res) => {
   console.log("CONTROLLER USERS => GetUser");
@@ -18,7 +18,7 @@ export const GetUser = async (req, res) => {
 // !!! POST / non ho la post perché l'utente viene creato con la register nel controller dell'autenticazione
 export const PostUser = async (req, res) => {};
 
-// todo
+// todo FUNZIONA
 // PUT /:userId modifica l'utente
 export const PutUser = async (req, res) => {
   console.log("CONTROLLER USERS => PutUser");
@@ -42,12 +42,12 @@ export const PutUser = async (req, res) => {
   }
 };
 
-// todo
+// todo FUNZIONA
 // DELETE /:userId elimina l'utente
 export const DeleteUser = async (req, res) => {
   console.log("CONTROLLER USERS => DeleteUser");
   try {
-    const DeletedUser = await schema.findByIdAndDelete(req.LoggedUser.id, {
+    const DeletedUser = await usersSchema.findByIdAndDelete(req.LoggedUser.id, {
       new: true,
     });
     if (!DeletedUser) throw new Error("Error while deleting user");
@@ -58,11 +58,18 @@ export const DeleteUser = async (req, res) => {
   }
 };
 
-// todo
+// todo FUNZIONA
 // PATCH /:userId aggiunge l'avatar dell'utente
 export const PatchUser = async (req, res) => {
   console.log("CONTROLLER USERS => PatchUser");
   try {
+    const PatchedUser = await usersSchema.findByIdAndUpdate(
+      req.LoggedUser.id,
+      { avatar: req.file.path },
+      { new: true }
+    );
+    if (!PatchedUser) throw new Error("Error while patching user");
+    res.status(200).send(PatchedUser);
   } catch (err) {
     console.log(err);
     res.send(res.status(400).send({ message: err.message }));

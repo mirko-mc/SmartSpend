@@ -1,5 +1,6 @@
 import express from "express";
 import * as UserController from "../controllers/users.controller.js";
+import cloudinaryUploads from "../middlewares/cloudinary.uploads.js";
 
 const Router = express.Router();
 // todo
@@ -16,6 +17,10 @@ Router.put("/:userId", UserController.PutUser);
 Router.delete("/:userId", UserController.DeleteUser);
 // todo
 /** PATCH /:userId aggiunge l'avatar dell'utente */
-Router.patch("/:userId", UserController.PatchUser);
+Router.patch(
+  "/:userId",
+  cloudinaryUploads.single("avatar"),
+  UserController.PatchUser
+);
 
 export default Router;

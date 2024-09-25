@@ -56,7 +56,7 @@ Server.use("/api/v1/auth", AuthenticationRouter);
 // Server.use(Authorization());
 // utenti
 Server.use("/api/v1/user", Authorization, UsersRouter);
-Server.use("/api/v1/categor", Authorization, CategoriesRouter);
+Server.use("/api/v1/category", Authorization, CategoriesRouter);
 Server.use("/api/v1/paymentMethod", Authorization, PaymentMethodsRouter);
 Server.use("/api/v1/transaction", Authorization, TransactionsRouter);
 /** connessione al database */

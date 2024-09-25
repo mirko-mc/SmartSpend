@@ -5,22 +5,13 @@ const Router = express.Router();
 
 // todo
 /** GET s recuperare uno o tutti i metodi di pagamento */
-Router.get(
-  "s",
-  PaymentMethodsController.GetPaymentMethods
-);
+Router.get("", PaymentMethodsController.GetPaymentMethods);
 // todo
 /** POST / creare un nuovo metodo di pagamento */
-Router.post(
-  "/",
-  PaymentMethodsController.PostPaymentMethod
-);
+Router.post("", PaymentMethodsController.PostPaymentMethod);
 // todo
 /** PUT /:paymentMethodId modificare un metodo di pagamento */
-Router.put(
-  "/:paymentMethodId",
-  PaymentMethodsController.PutPaymentMethod
-);
+Router.put("/:paymentMethodId", PaymentMethodsController.PutPaymentMethod);
 // todo
 /** DELETE /:paymentMethodId eliminare un metodo di pagamento */
 Router.delete(

@@ -1,10 +1,15 @@
 @endpoint=http://localhost:5000/api/v1/transaction
-@transactionId=66f140ba648ab760269653ec
-@userId=66f14faf556888342a9546ae
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
+@transactionId=66f4273f0dbcdd1ebeffb942
+@numero=1000
+@stringa=asdfgh
+@data=2020-01-01
+@categoryId=66f41df1a2013764123e3b8c
+@paymentMethodId=66f419b544f6d7cf934206b2
+@userId=66f40e032feb3bee2234e9df
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDBlMDMyZmViM2JlZTIyMzRlOWRmIiwiaWF0IjoxNzI3MjcwNDAzLCJleHAiOjE3MjcyODEyMDN9.2eTeaQLNKK7kdfLnu__Kx0qpTw2ZaEdgIPlsilmkzNc
 
 ### GET http://localhost:5000/api/v1/transactions recuperare una o tutte le transazioni
-GET {{endpoint}}s
+GET {{endpoint}}
 Authorization: {{token}}
 
 ### POST http://localhost:5000/api/v1/transaction creare una transazione
@@ -13,11 +18,14 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "name": "Carta di credito",
-  "user": "66eb352d7d0bd027aff61a8b",
-  "type": "creditCard",
-  "description": "Carta di credito",
-  "initialBalance": 0
+  "date": "{{data}}",
+  "shop": "{{stringa}}",
+  "address": "{{stringa}}",
+  "description": "{{stringa}}",
+  "amount": {{numero}},
+  "category": "{{categoryId}}",
+  "paymentMethod": "{{paymentMethodId}}",
+  "user": "{{userId}}"
 }
 
 ### PUT http://localhost:5000/api/v1/transaction/:transactionId modificare una transazione
@@ -26,8 +34,14 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "name": "Carta di debito",
-  "type": "debitCard"
+  "date": "{{data}}",
+  "shop": "{{stringa}}",
+  "address": "{{stringa}}",
+  "description": "{{stringa}}",
+  "amount": {{numero}},
+  "category": "{{categoryId}}",
+  "paymentMethod": "{{paymentMethodId}}",
+  "user": "{{userId}}"
 }
 
 ### DELETE http://localhost:5000/api/v1/transaction/:transactionId eliminare una transazione

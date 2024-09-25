@@ -1,10 +1,10 @@
 @endpoint=http://localhost:5000/api/v1/paymentMethod
-@paymentMethodId=66f140ba648ab760269653ec
-@userId=66f14faf556888342a9546ae
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmMTRmYWY1NTY4ODgzNDJhOTU0NmFlIiwiaWF0IjoxNzI3MTgxMDI2LCJleHAiOjE3MjcxOTE4MjZ9.nZygmulwbTYDl3tA23YxbL-34xPoxGNTQrQwgEfaI7A
+@paymentMethodId=66f419b544f6d7cf934206b2
+@userId=66f40e032feb3bee2234e9df
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDBlMDMyZmViM2JlZTIyMzRlOWRmIiwiaWF0IjoxNzI3MjcwNDAzLCJleHAiOjE3MjcyODEyMDN9.2eTeaQLNKK7kdfLnu__Kx0qpTw2ZaEdgIPlsilmkzNc
 
 ### GET http://localhost:5000/api/v1/paymentMethods recuperare uno o tutti i metodi di pagamento
-GET {{endpoint}}s
+GET {{endpoint}}
 Authorization: {{token}}
 
 ### POST http://localhost:5000/api/v1/paymentMethod creare un nuovo metodo di pagamento
@@ -14,7 +14,7 @@ Authorization: {{token}}
 
 {
   "name": "Carta di credito",
-  "user": "66eb352d7d0bd027aff61a8b",
+  "user": "{{userId}}",
   "type": "creditCard",
   "description": "Carta di credito",
   "initialBalance": 0
