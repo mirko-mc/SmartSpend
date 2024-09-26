@@ -2,7 +2,7 @@ import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 import { paymentMethodCheck } from "../utils/bodyCheck.js";
 
 // todo FUNZIONA
-// GET /paymentMethods recuperare uno o tutti i metodi di pagamento
+// GET => recuperare uno o tutti i metodi di pagamento
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
@@ -18,7 +18,7 @@ export const GetPaymentMethods = async (req, res) => {
 };
 
 // todo FUNZIONA
-// POST /paymentMethod creare un nuovo metodo di pagamento
+// POST => creare un nuovo metodo di pagamento
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
@@ -38,7 +38,7 @@ export const PostPaymentMethod = async (req, res) => {
 };
 
 // todo FUNZIONA
-// PUT /paymentMethod/:paymentMethodId modificare un metodo di pagamento
+// PUT /:paymentMethodId => modificare un metodo di pagamento
 export const PutPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
@@ -66,7 +66,7 @@ export const PutPaymentMethod = async (req, res) => {
 };
 
 // todo FUNZIONA
-// DELETE /paymentMethod/:paymentMethodId eliminare un metodo di pagamento
+// DELETE /:paymentMethodId => eliminare un metodo di pagamento
 export const DeletePaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {

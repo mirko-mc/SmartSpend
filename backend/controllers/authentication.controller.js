@@ -47,7 +47,7 @@ export const GetMeInfo = async (req, res) => {
 };
 
 // todo FUNZIONA
-// POST - crea un nuovo utente
+// POST /register => crea un nuovo utente
 export const PostRegister = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostRegister");
   try {
@@ -82,15 +82,15 @@ export const PostRegister = async (req, res) => {
   }
 };
 
-// POST /logout logout utente (per JWT base non serve backend, basta togliere il token dal localStorage)
+// POST /logout => logout utente (per JWT base non serve backend, basta togliere il token dal localStorage)
 export const PostLogout = async (req, res) => {};
 
 // todo FUNZIONA
-// GET - login Google è il link al server google
+// GET login Google => è il link al server google
 export const GetLoginGoogle = async (req, res) => {};
 
 // todo FUNZIONA
-// GET - callback Google
+// GET callback Google => redirect al frontend
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
   // qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author

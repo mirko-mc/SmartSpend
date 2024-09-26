@@ -2,7 +2,7 @@ import categoriesSchema from "../models/categories.schema.js";
 import { categoryCheck } from "../utils/bodyCheck.js";
 
 // TODO FUNZIONA
-// GET /categories/:userId recuperare una o tutte le categorie
+// GET /categories/:userId => recuperare una o tutte le categorie
 export const GetCategories = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => GetCategories");
   try {
@@ -16,7 +16,7 @@ export const GetCategories = async (req, res) => {
 };
 
 // TODO FUNZIONA
-// POST /category creare una nuova categoria
+// POST /category => creare una nuova categoria
 export const PostCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
@@ -40,7 +40,7 @@ export const PostCategory = async (req, res) => {
 };
 
 // todo FUNZIONA
-// PUT /category/:categoryId modificare una categoria
+// PUT /category/:categoryId => modificare una categoria
 export const PutCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PutCategory");
   try {
@@ -78,7 +78,7 @@ export const PutCategory = async (req, res) => {
 };
 
 // todo FUNZIONA
-// DELETE /category/:categoryId eliminare una categoria
+// DELETE /category/:categoryId => eliminare una categoria
 export const DeleteCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => DeleteCategory");
   try {

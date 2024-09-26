@@ -5,7 +5,7 @@ import usersSchema from "../models/users.schema.js";
 import { transactionCheck } from "../utils/bodyCheck.js";
 
 // todo FUNZIONA
-// GET /transaction recuperare una o tutte le transazioni
+// GET => recuperare una o tutte le transazioni
 export const GetTransactions = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => GetTransactions");
   try {
@@ -24,7 +24,7 @@ export const GetTransactions = async (req, res) => {
 };
 
 // todo FUNZIONA
-// POST /transaction creare un nuovo metodo di pagamento
+// POST => creare una nuova transazione
 export const PostTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PostTransaction");
   try {
@@ -53,7 +53,7 @@ export const PostTransaction = async (req, res) => {
 };
 
 // todo FUNZIONA
-// PUT /transaction/:transactionId modificare un metodo di pagamento
+// PUT /:transactionId => modificare una transazione
 export const PutTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
@@ -91,7 +91,7 @@ export const PutTransaction = async (req, res) => {
 };
 
 // todo FUNZIONA
-// DELETE /transaction/:transactionId eliminare un metodo di pagamento
+// DELETE /:transactionId => eliminare una transazione
 export const DeleteTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => DeleteTransactions");
   try {
