@@ -17,6 +17,7 @@ const Categories = new Schema(
     type: {
       type: String,
       enum: ["in", "out"],
+      required: true,
     },
     // colore della categoria
     color: {

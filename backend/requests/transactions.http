@@ -1,12 +1,12 @@
 @endpoint=http://localhost:5000/api/v1/transaction
-@transactionId=66f4273f0dbcdd1ebeffb942
-@numero=1000
+@transactionId=66f44b5f45d365e6ea13409a
+@numero=10000000000000
 @stringa=asdfgh
 @data=2020-01-01
 @categoryId=66f41df1a2013764123e3b8c
-@paymentMethodId=66f419b544f6d7cf934206b2
-@userId=66f40e032feb3bee2234e9df
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDBlMDMyZmViM2JlZTIyMzRlOWRmIiwiaWF0IjoxNzI3MjcwNDAzLCJleHAiOjE3MjcyODEyMDN9.2eTeaQLNKK7kdfLnu__Kx0qpTw2ZaEdgIPlsilmkzNc
+@paymentMethodId=66f44c2345d365e6ea1340b6
+@userId=66f44a34ad39887eb4f75546
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDRhMzRhZDM5ODg3ZWI0Zjc1NTQ2IiwiaWF0IjoxNzI3Mjg1ODUwLCJleHAiOjE3MjcyOTY2NTB9._NI7zuZ4BC9C6Csaw7HRojf7A8kHLm2HNZ_9VZxdtiM
 
 ### GET http://localhost:5000/api/v1/transactions recuperare una o tutte le transazioni
 GET {{endpoint}}

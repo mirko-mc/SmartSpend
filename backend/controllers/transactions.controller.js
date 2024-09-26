@@ -1,11 +1,8 @@
 import transactionsSchema from "../models/transactions.schema.js";
 import { transactionCheck } from "../utils/bodyCheck.js";
 
-// * passare i dati uno ad uno anziché il body completo
-// ??? i req.params.userId devono diventare req.LoggedUser.id e rimuovere :userId dalla rotta?
-
 // todo FUNZIONA
-/** GET /transaction recuperare una o tutte le transazioni */
+// GET /transaction recuperare una o tutte le transazioni
 export const GetTransactions = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => GetTransactions");
   try {
@@ -23,12 +20,13 @@ export const GetTransactions = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** POST /transaction creare un nuovo metodo di pagamento */
+// POST /transaction creare un nuovo metodo di pagamento
 export const PostTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PostTransaction");
   try {
     if (req.body.user === req.LoggedUser.id)
       req.body = { ...req.body, user: req.LoggedUser.id };
+    // !! controllare che  metodo pagamento e categoria appartengano all'untente loggato
     else throw new Error("Error on user id");
     const Data = await transactionCheck(req.body);
     const NewTransaction = await transactionsSchema.create(Data);
@@ -41,7 +39,7 @@ export const PostTransaction = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** PUT /transaction/:transactionId modificare un metodo di pagamento */
+// PUT /transaction/:transactionId modificare un metodo di pagamento
 export const PutTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
@@ -64,7 +62,7 @@ export const PutTransaction = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** DELETE /transaction/:transactionId eliminare un metodo di pagamento */
+// DELETE /transaction/:transactionId eliminare un metodo di pagamento
 export const DeleteTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => DeleteTransactions");
   try {

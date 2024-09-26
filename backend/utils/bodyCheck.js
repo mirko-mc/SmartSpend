@@ -13,10 +13,7 @@ export const userCheck = async (body) => {
     // verifica campi
     if (!Name || !Email || !password || !PasswordConfirm)
       throw new Error("Please fill all the fields");
-    // ??? uso questa funzione sia nella post che nella put, crea problemi?
-    // ??? nella put devo hashare di nuovo la password, giusto?
-    // ??? sposto l'hash nella funzione principale?
-    // ??? conviene farlo diventare un middleware con req res next?
+    // !!! sposto l'hash nel controlle
     // verifico la lunghezza della password
     if (password.length < 6)
       throw new Error("Password must be at least 6 characters long");
@@ -40,7 +37,8 @@ export const userCheck = async (body) => {
       googleId: body?.googleId,
     };
   } catch (err) {
-    return err;
+    console.log(err);
+    return false;
   }
 };
 
@@ -70,6 +68,30 @@ export const transactionCheck = async (body) => {
       user: User,
     };
   } catch (err) {
-    return err;
+    console.log(err);
+    return false;
+  }
+};
+
+export const categoryCheck = async (body) => {
+  console.log("UTILS => categoryCheck");
+  try {
+    const Name = body?.name;
+    const User = body?.user;
+    const Description = body?.description;
+    const Type = body?.type;
+    const Color = body?.color;
+    if (!Name || !Type) throw new Error("Please fill all the fields");
+    if (!User) throw new Error("Error while creating category");
+    return {
+      name: Name,
+      user: User,
+      description: Description,
+      type: Type,
+      color: Color,
+    };
+  } catch (err) {
+    console.log(err);
+    return false;
   }
 };

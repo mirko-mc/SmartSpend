@@ -1,9 +1,7 @@
 import Jwt from "jsonwebtoken";
 import "dotenv/config";
 
-// todo funzione per generare il token e lo restituisce
-// ??? fatto bene
-export const JwtCreation = async (userId) => {
+export const JwtCreation = (userId) => {
   console.log("CONFIG => jwt.config.js - JwtCreation");
   try {
     /** creiamo il JwtToken per l'utente passandogli :

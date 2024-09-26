@@ -15,9 +15,6 @@ export const GetUser = async (req, res) => {
   }
 };
 
-// !!! POST / non ho la post perché l'utente viene creato con la register nel controller dell'autenticazione
-export const PostUser = async (req, res) => {};
-
 // todo FUNZIONA
 // PUT /:userId modifica l'utente
 export const PutUser = async (req, res) => {

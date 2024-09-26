@@ -1,10 +1,9 @@
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 // TODO
 // * passare i dati uno ad uno anziché il body completo
-// ??? i req.params.userId devono diventare req.LoggedUser.id e rimuovere :userId dalla rotta?
 
 // todo FUNZIONA
-/** GET /paymentMethods recuperare uno o tutti i metodi di pagamento */
+// GET /paymentMethods recuperare uno o tutti i metodi di pagamento
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
@@ -21,7 +20,7 @@ export const GetPaymentMethods = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** POST /paymentMethod creare un nuovo metodo di pagamento */
+// POST /paymentMethod creare un nuovo metodo di pagamento
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
@@ -36,7 +35,7 @@ export const PostPaymentMethod = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** PUT /paymentMethod/:paymentMethodId modificare un metodo di pagamento */
+// PUT /paymentMethod/:paymentMethodId modificare un metodo di pagamento
 export const PutPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
@@ -55,7 +54,7 @@ export const PutPaymentMethod = async (req, res) => {
 };
 
 // todo FUNZIONA
-/** DELETE /paymentMethod/:paymentMethodId eliminare un metodo di pagamento */
+// DELETE /paymentMethod/:paymentMethodId eliminare un metodo di pagamento
 export const DeletePaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {

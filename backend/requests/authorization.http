@@ -1,9 +1,9 @@
 @endpoint=http://localhost:5000/api/v1/auth
 @numero=1
-@stringa=qwerty
+@stringa=yuio
 @data="2020-01-01"
-@userId=66f40e032feb3bee2234e9df
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDBlMDMyZmViM2JlZTIyMzRlOWRmIiwiaWF0IjoxNzI3MjcwNDAzLCJleHAiOjE3MjcyODEyMDN9.2eTeaQLNKK7kdfLnu__Kx0qpTw2ZaEdgIPlsilmkzNc
+@userId=66f44a34ad39887eb4f75546
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDRhMzRhZDM5ODg3ZWI0Zjc1NTQ2IiwiaWF0IjoxNzI3Mjg1ODUwLCJleHAiOjE3MjcyOTY2NTB9._NI7zuZ4BC9C6Csaw7HRojf7A8kHLm2HNZ_9VZxdtiM
 
 ### /me
 GET {{endpoint}}/me
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "email": "{{stringa}}@{{stringa}}.{{stringa}}",
-  "password": "{{stringa}}"
+  "password": "{{stringa}}{{stringa}}"
 }
 
 ### /register mail + password
@@ -27,8 +27,8 @@ Content-Type: application/json
   "name": "{{stringa}}",
   "surname": "{{stringa}}",
   "email": "{{stringa}}@{{stringa}}.{{stringa}}",
-  "password": "{{stringa}}",
-  "passwordConfirm": "{{stringa}}",
+  "password": "{{stringa}}{{stringa}}",
+  "passwordConfirm": "{{stringa}}{{stringa}}",
   "avatar": "",
   "favoriteTheme": "dark",
   "verifiedAt": {{data}}

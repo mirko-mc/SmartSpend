@@ -2,9 +2,9 @@ export const CrudGet = async (id, schema) => {
   console.log("CONFIG => CRUD.js - CrudGet");
   try {
     console.log(id);
-    /** se è un utente */
+    // se è un utente
     if (id?.userId) return await schema.findById(id.userId);
-    /** se non è un utente */
+    // se non è un utente
     if (!id?.userId) return await schema.find({ user: id.id }).populate("user");
   } catch (err) {
     console.log(err);

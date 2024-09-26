@@ -7,6 +7,7 @@ const Users = new Schema(
       type: String,
       // ??? 2 google id a null non si possono avere
       unique: true,
+      sparse: true,
     },
     // todo facebookId
     // todo telegramId
@@ -45,14 +46,6 @@ const Users = new Schema(
     verifiedAt: {
       type: Date,
     },
-    // paymentMethods: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "PaymentMethod",
-    // },
-    // categories: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Category",
-    // },
   },
   {
     collection: "users",

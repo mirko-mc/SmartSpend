@@ -3,9 +3,6 @@ import usersSchema from "../models/users.schema.js";
 import Bcrypt from "bcrypt";
 import { userCheck } from "../utils/bodyCheck.js";
 import { PostSendMail } from "../utils/postSendMail.js";
-// TODO integrare controlli di validazione campi required
-// TODO passare i dati uno alla volta anziché il body completo
-// todo integrare controlli se l'utente esiste nel database (regex sulla mail)
 
 // todo FUNZIONA
 // POST /login => restituisce token di accesso, non protetta
@@ -38,11 +35,11 @@ export const PostLogin = async (req, res) => {
 export const GetMeInfo = async (req, res) => {
   try {
     console.log("AUTHENTICATION CONTROLLER => GetMeInfo");
-    /** recupero i dati dell'utente dall'headers */
+    // recupero i dati dell'utente dall'headers
     const User = req.LoggedUser;
-    /** se i dati NON ci sono allora l'utente NON è loggato */
+    // se i dati NON ci sono allora l'utente NON è loggato
     if (!User) throw new Error("Please login, you aren't logged");
-    /** restituisco i dati dell'autore */
+    // restituisco i dati dell'autore
     return res.status(200).send(User);
   } catch (err) {
     res.send("GetMeInfo error");
@@ -54,11 +51,19 @@ export const GetMeInfo = async (req, res) => {
 export const PostRegister = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostRegister");
   try {
+    // controllo che la mail sia in formato valida
+    const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!EmailRegex.test(req.body.email))
+      throw new Error("Email is not valid");
     // se l'utente è già presente nel database genero un errore
     if (await usersSchema.findOne({ email: req.body.email }))
       throw new Error("User already exists");
     // dal body controllo che siano presenti almeno i dati obbligatori e recupero solo i dati da inviare al database
     const Data = await userCheck(req.body);
+    // se i dati sono vuoti genero un errore
+    if (!Data) throw new Error("Data not valid");
+    console.log(Data);
+    console.log(req.body);
     // creazione utente
     const User = await usersSchema.create(Data);
     // se l'utente è vuoto genero un errore
@@ -90,6 +95,6 @@ export const GetLoginGoogle = async (req, res) => {};
 // GET - callback Google
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
-  /** qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author */
+  // qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author
   res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.JwtToken}`);
 };
