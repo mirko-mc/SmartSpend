@@ -1,6 +1,5 @@
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
-// TODO
-// * passare i dati uno ad uno anziché il body completo
+import { paymentMethodCheck } from "../utils/bodyCheck.js";
 
 // todo FUNZIONA
 // GET /paymentMethods recuperare uno o tutti i metodi di pagamento
@@ -9,8 +8,7 @@ export const GetPaymentMethods = async (req, res) => {
   try {
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
-    })
-    console.log(!PaymentMethods);
+    });
     if (!PaymentMethods) throw new Error("Error while getting payment methods");
     res.status(200).send(PaymentMethods);
   } catch (err) {
@@ -24,7 +22,12 @@ export const GetPaymentMethods = async (req, res) => {
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
-    const NewPaymentMethod = await paymentMethodsSchema.create({ ...req.body });
+    if (req.body.user === req.LoggedUser.id)
+      req.body = { ...req.body, user: req.LoggedUser.id };
+    else throw new Error("Error on user id");
+    const Data = await paymentMethodCheck(req.body, true);
+    if (!Data) throw new Error("Data not valid");
+    const NewPaymentMethod = await paymentMethodsSchema.create(Data);
     if (!NewPaymentMethod)
       throw new Error("Error while creating payment method");
     res.status(200).send(NewPaymentMethod);
@@ -39,14 +42,23 @@ export const PostPaymentMethod = async (req, res) => {
 export const PutPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
-    const EditPaymentMethod = await paymentMethodsSchema.findByIdAndUpdate(
+    const PaymentMethod = await paymentMethodsSchema.findById(
+      req.params.paymentMethodId
+    );
+    if (!PaymentMethod) throw new Error("Payment method not found");
+    if (PaymentMethod.user.toString() === req.LoggedUser.id)
+      req.body = { ...req.body, user: req.LoggedUser.id };
+    else throw new Error("Error on user id");
+    const Data = await paymentMethodCheck(req.body, false);
+    if (!Data) throw new Error("Data not valid");
+    const EditedPaymentMethod = await paymentMethodsSchema.findByIdAndUpdate(
       req.params.paymentMethodId,
-      { ...req.body },
+      Data,
       { new: true }
     );
-    if (!EditPaymentMethod)
+    if (!EditedPaymentMethod)
       throw new Error("Error while updating payment method");
-    res.status(200).send(EditPaymentMethod);
+    res.status(200).send(EditedPaymentMethod);
   } catch (err) {
     console.log(err);
     res.status(400).send({ message: err.message });

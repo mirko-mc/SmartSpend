@@ -1,9 +1,9 @@
 @endpoint=http://localhost:5000/api/v1/auth
 @numero=1
-@stringa=yuio
+@stringa=jjtl
 @data="2020-01-01"
-@userId=66f44a34ad39887eb4f75546
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDRhMzRhZDM5ODg3ZWI0Zjc1NTQ2IiwiaWF0IjoxNzI3Mjg1ODUwLCJleHAiOjE3MjcyOTY2NTB9._NI7zuZ4BC9C6Csaw7HRojf7A8kHLm2HNZ_9VZxdtiM
+@userId=66f52abc77d18cc5cc69166e
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
 
 ### /me
 GET {{endpoint}}/me
@@ -23,7 +23,6 @@ POST {{endpoint}}/register
 Content-Type: application/json
 
 {
-  "googleId": "{{stringa}}",
   "name": "{{stringa}}",
   "surname": "{{stringa}}",
   "email": "{{stringa}}@{{stringa}}.{{stringa}}",

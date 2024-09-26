@@ -1,4 +1,7 @@
+import paymentMethodsSchema from "../models/paymentMethods.schema.js";
+import categoriesSchema from "../models/categories.schema.js";
 import transactionsSchema from "../models/transactions.schema.js";
+import usersSchema from "../models/users.schema.js";
 import { transactionCheck } from "../utils/bodyCheck.js";
 
 // todo FUNZIONA
@@ -10,7 +13,8 @@ export const GetTransactions = async (req, res) => {
       .find({ user: req.LoggedUser.id })
       .populate("user")
       .populate("paymentMethod")
-      .populate("category");
+      .populate("category")
+      .sort({ date: -1 });
     if (!Transactions) throw new Error("Error while getting payment methods");
     res.status(200).send(Transactions);
   } catch (err) {
@@ -26,9 +30,19 @@ export const PostTransaction = async (req, res) => {
   try {
     if (req.body.user === req.LoggedUser.id)
       req.body = { ...req.body, user: req.LoggedUser.id };
-    // !! controllare che  metodo pagamento e categoria appartengano all'untente loggato
     else throw new Error("Error on user id");
-    const Data = await transactionCheck(req.body);
+    const User = await paymentMethodsSchema
+      .findById(req.body.paymentMethod)
+      .select("user");
+    if (!User || User.user.toString() !== req.LoggedUser.id)
+      throw new Error("Payment method not found");
+    const Category = await categoriesSchema
+      .findById(req.body.category)
+      .select("user");
+    if (!Category || Category.user.toString() !== req.LoggedUser.id)
+      throw new Error("Category not found");
+
+    const Data = await transactionCheck(req.body, true);
     const NewTransaction = await transactionsSchema.create(Data);
     if (!NewTransaction) throw new Error("Error while creating payment method");
     res.status(200).send(NewTransaction);
@@ -43,10 +57,25 @@ export const PostTransaction = async (req, res) => {
 export const PutTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
-    if (req.body.user === req.LoggedUser.id)
+    console.log(req.body);
+    const Transaction = await transactionsSchema.findById(req.params.transactionId);
+    if (!Transaction) throw new Error("Transaction not found");
+
+    if (Transaction.user === req.LoggedUser.id)
       req.body = { ...req.body, user: req.LoggedUser.id };
     else throw new Error("Error on user id");
-    const Data = await transactionCheck(req.body);
+    const User = await paymentMethodsSchema
+      .findById(req.body.paymentMethod)
+      .select("user");
+    if (!User || User.user.toString() !== req.LoggedUser.id)
+      throw new Error("Payment method not found");
+    const Category = await categoriesSchema
+      .findById(req.body.category)
+      .select("user");
+    if (!Category || Category.user.toString() !== req.LoggedUser.id)
+      throw new Error("Category not found");
+
+    const Data = await transactionCheck(req.body, false);
     const EditTransaction = await transactionsSchema.findByIdAndUpdate(
       req.params.transactionId,
       Data,

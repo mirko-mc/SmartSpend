@@ -1,5 +1,6 @@
 import usersSchema from "../models/users.schema.js";
 import { userCheck } from "../utils/bodyCheck.js";
+import Bcrypt from "bcrypt";
 
 // todo FUNZIONA
 // GET /:userId recupera l'utente
@@ -20,10 +21,13 @@ export const GetUser = async (req, res) => {
 export const PutUser = async (req, res) => {
   console.log("CONTROLLER USERS => PutUser");
   try {
-    const Data = await userCheck(req.body);
-    console.log(Data);
-    console.log(!Data);
-    if (!Data) throw new Error("Error while updating user");
+    const User = await usersSchema.findById(req.LoggedUser.id);
+    if (!User) throw new Error("User not found");
+
+    const Data = await userCheck(req.body, false);
+    if (!Data) throw new Error("Data not valid");
+    if (Data.password) Data.password = await Bcrypt.hash(Data.password, 10);
+
     const EditUser = await usersSchema.findByIdAndUpdate(
       req.LoggedUser.id,
       Data,

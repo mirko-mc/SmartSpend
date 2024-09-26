@@ -1,7 +1,7 @@
 @endpoint=http://localhost:5000/api/v1/paymentMethod
-@paymentMethodId=66f419b544f6d7cf934206b2
-@userId=66f44a34ad39887eb4f75546
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDRhMzRhZDM5ODg3ZWI0Zjc1NTQ2IiwiaWF0IjoxNzI3Mjg1ODUwLCJleHAiOjE3MjcyOTY2NTB9._NI7zuZ4BC9C6Csaw7HRojf7A8kHLm2HNZ_9VZxdtiM
+@paymentMethodId=66f5351d6cd998b7161eadb8
+@userId=66f52abc77d18cc5cc69166e
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
 
 ### GET http://localhost:5000/api/v1/paymentMethods recuperare uno o tutti i metodi di pagamento
 GET {{endpoint}}
@@ -26,7 +26,6 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "name": "Carta di debito",
   "type": "debitCard"
 }
 

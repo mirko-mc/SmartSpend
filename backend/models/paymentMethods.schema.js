@@ -16,6 +16,7 @@ const PaymentMethods = new Schema(
     type: {
       type: String,
       enum: ["cash", "debitCard", "creditCard", "digitalWallet"],
+      required: true,
     },
     // saldo iniziale
     initialBalance: {

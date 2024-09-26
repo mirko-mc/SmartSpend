@@ -1,10 +1,10 @@
 @endpoint=http://localhost:5000/api/v1/category
 @numero=1
-@stringa="casa carut fratacchiò"
+@stringa="casa carut SETT vot"
 @data="2020-01-01"
-@categoryId=66f451611a8b355b0436f15a
-@userId=66f44a34ad39887eb4f75546
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNDRhMzRhZDM5ODg3ZWI0Zjc1NTQ2IiwiaWF0IjoxNzI3Mjg1ODUwLCJleHAiOjE3MjcyOTY2NTB9._NI7zuZ4BC9C6Csaw7HRojf7A8kHLm2HNZ_9VZxdtiM
+@categoryId=66f530c1d82782a795bf9fbf
+@userId=66f52abc77d18cc5cc69166e
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
 
 ### GET http://localhost:5000/api/v1//categories recuperare una o tutte le categorie
 GET {{endpoint}}
@@ -17,7 +17,7 @@ Authorization: {{token}}
 
 {
   "name": {{stringa}},
-  "user": {{stringa}},
+  "user": "{{userId}}",
   "type": "in",
   "description": {{stringa}}
 }
@@ -28,8 +28,6 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "name": {{stringa}},
-  "user": "{{userId}}",
   "type": "out"
 }
 

@@ -15,7 +15,7 @@ export const JwtCreation = (userId) => {
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "3h",
+        expiresIn: "1w",
       }
     );
   } catch (err) {

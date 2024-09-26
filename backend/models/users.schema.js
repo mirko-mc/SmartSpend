@@ -5,9 +5,9 @@ const Users = new Schema(
     // googleId
     googleId: {
       type: String,
-      // ??? 2 google id a null non si possono avere
-      unique: true,
-      sparse: true,
+      // ??? 2 google id a null non si possono avere e sparse non funziona
+      // unique: true,
+      // sparse: true,
     },
     // todo facebookId
     // todo telegramId

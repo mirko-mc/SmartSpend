@@ -53,17 +53,15 @@ export const PostRegister = async (req, res) => {
   try {
     // controllo che la mail sia in formato valida
     const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!EmailRegex.test(req.body.email))
-      throw new Error("Email is not valid");
+    if (!EmailRegex.test(req.body.email)) throw new Error("Email is not valid");
     // se l'utente è già presente nel database genero un errore
     if (await usersSchema.findOne({ email: req.body.email }))
       throw new Error("User already exists");
     // dal body controllo che siano presenti almeno i dati obbligatori e recupero solo i dati da inviare al database
-    const Data = await userCheck(req.body);
+    const Data = await userCheck(req.body, true);
     // se i dati sono vuoti genero un errore
     if (!Data) throw new Error("Data not valid");
-    console.log(Data);
-    console.log(req.body);
+    Data.password = await Bcrypt.hash(Data.password, 10);
     // creazione utente
     const User = await usersSchema.create(Data);
     // se l'utente è vuoto genero un errore
@@ -73,7 +71,7 @@ export const PostRegister = async (req, res) => {
       if (!result) throw new Error("Error while sending mail");
     });
     // genero un token di accesso
-    const Token = await JwtCreation(User._id);
+    const Token = JwtCreation(User._id);
     // se il token è vuoto genero un errore
     if (!Token) throw new Error("Error while generating token");
     // restituisco l'utente il token di accesso al frontend

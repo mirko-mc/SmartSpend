@@ -1,8 +1,5 @@
 import categoriesSchema from "../models/categories.schema.js";
 import { categoryCheck } from "../utils/bodyCheck.js";
-// TODO
-// * aggiungere controlli prima di passare per il database
-// * passare i dati uno ad uno anziché il body completo
 
 // TODO FUNZIONA
 // GET /categories/:userId recuperare una o tutte le categorie
@@ -23,11 +20,17 @@ export const GetCategories = async (req, res) => {
 export const PostCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
-    const Category = await categoriesSchema.create({
-      ...req.body,
-      user: req.LoggedUser.id,
-    });
-    console.log(Category);
+    // controllo che l'id nel body sia dell'utente loggato
+    if (req.body.user === req.LoggedUser.id)
+      req.body = { ...req.body, user: req.LoggedUser.id };
+    else throw new Error("Error on user id");
+
+    // controllo i dati del body
+    const Data = await categoryCheck(req.body, true);
+    if (!Data) throw new Error("Data not valid");
+
+    // creazione della categoria
+    const Category = await categoriesSchema.create(Data);
     if (!Category)
       throw new Error({ message: "Error while creating category" });
     else res.status(200).send(Category);
@@ -41,22 +44,34 @@ export const PostCategory = async (req, res) => {
 export const PutCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PutCategory");
   try {
-    // se la categoria non esiste genero errore
+    // recupero la categoria dal database
     const Category = await categoriesSchema.findById(req.params.categoryId);
+
+    // se la categoria non esiste genero errore
     if (!Category) throw new Error("Category not found");
+
     // controllo che l'id nel body sia dell'utente loggato
-    console.log(Category.user.toString());
-    console.log(req.LoggedUser.id);
     if (Category.user.toString() === req.LoggedUser.id)
       req.body = { ...req.body, user: req.LoggedUser.id };
     else throw new Error("Error on user id");
-    const Data = await categoryCheck(req.body);
-    console.log(Data);
-    // se esiste la aggiorno
-    await Category.update(Data, { new: true });
-    if (!Category)
+
+    // controllo i dati del body
+    const Data = await categoryCheck(req.body, false);
+
+    // se i dati sono vuoti genero errore
+    if (!Data) throw new Error("Data not valid");
+
+    // se la categoria esiste aggiorno
+    const UpdatedCategory = await categoriesSchema.findByIdAndUpdate(
+      req.params.categoryId,
+      Data,
+      { new: true }
+    );
+
+    // se qualcosa è andato storto genero errore
+    if (!UpdatedCategory)
       throw new Error({ message: "Error while updating category" });
-    else res.status(200).send(Category);
+    else res.status(200).send(UpdatedCategory);
   } catch (err) {
     res.status(400).send(err.message);
   }
