@@ -24,7 +24,7 @@ export const PostLogin = async (FormValues) => {
 };
 
 // GET /me => restituisce l'utente collegato al token di accesso, protetta
-export const GetToken = async () => {
+export const GetMeInfo = async () => {
   console.log("DATA => Fetch => GetMeInfo");
   try {
     const res = await fetch(`${FetchAuthenticationUrl}/me`, {

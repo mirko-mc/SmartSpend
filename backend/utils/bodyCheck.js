@@ -28,7 +28,6 @@ export const userCheck = async (body, post) => {
       email: Email,
       password: Password,
       avatar: avatar,
-      surname: body?.surname,
       favoriteTheme: body?.favoriteTheme,
       googleId: body?.googleId,
       verifiedAt: body?.verifiedAt,

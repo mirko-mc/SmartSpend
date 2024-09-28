@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { GetUser } from "../data/fetch";
+import { GetMeInfo } from "../data/fetch";
 
 export const UserContext = createContext(null);
 export const UserContextProvider = ({ children }) => {
@@ -14,9 +14,10 @@ export const UserContextProvider = ({ children }) => {
     console.log("CONTEXT => UserContextProvider => GetMeData");
     try {
       // setto i dati dell'utente nello stato
-      const MeData = await GetUser();
+      const MeData = await GetMeInfo();
       SetLoggedUser(MeData);
     } catch (err) {
+      console.log("sono qui")
       // rimuovo il token dal localStorage e dallo stato
       localStorage.removeItem("token");
       SetToken(null);
