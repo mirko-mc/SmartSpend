@@ -1,9 +1,9 @@
 @endpoint=http://localhost:5000/api/v1/auth
 @numero=1
-@stringa=jjtl
+@stringa=zdrt
 @data="2020-01-01"
 @userId=66f52abc77d18cc5cc69166e
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTI0NTEzNjZhMTc3ZTIzYTBhNjhmIiwiaWF0IjoxNzI3NjA2MzUyLCJleHAiOjE3MjgyMTExNTJ9.t3YpJpXQKY-WupO_CRZRFrBWb9EOJ9x3kuNyFxthG24
 
 ### /me
 GET {{endpoint}}/me

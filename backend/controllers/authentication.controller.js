@@ -53,7 +53,7 @@ export const PostRegister = async (req, res) => {
   try {
     // controllo che la mail sia in formato valida
     const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!EmailRegex.test(req.body.email)) throw new Error("Email is not valid");
+    // if (!EmailRegex.test(req.body.email)) throw new Error("Email is not valid");
     // se l'utente è già presente nel database genero un errore
     if (await usersSchema.findOne({ email: req.body.email }))
       throw new Error("User already exists");
@@ -94,5 +94,6 @@ export const GetLoginGoogle = async (req, res) => {};
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
   // qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author
-  res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.JwtToken}`);
+  console.log(req.user.token);
+  res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.token}`);
 };

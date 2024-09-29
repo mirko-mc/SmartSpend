@@ -3,10 +3,12 @@ import { PostLogin } from "../../data/fetch";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 
-export const LoginMailPassword = () => {
+export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
+  console.log("AUTHENTICATION => HandleLogin");
+  // * CONTEXT
   const { SetToken } = useContext(UserContext);
+  // * FUNZIONI
   const HandleLogin = (event) => {
-    console.log("Home => HandleLogin");
     // evito che si aggiorni la pagina
     event.preventDefault();
     // !!! PostLogin({ email: event.target[0].value, password: event.target[1].value })
@@ -42,6 +44,14 @@ export const LoginMailPassword = () => {
         </Form.Group>
         <Button variant="primary" type="submit">
           Accedi
+        </Button>
+        <Button
+          variant="link"
+          type="button"
+          className="ms-2"
+          onClick={() => SetShowLoginResetPassword(true)}
+        >
+          Recupera password
         </Button>
       </Form>
     </Col>

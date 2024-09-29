@@ -1,44 +1,69 @@
 import { Button, Container, Row } from "react-bootstrap";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
-import { LoginMailPassword } from "../../components/login/LoginMailPassword";
-import { LoginGoogle } from "../../components/login/LoginGoogle";
-import { ChangePassword } from "../../components/register/ChangePassword";
-import { NewModals } from "../../components/modals/NewModals";
+import { LoginMailPassword } from "../../components/authentication/LoginMailPassword";
+import { LoginGoogle } from "../../components/authentication/LoginGoogle";
+import { ChangePassword } from "../../components/authentication/RecoveryPassword";
+import { Dashboard } from "../dashboard/Dashboard";
+import { Register } from "../../components/authentication/Register";
 
 export const Home = () => {
   console.log("VIEW => Home.jsx");
+  // * CONTEXT
   const { Token, SetToken } = useContext(UserContext);
-
+  // * STATI
+  const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
+  const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
+  /**
+   * * login
+   * * register
+   * * recupero password
+   * * login register
+   * *  - v    - f
+   * * login reset
+   * *  - v    - r
+   */
+  // * FUNZIONI
   if (!Token)
     return (
       <Container>
-        <Row>
-          <LoginMailPassword />
-          <LoginGoogle />
-        </Row>
-        <Row>
-          <ChangePassword />
-        </Row>
-        <Row>
-          <NewModals />
-        </Row>
+        {ShowLoginRegister && (
+          <Row>
+            {ShowLoginResetPassword ? (
+              <ChangePassword
+                SetShowLoginResetPassword={SetShowLoginResetPassword}
+              />
+            ) : (
+              <>
+                <LoginMailPassword
+                  SetShowLoginResetPassword={SetShowLoginResetPassword}
+                />
+                <LoginGoogle />
+              </>
+            )}
+            <Button
+              variant="primary"
+              onClick={() => SetShowLoginRegister(false)}
+            >
+              Registrazione
+            </Button>
+          </Row>
+        )}
+        {!ShowLoginRegister && (
+          <Row>
+            <Register />
+            <Button variant="link" onClick={() => SetShowLoginRegister(true)}>
+              Vai ai metodi d'accesso
+            </Button>
+          </Row>
+        )}
       </Container>
     );
   if (Token)
     return (
       <Container>
         <Row>
-          <Button
-            variant="primary"
-            type="button"
-            onClick={() => {
-              localStorage.removeItem("token");
-              SetToken(null);
-            }}
-          >
-            Logout
-          </Button>
+          <Dashboard />
         </Row>
       </Container>
     );

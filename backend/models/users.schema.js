@@ -46,6 +46,10 @@ const Users = new Schema(
     verifiedAt: {
       type: Date,
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     collection: "users",

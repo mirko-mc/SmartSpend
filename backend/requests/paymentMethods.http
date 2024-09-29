@@ -1,7 +1,7 @@
 @endpoint=http://localhost:5000/api/v1/paymentMethod
 @paymentMethodId=66f5351d6cd998b7161eadb8
-@userId=66f52abc77d18cc5cc69166e
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
+@userId=66f52451366a177e23a0a68f
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTI0NTEzNjZhMTc3ZTIzYTBhNjhmIiwiaWF0IjoxNzI3NjA2MzUyLCJleHAiOjE3MjgyMTExNTJ9.t3YpJpXQKY-WupO_CRZRFrBWb9EOJ9x3kuNyFxthG24
 
 ### GET http://localhost:5000/api/v1/paymentMethods recuperare uno o tutti i metodi di pagamento
 GET {{endpoint}}

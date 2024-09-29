@@ -3,8 +3,8 @@
 @stringa="casa carut SETT vot"
 @data="2020-01-01"
 @categoryId=66f530c1d82782a795bf9fbf
-@userId=66f52abc77d18cc5cc69166e
-@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTJhYmM3N2QxOGNjNWNjNjkxNjZlIiwiaWF0IjoxNzI3MzQ1ODY5LCJleHAiOjE3Mjc5NTA2Njl9.g5GghMyxFBKme5uvuzRcz3lwJzDDJ3C9hu9PT1Jrrig
+@userId=66f52451366a177e23a0a68f
+@token=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjZmNTI0NTEzNjZhMTc3ZTIzYTBhNjhmIiwiaWF0IjoxNzI3NjA2MzUyLCJleHAiOjE3MjgyMTExNTJ9.t3YpJpXQKY-WupO_CRZRFrBWb9EOJ9x3kuNyFxthG24
 
 ### GET http://localhost:5000/api/v1//categories recuperare una o tutte le categorie
 GET {{endpoint}}

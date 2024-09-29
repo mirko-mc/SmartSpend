@@ -6,7 +6,7 @@ export const userCheck = async (body, post) => {
     const Email = body?.email;
     const Password = body?.password;
     const PasswordConfirm = body?.passwordConfirm;
-    let avatar = body?.avatar;
+    // let avatar = body?.avatar;
     // controllo dati prima di inviarli al database
     // verifica campi
     if (post && (!Name || !Email || !Password || !PasswordConfirm))
@@ -18,16 +18,17 @@ export const userCheck = async (body, post) => {
     if (Password && Password !== PasswordConfirm)
       throw new Error("Passwords do not match");
     // verifico che l'immagine sia valida altrimenti ne imposto una di default
-    !avatar &&
-      (avatar =
-        "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png");
+    // console.log(avatar);
+    // !avatar &&
+      // (avatar =
+        // "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png");
     // se tutti i controlli sono andati a buon fine creo l'oggetto coi dati
     return {
       name: Name,
       surname: body?.surname,
       email: Email,
       password: Password,
-      avatar: avatar,
+      // avatar: avatar,
       favoriteTheme: body?.favoriteTheme,
       googleId: body?.googleId,
       verifiedAt: body?.verifiedAt,

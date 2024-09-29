@@ -1,13 +1,43 @@
+import { useContext } from "react";
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContextProvider";
 
 export const MyNavbar = () => {
+  console.log("COMPONENT => MyNavbar.jsx");
+  // * CONTEXT
+  const { SetToken } = useContext(UserContext);
+  // * STATI
+  const Navigate = useNavigate();
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Button
+          variant="primary"
+          type="button"
+          onClick={() => {
+            localStorage.removeItem("token");
+            SetToken(null);
+            Navigate("/");
+          }}
+        >
+          Logout
+        </Button>
+        <Link to="/dashboard" className="m-2">
+          dashboard
+        </Link>
+        <Link to="/me" className="m-2">
+          me
+        </Link>
+        <Link to="/transactions" className="m-2">
+          transactions
+        </Link>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
