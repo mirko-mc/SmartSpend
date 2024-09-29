@@ -14,15 +14,6 @@ export const Home = () => {
   // * STATI
   const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
   const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
-  /**
-   * * login
-   * * register
-   * * recupero password
-   * * login register
-   * *  - v    - f
-   * * login reset
-   * *  - v    - r
-   */
   // * FUNZIONI
   if (!Token)
     return (
