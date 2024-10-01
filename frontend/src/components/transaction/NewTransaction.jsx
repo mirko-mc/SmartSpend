@@ -84,7 +84,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-              <Col md={6} className="w-50">
+              <Col md={4}>
                 <Form.Label>Importo</Form.Label>
                 <Form.Control
                   type="number"
@@ -99,7 +99,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   max={9999.99}
                 />
               </Col>
-              <Col md={6} className="w-50">
+              <Col md={4}>
                 <Form.Label>Data</Form.Label>
                 <Form.Control
                   type="date"
@@ -110,6 +110,14 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   value={NewTransaction.date}
                   onChange={HandleOnChange}
                 />
+              </Col>
+              <Col md={4}>
+                <Form.Label>Tipo</Form.Label>
+                <Form.Select name="type" id="type" required>
+                  <option value="">Seleziona un tipo</option>
+                  <option value="in">Entrata</option>
+                  <option value="out">Uscita</option>
+                </Form.Select>
               </Col>
             </Form.Group>
 
@@ -158,7 +166,9 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
             >
               Annulla ❌
             </Button>
-            <Button variant="primary"type="submit">Salva 💾</Button>
+            <Button variant="primary" type="submit">
+              Salva 💾
+            </Button>
           </Card.Footer>
         </Form>
       </Card>

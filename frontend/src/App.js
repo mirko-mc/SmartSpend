@@ -15,10 +15,20 @@ import { NotFound } from "./views/notFound/NotFound";
 import { ProtectedRoutes } from "./components/routesManage/ProtectedRoutes";
 import { Dashboard } from "./views/dashboard/Dashboard";
 import { UnprotectedRoutes } from "./components/routesManage/UnprotectedRoutes";
-import { Transactions } from "./views/transactions/Transactions";
-import { Transaction } from "./components/transaction/Transaction";
+import { AllTransactions } from "./views/transactions/AllTransactions";
+import { TransactionDetails } from "./components/transaction/TransactionDetails";
 function App() {
   console.log("ROOT => App.js");
+  /*
+  '/api/v1/auth/register'
+  '/api/v1/user/:userId'
+
+  '/api/v1/category'
+  '/api/v1/category/:categoryId'
+
+  '/api/v1/paymentMethod'
+  '/api/v1/paymentMethod/:paymentMethodId'
+  */
   return (
     <Router>
       <MyNavbar />
@@ -28,8 +38,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/me" element={<Me />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/transactions" element={<AllTransactions />} />
+          <Route path="/transaction/:transactionId" element={<TransactionDetails />} />
         </Route>
         {/* rotte NON PROTETTE */}
         <Route element={<UnprotectedRoutes />}>

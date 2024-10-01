@@ -3,6 +3,7 @@ import { UserContext } from "../../context/UserContextProvider";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import { RecentTransaction } from "../../components/transaction/RecentTransaction.jsx";
 import { NewTransaction } from "../../components/transaction/NewTransaction.jsx";
+import { Charts } from "../../components/charts/Charts.jsx";
 
 export const Dashboard = () => {
   console.log("VIEWS => Dashboard.jsx");
@@ -29,6 +30,7 @@ export const Dashboard = () => {
             </Button>
           </Col>
         </Row>
+
         <Row>
           <Col md={6} className="mb-3">
             <Card>
@@ -58,51 +60,29 @@ export const Dashboard = () => {
             </Card>
           </Col>
         </Row>
+
         <Row>
-          <Col md={6}>
-            <Row className="mb-3">
-              <Col xs={6}>
-                <Card>
-                  <Card.Header>Grafico 1</Card.Header>
-                  <Card.Body>
-                    <p>GRAFICO</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs={6}>
-                <Card>
-                  <Card.Header>Grafico 2</Card.Header>
-                  <Card.Body>
-                    <p>GRAFICO</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs={6}>
-                <Card>
-                  <Card.Header>Grafico 3</Card.Header>
-                  <Card.Body>
-                    <p>GRAFICO</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs={6}>
-                <Card>
-                  <Card.Header>Grafico 4</Card.Header>
-                  <Card.Body>
-                    <p>GRAFICO</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
+          <Col md={5}>
+            <Charts />
           </Col>
-          <Col md={6}>
-            <NewTransaction SetIsNewTransaction={SetIsNewTransaction} />
+          <Col md={2}>
+            <Button
+              variant="primary"
+              onClick={() => SetIsNewTransaction(!IsNewTransaction)}
+            >
+              Nuova transazione
+            </Button>
+          </Col>
+          <Col md={5}>
+            <Charts />
           </Col>
         </Row>
+
         <Row>
-          <Col>
-            <RecentTransaction SetIsNewTransaction={SetIsNewTransaction} />
-          </Col>
+          <Col md={12}>{IsNewTransaction && <NewTransaction />}</Col>
+        </Row>
+        <Row>
+          <Col>{!IsNewTransaction && <RecentTransaction />}</Col>
         </Row>
       </Container>
     );

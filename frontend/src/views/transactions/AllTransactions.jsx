@@ -1,9 +1,9 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { NewTransaction } from "../../components/transaction/NewTransaction";
 import { RecentTransaction } from "../../components/transaction/RecentTransaction";
 import { NewCategory } from "../../components/categories/NewCategory";
 
-export const Transactions = () => {
+export const AllTransactions = () => {
   console.log("VIEW => Transactions.jsx");
   // * STATI
   // * FUNZIONI
@@ -12,9 +12,13 @@ export const Transactions = () => {
       <Row>
         <h1>Transazioni</h1>
         <Col>
-          <NewCategory />
+          <Button variant="primary" onClick={() => <NewCategory />}>
+            Nuova categoria
+          </Button>
+          <Button variant="primary" onClick={() => <NewTransaction />}>
+            Nuova transazione
+          </Button>
           <RecentTransaction />
-          <NewTransaction />
         </Col>
       </Row>
     </Container>

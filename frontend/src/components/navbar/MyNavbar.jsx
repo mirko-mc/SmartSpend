@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContextProvider";
 
 export const MyNavbar = () => {
@@ -17,27 +17,6 @@ export const MyNavbar = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Button
-          variant="primary"
-          type="button"
-          onClick={() => {
-            localStorage.removeItem("token");
-            SetToken(null);
-            Navigate("/");
-          }}
-        >
-          Logout
-        </Button>
-        <Link to="/dashboard" className="m-2">
-          dashboard
-        </Link>
-        <Link to="/me" className="m-2">
-          me
-        </Link>
-        <Link to="/transactions" className="m-2">
-          transactions
-        </Link>
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -56,6 +35,38 @@ export const MyNavbar = () => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+      </Container>
+      <Container>
+        <Row>
+          <NavDropdown title="test">
+            <NavDropdown.Item>
+              <Button
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  SetToken(null);
+                  Navigate("/");
+                }}
+              >
+                Logout
+              </Button>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Button onClick={() => Navigate("/dashboard")} className="m-2">
+                dashboard
+              </Button>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Button onClick={() => Navigate("/me")} className="m-2">
+                me
+              </Button>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Button onClick={() => Navigate("/transactions")} className="m-2">
+                transactions
+              </Button>
+            </NavDropdown.Item>
+          </NavDropdown>
+        </Row>
       </Container>
     </Navbar>
   );

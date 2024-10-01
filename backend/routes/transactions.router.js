@@ -3,16 +3,18 @@ import * as TransactionsController from "../controllers/transactions.controller.
 
 const Router = express.Router();
 
-// todo
 // GET => recuperare una o tutte le transazioni
 Router.get("", TransactionsController.GetTransactions);
-// todo
+
 // POST => creare una nuova transazione
 Router.post("", TransactionsController.PostTransaction);
-// todo
+
+// GET => recuperare una transazione
+Router.get("/:transactionId", TransactionsController.GetTransaction);
+
 // PUT /:transactionId => modificare una transazione
 Router.put("/:transactionId", TransactionsController.PutTransaction);
-// todo
+
 // DELETE /:transactionId => eliminare una transazione
 Router.delete("/:transactionId", TransactionsController.DeleteTransaction);
 

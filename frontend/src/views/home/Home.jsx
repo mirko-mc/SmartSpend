@@ -14,6 +14,7 @@ export const Home = () => {
   // * STATI
   const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
   const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
+  // ??? creare rotta register
   // * FUNZIONI
   if (!Token)
     return (

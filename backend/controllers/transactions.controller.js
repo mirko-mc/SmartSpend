@@ -4,11 +4,18 @@ import transactionsSchema from "../models/transactions.schema.js";
 import usersSchema from "../models/users.schema.js";
 import { transactionCheck } from "../utils/bodyCheck.js";
 
-// todo FUNZIONA
-// GET => recuperare una o tutte le transazioni
+// GET => recuperare tutte le transazioni
 export const GetTransactions = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => GetTransactions");
   try {
+    console.log(req.body);
+    if (req.body.id) {
+      const Transaction = await transactionsSchema.findById(
+        req.body.idTransaction
+      );
+      if (!Transaction) throw new Error("Transaction not found");
+      return res.status(200).send(Transaction);
+    }
     const Transactions = await transactionsSchema
       .find({ user: req.LoggedUser.id })
       .populate("user")
@@ -23,7 +30,23 @@ export const GetTransactions = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
+// GET /:transactionId => recuperare una transazione
+export const GetTransaction = async (req, res) => {
+  console.log("CONTROLLER TRANSACTIONS => GetTransaction");
+  try {
+    const Transaction = await transactionsSchema
+      .findById(req.params.transactionId)
+      .populate("user")
+      .populate("paymentMethod")
+      .populate("category");
+    if (!Transaction) throw new Error("Transaction not found");
+    res.status(200).send(Transaction);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
+};
+
 // POST => creare una nuova transazione
 export const PostTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PostTransaction");
@@ -52,13 +75,14 @@ export const PostTransaction = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // PUT /:transactionId => modificare una transazione
 export const PutTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
     console.log(req.body);
-    const Transaction = await transactionsSchema.findById(req.params.transactionId);
+    const Transaction = await transactionsSchema.findById(
+      req.params.transactionId
+    );
     if (!Transaction) throw new Error("Transaction not found");
 
     if (Transaction.user === req.LoggedUser.id)
@@ -90,7 +114,6 @@ export const PutTransaction = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // DELETE /:transactionId => eliminare una transazione
 export const DeleteTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => DeleteTransactions");

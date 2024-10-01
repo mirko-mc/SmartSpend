@@ -273,14 +273,19 @@ export const DeletePaymentMethod = async (PaymentMethodId) => {
 
 // todo TRANSACTIONS
 // GET => recuperare una o tutte le transazioni
-export const GetTransactions = async () => {
+export const GetTransactions = async (id) => {
   console.log("DATA => Fetch => GetTransactions");
   try {
-    const res = await fetch(`${FetchTransactionsUrl}`, {
+    console.log(id);
+    const NewFetchTransactionsUrl = id
+      ? `${FetchTransactionsUrl}/${id}`
+      : `${FetchTransactionsUrl}`;
+    const res = await fetch(`${NewFetchTransactionsUrl}`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
+    console.log(data)
     return data;
   } catch (err) {
     console.log(err);
