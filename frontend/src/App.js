@@ -17,6 +17,8 @@ import { Dashboard } from "./views/dashboard/Dashboard";
 import { UnprotectedRoutes } from "./components/routesManage/UnprotectedRoutes";
 import { AllTransactions } from "./views/transactions/AllTransactions";
 import { TransactionDetails } from "./components/transaction/TransactionDetails";
+import { Categories } from "./components/categories/Categories";
+import { PaymentMethods } from "./components/paymentMethods/PaymentMethods";
 function App() {
   console.log("ROOT => App.js");
   /*
@@ -38,8 +40,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/me" element={<Me />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<AllTransactions />} />
-          <Route path="/transaction/:transactionId" element={<TransactionDetails />} />
+          <Route path="/transactions" element={<AllTransactions />}>
+            <Route path=":transactionId" element={<TransactionDetails />} />
+          </Route>
+          <Route path="categories" element={<Categories />}>
+            <Route path=":categoryId" element={<Categories />} />
+          </Route>
+          <Route path="paymentMethods" element={<PaymentMethods />}>
+            <Route path=":paymentMethodId" element={<PaymentMethods />} />
+          </Route>
         </Route>
         {/* rotte NON PROTETTE */}
         <Route element={<UnprotectedRoutes />}>
