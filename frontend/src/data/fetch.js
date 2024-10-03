@@ -3,7 +3,7 @@ const FetchAuthenticationUrl = `${process.env.REACT_APP_API_URL}/api/v1/auth`;
 const FetchUserUrl = `${process.env.REACT_APP_API_URL}/api/v1/user`;
 const FetchCategoriesUrl = `${process.env.REACT_APP_API_URL}/api/v1/category`;
 const FetchPaymentMethodsUrl = `${process.env.REACT_APP_API_URL}/api/v1/paymentMethod`;
-const FetchTransactionsUrl = `${process.env.REACT_APP_API_URL}/api/v1/transaction`;
+const FetchTransactionsUrl = `${process.env.REACT_APP_API_URL}/api/v1/transactions`;
 
 // todo AUTHENTICATION
 // POST /login => restituisce token di accesso, non protetta
@@ -276,7 +276,6 @@ export const DeletePaymentMethod = async (PaymentMethodId) => {
 export const GetTransactions = async (id) => {
   console.log("DATA => Fetch => GetTransactions");
   try {
-    console.log(id);
     const NewFetchTransactionsUrl = id
       ? `${FetchTransactionsUrl}/${id}`
       : `${FetchTransactionsUrl}`;
@@ -285,7 +284,6 @@ export const GetTransactions = async (id) => {
     });
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
-    console.log(data)
     return data;
   } catch (err) {
     console.log(err);

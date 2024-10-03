@@ -3,13 +3,18 @@ import { GetMeInfo } from "../data/fetch";
 
 export const UserContext = createContext(null);
 export const UserContextProvider = ({ children }) => {
+  console.log("CONTEXT => UserContextProvider.jsx");
   // stato per contenere l'oggetto coi dati dell'utente loggato inizializzato a null (non loggato)
   const [LoggedUser, SetLoggedUser] = useState(null);
   // stato per contenere il token di autenticazione inizializzato a null (non loggato)
   const [Token, SetToken] = useState(localStorage.getItem("token"));
+  // funzione per rimuovere il token dal localStorage e dallo stato
+  const Logout = () => {
+    localStorage.removeItem("token");
+    SetToken(null);
+  };
 
   // TODO
-  // * creare funzione per settare e rimuovere token sia da localstorage che da stato e passarla come context anziché passare le singole costanti
   // * gestire il token ricevuto da Google che dovrebbe arrivare successivamente il le rotte che sono immediate
   /**
    * const manageToken = function (){
@@ -36,13 +41,11 @@ export const UserContextProvider = ({ children }) => {
     try {
       // setto i dati dell'utente nello stato
       const MeData = await GetMeInfo();
-      console.log("MeData", MeData);
       SetLoggedUser(MeData);
     } catch (err) {
-      console.log("sono qui");
+      console.log(err);
       // rimuovo il token dal localStorage e dallo stato
-      localStorage.removeItem("token");
-      SetToken(null);
+      Logout();
     }
   };
   // use effect che al cambio del Token esegue la funzione asincrona per settare i valori nei rispettivi stati
@@ -51,6 +54,6 @@ export const UserContextProvider = ({ children }) => {
   }, [Token]);
 
   // valori resi disponibili tramite context
-  const Value = { LoggedUser, Token, SetToken };
+  const Value = { LoggedUser, Token, SetToken, Logout };
   return <UserContext.Provider value={Value}>{children}</UserContext.Provider>;
 };

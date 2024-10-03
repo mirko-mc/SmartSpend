@@ -6,10 +6,14 @@ export const userCheck = async (body, post) => {
     const Email = body?.email;
     const Password = body?.password;
     const PasswordConfirm = body?.passwordConfirm;
+    const Birthdate = body?.birthdate;
     // let avatar = body?.avatar;
     // controllo dati prima di inviarli al database
     // verifica campi
-    if (post && (!Name || !Email || !Password || !PasswordConfirm))
+    if (
+      post &&
+      (!Name || !Email || !Password || !PasswordConfirm || !Birthdate)
+    )
       throw new Error("Please fill all the fields");
     // verifico la lunghezza della password
     if (Password && Password.length < 6)
@@ -20,12 +24,13 @@ export const userCheck = async (body, post) => {
     // verifico che l'immagine sia valida altrimenti ne imposto una di default
     // console.log(avatar);
     // !avatar &&
-      // (avatar =
-        // "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png");
+    // (avatar =
+    // "https://njhalloffame.org/wp-content/uploads/2021/04/generic-avatar-300x300.png");
     // se tutti i controlli sono andati a buon fine creo l'oggetto coi dati
     return {
       name: Name,
       surname: body?.surname,
+      birthdate: Birthdate,
       email: Email,
       password: Password,
       // avatar: avatar,
@@ -101,7 +106,9 @@ export const paymentMethodCheck = async (body, post) => {
     const Type = body?.type;
     const InitialBalance = body?.initialBalance;
     const User = body?.user;
-    if (post && (!Name || !Type)) throw new Error("Please fill all the fields");
+    const InOut = body?.inOut;
+    if (post && (!Name || !Type || !InOut))
+      throw new Error("Please fill all the fields");
     if (post && InitialBalance >= 0)
       return {
         name: Name,
@@ -109,6 +116,7 @@ export const paymentMethodCheck = async (body, post) => {
         description: Description,
         type: Type,
         initialBalance: InitialBalance,
+        inOut: InOut,
       };
     else if (!post)
       return {
@@ -117,6 +125,7 @@ export const paymentMethodCheck = async (body, post) => {
         description: Description,
         type: Type,
         initialBalance: InitialBalance,
+        inOut: InOut,
       };
     else throw new Error("Initial balance must be 0 or positive");
   } catch (err) {

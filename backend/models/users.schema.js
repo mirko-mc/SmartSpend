@@ -20,6 +20,10 @@ const Users = new Schema(
     surname: {
       type: String,
     },
+    // data di nascita dell'utente
+    birthdate: {
+      type: Date,
+    },
     // email dell'utente
     email: {
       type: String,

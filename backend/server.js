@@ -57,7 +57,7 @@ Server.use(Authorization);
 Server.use("/api/v1/user", UsersRouter);
 Server.use("/api/v1/category", CategoriesRouter);
 Server.use("/api/v1/paymentMethod", PaymentMethodsRouter);
-Server.use("/api/v1/transaction", TransactionsRouter);
+Server.use("/api/v1/transactions", TransactionsRouter);
 // connessione al database
 await moongoose
   .connect(process.env.MONGO_CONNECTION_URI)

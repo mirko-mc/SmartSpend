@@ -4,7 +4,6 @@ import Bcrypt from "bcrypt";
 import { userCheck } from "../utils/bodyCheck.js";
 import { PostSendMail } from "../utils/postSendMail.js";
 
-// todo FUNZIONA
 // POST /login => restituisce token di accesso, non protetta
 export const PostLogin = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostLogin");
@@ -30,7 +29,6 @@ export const PostLogin = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // GET /me => restituisce l'utente collegato al token di accesso, protetta
 export const GetMeInfo = async (req, res) => {
   try {
@@ -46,7 +44,6 @@ export const GetMeInfo = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // POST /register => crea un nuovo utente
 export const PostRegister = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostRegister");

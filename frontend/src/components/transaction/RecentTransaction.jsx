@@ -1,4 +1,4 @@
-import { Button, Card, Col } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { TransactionDetails } from "./TransactionDetails";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -15,11 +15,18 @@ export const RecentTransaction = () => {
     const data = await GetTransactions();
     if (data) SetTransactions(data);
   };
-  // ??? con slice recupero solo i primi 5. se lo voglio rendere condizionale?
   useEffect(() => {
     if (LoggedUser) HandleGetTransaction();
   }, [LoggedUser]);
 
+  if (!Transactions)
+    return (
+      <Container>
+        <Row>
+          <Col>Loading...</Col>
+        </Row>
+      </Container>
+    );
   if (Transactions)
     return (
       <Card className="mb-3 shadow">

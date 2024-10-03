@@ -23,6 +23,11 @@ const PaymentMethods = new Schema(
       type: Number,
       required: true,
     },
+    inOut: {
+      type: String,
+      enum: ["in", "out"],
+      required: true,
+    },
     // utente che ha creato il metodo di pagamento
     user: {
       type: Schema.Types.ObjectId,

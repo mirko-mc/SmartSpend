@@ -11,14 +11,17 @@ export const TransactionDetails = ({ transaction }) => {
   const { transactionId } = useParams();
   // * FUNZIONI
   const HandleGetTransaction = async () => {
-    SetTransactionToRender(await GetTransactions(transactionId));
+    GetTransactions(transactionId)
+      .then((data) => SetTransactionToRender(data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    if (!TransactionToRender) HandleGetTransaction();
+    if (!transaction) HandleGetTransaction();
   }, [TransactionToRender]);
-  // ??? perché con onClick={() => <Navigate to={`/transaction/${transaction._id}`} />} non funziona?
-
+  
+  console.log(transaction);
+  console.log(TransactionToRender);
   if (!TransactionToRender && !transaction)
     return (
       <Container>
@@ -30,19 +33,19 @@ export const TransactionDetails = ({ transaction }) => {
       </Container>
     );
 
-  if (transaction)
+  if (!TransactionToRender)
     return (
       <Card className="mb-3 shadow">
         <Card.Header className="d-flex justify-content-between">
           <Button
             variant="primary"
-            onClick={() => Navigate(`/transaction/${TransactionToRender._id}`)}
+            onClick={() => Navigate(`/transactions/${transaction._id}`)}
           >
             Visualizza
           </Button>
           <Card.Title>Transazione n° {transaction._id}</Card.Title>
           <Button variant="outline-secondary" onClick={() => Navigate(-1)}>
-            Indietro
+            IndietroIndietro
           </Button>
         </Card.Header>
         <Card.Body className="d-flex flex-column">
@@ -51,7 +54,7 @@ export const TransactionDetails = ({ transaction }) => {
               Data: {transaction.date}
             </Col>
             <Col xs={12} md={4} className="d-flex align-items-center">
-              Categoria: {transaction.category.name}
+              Categoria: {transaction.category?.name}
             </Col>
             <Col xs={12} md={4} className="d-flex align-items-center">
               Importo: {transaction.amount} €

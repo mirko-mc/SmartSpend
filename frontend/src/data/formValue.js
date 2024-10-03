@@ -4,6 +4,7 @@ export const SetInitialFormValues = (FormValuesType) => {
       return {
         name: "",
         surname: "",
+        birthdate: "",
         email: "",
         password: "",
         passwordConfirm: "",
@@ -18,6 +19,7 @@ export const SetInitialFormValues = (FormValuesType) => {
         name: "",
         description: "",
         type: "",
+        inOut: "",
         initialBalance: "",
         user: "",
       };

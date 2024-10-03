@@ -4,7 +4,7 @@ import { RecentTransaction } from "../../components/transaction/RecentTransactio
 import { NewCategory } from "../../components/categories/NewCategory";
 
 export const AllTransactions = () => {
-  console.log("VIEW => Transactions.jsx");
+  console.log("VIEW => AllTransactions.jsx");
   // * STATI
   // * FUNZIONI
   return (
