@@ -1,14 +1,12 @@
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 import categoriesSchema from "../models/categories.schema.js";
 import transactionsSchema from "../models/transactions.schema.js";
-import usersSchema from "../models/users.schema.js";
 import { transactionCheck } from "../utils/bodyCheck.js";
 
 // GET => recuperare tutte le transazioni
 export const GetTransactions = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => GetTransactions");
   try {
-    console.log(req.body);
     if (req.body.id) {
       const Transaction = await transactionsSchema.findById(
         req.body.idTransaction

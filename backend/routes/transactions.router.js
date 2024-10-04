@@ -2,11 +2,11 @@ import express from "express";
 import * as TransactionsController from "../controllers/transactions.controller.js"
 
 const Router = express.Router();
-
-// GET => recuperare una o tutte le transazioni
+// * /api/v1/transactions
+// GET "" => recuperare tutte le transazioni
 Router.get("", TransactionsController.GetTransactions);
 
-// POST => creare una nuova transazione
+// POST "" => creare una nuova transazione
 Router.post("", TransactionsController.PostTransaction);
 
 // GET => recuperare una transazione

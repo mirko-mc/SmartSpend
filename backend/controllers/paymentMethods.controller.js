@@ -1,11 +1,30 @@
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 import { paymentMethodCheck } from "../utils/bodyCheck.js";
 
-// todo FUNZIONA
-// GET => recuperare uno o tutti i metodi di pagamento
+// * /api/v1/paymentMethod
+// GET /:paymentMethodId => recuperare un metodo di pagamento
+export const GetPaymentMethod = async (req, res) => {
+  console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethod");
+  try {
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
+    const PaymentMethod = await paymentMethodsSchema.findById(
+      req.params.paymentMethodId
+    );
+    if (!PaymentMethod) throw new Error("Payment method not found");
+    res.status(200).send(PaymentMethod);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ message: err.message });
+  }
+};
+
+// GET "" => recuperare tutti i metodi di pagamento
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
     });
@@ -17,14 +36,12 @@ export const GetPaymentMethods = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
-// POST => creare un nuovo metodo di pagamento
+// POST "" => creare un nuovo metodo di pagamento
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
-    if (req.body.user === req.LoggedUser.id)
-      req.body = { ...req.body, user: req.LoggedUser.id };
-    else throw new Error("Error on user id");
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     const Data = await paymentMethodCheck(req.body, true);
     if (!Data) throw new Error("Data not valid");
     const NewPaymentMethod = await paymentMethodsSchema.create(Data);
@@ -37,18 +54,16 @@ export const PostPaymentMethod = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // PUT /:paymentMethodId => modificare un metodo di pagamento
 export const PutPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     const PaymentMethod = await paymentMethodsSchema.findById(
       req.params.paymentMethodId
     );
     if (!PaymentMethod) throw new Error("Payment method not found");
-    if (PaymentMethod.user.toString() === req.LoggedUser.id)
-      req.body = { ...req.body, user: req.LoggedUser.id };
-    else throw new Error("Error on user id");
     const Data = await paymentMethodCheck(req.body, false);
     if (!Data) throw new Error("Data not valid");
     const EditedPaymentMethod = await paymentMethodsSchema.findByIdAndUpdate(
@@ -65,11 +80,12 @@ export const PutPaymentMethod = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // DELETE /:paymentMethodId => eliminare un metodo di pagamento
 export const DeletePaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     const DeletedPaymentMethod = await paymentMethodsSchema.findByIdAndDelete(
       req.params.paymentMethodId,
       { new: true }

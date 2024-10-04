@@ -55,10 +55,7 @@ export const PostRegister = async (FormValues) => {
   }
 };
 
-// POST /logout => logout utente (per JWT base non serve backend, basta togliere il token dal localStorage)
-// ??? conviene fare la funzione di logout che semplicemente pulisce il localStorage dal token?
-
-// todo USER
+// * USER
 // GET /:UserId => recupera l'utente
 export const GetUser = async (UserId) => {
   console.log("DATA => Fetch => GetUser");
@@ -127,12 +124,27 @@ export const PatchUserAvatar = async (UserId, FD) => {
   }
 };
 
-// todo CATEGORIES
-// GET => recuperare una o tutte le categorie
+// * CATEGORIES
+// GET => recuperare tutte le categorie
 export const GetCategories = async () => {
   console.log("DATA => Fetch => GetCategories");
   try {
     const res = await fetch(`${FetchCategoriesUrl}`, {
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// GET /:categoryId => recuperare una categorie
+export const GetCategory = async (CategoryId) => {
+  console.log("DATA => Fetch => GetCategory");
+  try {
+    const res = await fetch(`${FetchCategoriesUrl}/${CategoryId}`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     if (!res.ok) throw new Error(res.statusText);
@@ -199,8 +211,23 @@ export const DeleteCategory = async (CategoryId) => {
   }
 };
 
-// todo PAYMENTMETHODS
-// GET => recuperare uno o tutti i metodi di pagamento
+// * PAYMENT METHODS
+// GET /:paymentMethodId => recuperare un metodo di pagamento
+export const GetPaymentMethod = async (PaymentMethodId) => {
+  console.log("DATA => Fetch => GetPaymentMethod");
+  try {
+    const res = await fetch(`${FetchPaymentMethodsUrl}/${PaymentMethodId}`, {
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// GET "" => recuperare tutti i metodi di pagamento
 export const GetPaymentMethods = async () => {
   console.log("DATA => Fetch => GetPaymentMethods");
   try {
@@ -215,7 +242,7 @@ export const GetPaymentMethods = async () => {
   }
 };
 
-// POST => creare un nuovo metodo di pagamento
+// POST "" => creare un nuovo metodo di pagamento
 export const PostPaymentMethod = async (FormValues) => {
   console.log("DATA => Fetch => PostPaymentMethod");
   try {
@@ -271,16 +298,29 @@ export const DeletePaymentMethod = async (PaymentMethodId) => {
   }
 };
 
-// todo TRANSACTIONS
-// GET => recuperare una o tutte le transazioni
-export const GetTransactions = async (id) => {
+// * TRANSACTIONS
+// GET /:transactionId => recuperare una transazione
+export const GetTransaction = async (TransactionId) => {
+  console.log("DATA => Fetch => GetTransaction");
+  try {
+    const res = await fetch(`${FetchTransactionsUrl}/${TransactionId}`, {
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// GET => recuperare tutte le transazioni
+export const GetTransactions = async () => {
   console.log("DATA => Fetch => GetTransactions");
   try {
-    const NewFetchTransactionsUrl = id
-      ? `${FetchTransactionsUrl}/${id}`
-      : `${FetchTransactionsUrl}`;
-    const res = await fetch(`${NewFetchTransactionsUrl}`, {
+    const res = await fetch(`${FetchTransactionsUrl}`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+      
     });
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
