@@ -1,73 +1,116 @@
-import { useContext } from "react";
-import { Button, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Button, Col, Image, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContextProvider";
+import { PutUser } from "../../data/fetch";
 
 export const MyNavbar = () => {
   console.log("COMPONENT => MyNavbar.jsx");
   // * CONTEXT
-  const { SetToken } = useContext(UserContext);
+  const { LoggedUser, Logout, Theme, SetTheme } = useContext(UserContext);
   // * STATI
-  const Navigate = useNavigate();
-  return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-      <Container>
-        <Row>
-          <NavDropdown title="test">
-            <NavDropdown.Item>
-              <Button
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  SetToken(null);
-                  Navigate("/");
-                }}
-              >
-                Logout
-              </Button>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <Button onClick={() => Navigate("/dashboard")} className="m-2">
-                dashboard
-              </Button>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <Button onClick={() => Navigate("/me")} className="m-2">
-                me
-              </Button>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <Button onClick={() => Navigate("/transactions")} className="m-2">
-                transactions
-              </Button>
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Row>
-      </Container>
-    </Navbar>
-  );
+  // * FUNZIONI
+  const HandleSaveTheme = () => {
+    PutUser(LoggedUser._id, { favoriteTheme: Theme })
+      .then(() => alert("Dati modificati correttamente!"))
+      .catch((err) => console.log(err));
+  };
+    return (
+      <Navbar
+        bg={Theme}
+        expand="lg"
+        className="mb-3 shadow"
+        sticky="top"
+        collapseOnSelect
+        data-bs-theme={Theme}
+      >
+        <Container>
+          <Row className="justify-content-between w-100">
+            <Col xs="auto" md={4}>
+              <Navbar.Toggle aria-controls="myNavbar" />
+              <Navbar.Collapse id="myNavbar">
+                <Nav className="me-auto my-2 my-lg-0 navbar-nav-scroll">
+                  {LoggedUser && (
+                    <NavDropdown
+                      title={
+                        <span>
+                          <Image
+                            src={LoggedUser.avatar}
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-middle"
+                            alt="avatar"
+                            roundedCircle
+                          />
+                          <span className="d-none d-md-inline ms-2">
+                            Ciao {LoggedUser.name}
+                          </span>
+                        </span>
+                      }
+                      id="navbarScrollingDropdown"
+                      align="end"
+                      menuVariant={Theme}
+                    >
+                      <NavDropdown.Item href="/me">Profilo</NavDropdown.Item>
+                      <NavDropdown
+                        title="Aggiungi"
+                        id="navbarScrollingDropdown"
+                        align="end"
+                      >
+                        <NavDropdown.Item href="/categories/new">
+                          Categoria
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/paymentMethods/new">
+                          Metodo di pagamento
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/transactions/new">
+                          Transazione
+                        </NavDropdown.Item>
+                      </NavDropdown>
+
+                      <NavDropdown.Divider />
+
+                      <NavDropdown.Item
+                        variant={Theme}
+                        onClick={() =>
+                          SetTheme(Theme === "light" ? "dark" : "light")
+                        }
+                        className="mb-2"
+                      >
+                        {Theme === "light" ? "Tema scuro" : "Tema chiaro"}
+                        <span className="float-end" onClick={HandleSaveTheme}>
+                          {Theme !== LoggedUser.favoriteTheme && "🔒"}
+                        </span>
+                      </NavDropdown.Item>
+
+                      <NavDropdown.Divider />
+
+                      <NavDropdown.Item onClick={Logout}>
+                        Logout
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Col>
+            <Col xs="auto" md={4} className="d-flex justify-content-end p-0">
+              <Navbar.Brand href="/" className="d-flex align-items-center m-0">
+                <span className="d-none d-md-inline me-2">SmartSpend</span>
+                <Image
+                  src="https://static4.depositphotos.com/1006994/298/v/950/depositphotos_2983099-stock-illustration-grunge-design.jpg"
+                  width="30"
+                  height="30"
+                  className="d-inline-block align-top"
+                  alt="logo"
+                  roundedCircle
+                />
+              </Navbar.Brand>
+            </Col>
+          </Row>
+        </Container>
+      </Navbar>
+    );
 };

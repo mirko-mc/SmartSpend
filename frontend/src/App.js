@@ -1,6 +1,4 @@
-import { useContext, useEffect } from "react";
 import "./App.css";
-import { UserContext } from "./context/UserContextProvider";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -16,9 +14,10 @@ import { ProtectedRoutes } from "./components/routesManage/ProtectedRoutes";
 import { Dashboard } from "./views/dashboard/Dashboard";
 import { UnprotectedRoutes } from "./components/routesManage/UnprotectedRoutes";
 import { AllTransactions } from "./views/transactions/AllTransactions";
-import { TransactionDetails } from "./components/transaction/TransactionDetails";
+import { SingleTransaction } from "./components/transaction/SingleTransaction";
 import { Categories } from "./components/categories/Categories";
 import { PaymentMethods } from "./components/paymentMethods/PaymentMethods";
+import { TransactionDetails } from "./components/transaction/TransactionDetails";
 function App() {
   console.log("ROOT => App.js");
   /*
@@ -40,12 +39,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/me" element={<Me />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          {/* TRANSAZIONI */}
           <Route path="/transactions" element={<AllTransactions />}>
             <Route path=":transactionId" element={<TransactionDetails />} />
           </Route>
+          {/* CATEGORIE */}
           <Route path="categories" element={<Categories />}>
             <Route path=":categoryId" element={<Categories />} />
           </Route>
+          {/* METODI DI PAGAMENTO */}
           <Route path="paymentMethods" element={<PaymentMethods />}>
             <Route path=":paymentMethodId" element={<PaymentMethods />} />
           </Route>

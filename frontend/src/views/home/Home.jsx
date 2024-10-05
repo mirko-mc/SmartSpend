@@ -10,15 +10,14 @@ import { Register } from "../../components/authentication/Register";
 export const Home = () => {
   console.log("VIEW => Home.jsx");
   // * CONTEXT
-  const { Token, SetToken } = useContext(UserContext);
+  const { Token, SetToken, Theme } = useContext(UserContext);
   // * STATI
   const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
   const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
-  // ??? creare rotta register
   // * FUNZIONI
   if (!Token)
     return (
-      <Container>
+      <Container data-bs-theme={Theme} bg={Theme}>
         {ShowLoginRegister && (
           <Row>
             {ShowLoginResetPassword ? (
@@ -51,9 +50,9 @@ export const Home = () => {
         )}
       </Container>
     );
-  if (Token)
+  if (Token && Theme)
     return (
-      <Container>
+      <Container data-bs-theme={Theme} bg={Theme}>
         <Row>
           <Dashboard />
         </Row>

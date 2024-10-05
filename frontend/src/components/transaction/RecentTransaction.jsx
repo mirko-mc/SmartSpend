@@ -1,32 +1,25 @@
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import { TransactionDetails } from "./TransactionDetails";
+import { Card, Col, Container, Row, Table } from "react-bootstrap";
+import { SingleTransaction } from "./SingleTransaction";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { GetTransactions } from "../../data/fetch";
+import { CardLoader } from "../loader/CardLoader";
 
-export const RecentTransaction = () => {
+export const RecentTransaction = ({ IsPrivacy }) => {
   console.log("COMPONENT => RecentTransaction.jsx");
   // * CONTEXT
   const { LoggedUser } = useContext(UserContext);
   // * STATI
   const [Transactions, SetTransactions] = useState(null);
   // * FUNZIONI
-  const HandleGetTransaction = async () => {
-    const data = await GetTransactions();
-    if (data) SetTransactions(data);
-  };
   useEffect(() => {
-    if (LoggedUser) HandleGetTransaction();
+    if (LoggedUser)
+      GetTransactions()
+        .then((data) => SetTransactions(data))
+        .catch((err) => console.log(err));
   }, [LoggedUser]);
 
-  if (!Transactions)
-    return (
-      <Container>
-        <Row>
-          <Col>Loading...</Col>
-        </Row>
-      </Container>
-    );
+  if (!Transactions) return <CardLoader />;
   if (Transactions)
     return (
       <Card className="mb-3 shadow">
@@ -34,12 +27,26 @@ export const RecentTransaction = () => {
           <Card.Title>Transazioni recenti</Card.Title>
         </Card.Header>
         <Card.Body>
-          {Transactions.slice(0, 5).map((transaction) => (
-            <TransactionDetails
-              key={transaction._id}
-              transaction={transaction}
-            />
-          ))}
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Importo</th>
+                <th>Descrizione</th>
+                <th>Metodo di pagamento</th>
+                <th>Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Transactions.slice(0, 5).map((transaction) => (
+                <SingleTransaction
+                  key={transaction._id}
+                  transaction={transaction}
+                  IsPrivacy={IsPrivacy}
+                />
+              ))}
+            </tbody>
+          </Table>
         </Card.Body>
       </Card>
     );
