@@ -1,4 +1,6 @@
 import { Button, Col } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 
 export const LoginGoogle = () => {
   console.log("AUTHENTICATION => LoginGoogle");
@@ -10,6 +12,8 @@ export const LoginGoogle = () => {
           variant="primary"
           type="submit"
         >
+          <FontAwesomeIcon icon={faGoogle} />
+          &nbsp;
           Login con Google
         </Button>
       </a>
