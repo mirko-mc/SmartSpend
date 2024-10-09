@@ -7,7 +7,7 @@ export const SingleCategory = ({ category }) => {
   console.log("COMPONENTS => singleCategory.jsx");
   // * STATI
   const [Editing, SetEditing] = useState(false);
-  const InitialPutCategoryFormValue = SetInitialFormValues("category");
+  const InitialPutCategoryFormValue = SetInitialFormValues(category);
   const [PutCategoryFormValue, SetPutCategoryFormValue] = useState(
     InitialPutCategoryFormValue
   );
@@ -19,7 +19,8 @@ export const SingleCategory = ({ category }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  console.log(InitialPutCategoryFormValue);
+  console.log(PutCategoryFormValue);
   const HandlePutCategory = () => {
     PutCategory(category._id, PutCategoryFormValue)
       .then(() => {
@@ -30,28 +31,21 @@ export const SingleCategory = ({ category }) => {
   };
 
   return (
-    <ListGroup variant="flush" key={category._id}>
-      <ListGroup.Item className="d-flex justify-content-evenly align-items-center">
+    <ListGroup variant="flush">
+      <ListGroup.Item
+        className="d-flex justify-content-evenly align-items-center"
+        key={category._id}
+      >
         <Form.Control
           type="text"
           name="name"
-          id="name"
           value={PutCategoryFormValue.name}
           disabled={!Editing}
           onChange={HandleChange}
         />
         <Form.Control
           type="text"
-          name="type"
-          id="type"
-          value={PutCategoryFormValue.type}
-          disabled={!Editing}
-          onChange={HandleChange}
-        />
-        <Form.Control
-          type="text"
           name="description"
-          id="description"
           value={PutCategoryFormValue.description}
           disabled={!Editing}
           onChange={HandleChange}
@@ -59,7 +53,6 @@ export const SingleCategory = ({ category }) => {
         <Form.Control
           type="color"
           name="color"
-          id="color"
           value={PutCategoryFormValue.color}
           disabled={!Editing}
           onChange={HandleChange}

@@ -50,9 +50,9 @@ const Users = new Schema(
     verifiedAt: {
       type: Date,
     },
-    balance: {
-      type: Number,
-      default: 0,
+    totals: {
+      type: Schema.Types.ObjectId,
+      ref: "Total",
     },
   },
   {

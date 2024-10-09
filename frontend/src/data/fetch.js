@@ -4,8 +4,9 @@ const FetchUserUrl = `${process.env.REACT_APP_API_URL}/api/v1/user`;
 const FetchCategoriesUrl = `${process.env.REACT_APP_API_URL}/api/v1/category`;
 const FetchPaymentMethodsUrl = `${process.env.REACT_APP_API_URL}/api/v1/paymentMethod`;
 const FetchTransactionsUrl = `${process.env.REACT_APP_API_URL}/api/v1/transactions`;
+const FetchTotalsUrl = `${process.env.REACT_APP_API_URL}/api/v1/total`;
 
-// todo AUTHENTICATION
+// * AUTHENTICATION
 // POST /login => restituisce token di accesso, non protetta
 export const PostLogin = async (FormValues) => {
   console.log("DATA => Fetch => PostLogin");
@@ -312,7 +313,7 @@ export const GetTransaction = async (TransactionId) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 // GET => recuperare tutte le transazioni
 export const GetTransactions = async () => {
@@ -320,7 +321,6 @@ export const GetTransactions = async () => {
   try {
     const res = await fetch(`${FetchTransactionsUrl}`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
-      
     });
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
@@ -376,6 +376,20 @@ export const DeleteTransaction = async (TransactionId) => {
   try {
     const res = await fetch(`${FetchTransactionsUrl}/${TransactionId}`, {
       method: "DELETE",
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const GetTotals = async (UserId) => {
+  console.log("DATA => Fetch => GetTotals");
+  try {
+    const res = await fetch(`${FetchTotalsUrl}/${UserId}`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     if (!res.ok) throw new Error(res.statusText);

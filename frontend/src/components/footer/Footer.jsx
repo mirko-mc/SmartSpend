@@ -19,11 +19,8 @@ export const Footer = () => {
   // todo sistemare tema ed aggiungere loader
   if (Theme)
     return (
-      <footer className="footer mt-auto py-3">
-        <Container className="mb-3 text-center" data-bs-theme={Theme} bg={Theme}>
-          <Row>
-            <Toggle />
-          </Row>
+      <footer className="footer mt-auto py-3" data-bs-theme={Theme} bg={Theme}>
+        <Container className="mb-3 text-center">
           <Row>
             <Col>
               <Link

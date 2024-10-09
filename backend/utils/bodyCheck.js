@@ -55,7 +55,11 @@ export const transactionCheck = async (body, post) => {
     const Category = body?.category;
     const PaymentMethod = body?.paymentMethod;
     const User = body?.user;
-    if (post && (!Date || !Shop || !Description || !Amount || !Address))
+    const InOut = body?.inOut;
+    if (
+      post &&
+      (!Date || !Shop || !Description || !Amount || !Address || !InOut)
+    )
       throw new Error("Please fill all the fields");
     if (post && (!Category || !PaymentMethod || !User))
       throw new Error("Error while creating payment method");
@@ -68,6 +72,7 @@ export const transactionCheck = async (body, post) => {
       category: Category,
       paymentMethod: PaymentMethod,
       user: User,
+      inOut: InOut,
     };
   } catch (err) {
     console.log(err);
@@ -81,15 +86,13 @@ export const categoryCheck = async (body, post) => {
     const Name = body?.name;
     const User = body?.user;
     const Description = body?.description;
-    const Type = body?.type;
     const Color = body?.color;
-    if (post && (!Name || !Type)) throw new Error("Please fill all the fields");
+    if (post && !Name) throw new Error("Please fill all the fields");
     if (post && !User) throw new Error("Error while creating category");
     return {
       name: Name,
       user: User,
       description: Description,
-      type: Type,
       color: Color,
     };
   } catch (err) {
@@ -106,9 +109,7 @@ export const paymentMethodCheck = async (body, post) => {
     const Type = body?.type;
     const InitialBalance = body?.initialBalance;
     const User = body?.user;
-    const InOut = body?.inOut;
-    if (post && (!Name || !Type || !InOut))
-      throw new Error("Please fill all the fields");
+    if (post && (!Name || !Type)) throw new Error("Please fill all the fields");
     if (post && InitialBalance >= 0)
       return {
         name: Name,
@@ -116,7 +117,6 @@ export const paymentMethodCheck = async (body, post) => {
         description: Description,
         type: Type,
         initialBalance: InitialBalance,
-        inOut: InOut,
       };
     else if (!post)
       return {
@@ -125,9 +125,28 @@ export const paymentMethodCheck = async (body, post) => {
         description: Description,
         type: Type,
         initialBalance: InitialBalance,
-        inOut: InOut,
       };
     else throw new Error("Initial balance must be 0 or positive");
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
+export const totalCheck = async (body, post) => {
+  console.log("UTILS => totalCheck");
+  try {
+    const User = body?.user;
+    const InOut = body?.inOut;
+    const Amount = body?.amount;
+    if (!User || !InOut || !Amount)
+      throw new Error("Please fill all the fields");
+    const Data = { user: User };
+    InOut === "in"
+      ? Object.assign(Data, { totalIn: Amount })
+      : Object.assign(Data, { totalOut: Amount });
+    console.log("===========================================> ", Data);
+    return Data;
   } catch (err) {
     console.log(err);
     return false;

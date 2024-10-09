@@ -41,6 +41,7 @@ export const SetInitialFormValues = (FormValuesType) => {
         category: "",
         paymentMethod: "",
         user: "",
+        inOut:""
       };
     default:
       return { message: "Type not found" };

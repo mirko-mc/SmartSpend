@@ -23,11 +23,13 @@ export const GetPaymentMethod = async (req, res) => {
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
-    if (req.body.user !== req.LoggedUser.id)
-      throw new Error("Error on user id");
+    // ??? devo effettuare un controllo sull'id dell'utente?
+    // if (req.body.user !== req.LoggedUser.id)
+    //   throw new Error("Error on user id");
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
     });
+    console.log(PaymentMethods);
     if (!PaymentMethods) throw new Error("Error while getting payment methods");
     res.status(200).send(PaymentMethods);
   } catch (err) {
@@ -40,6 +42,7 @@ export const GetPaymentMethods = async (req, res) => {
 export const PostPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
+    console.log(req.body);
     if (req.body.user !== req.LoggedUser.id)
       throw new Error("Error on user id");
     const Data = await paymentMethodCheck(req.body, true);

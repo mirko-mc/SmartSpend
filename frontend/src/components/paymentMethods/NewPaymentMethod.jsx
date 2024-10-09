@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { SetInitialFormValues } from "../../data/formValue";
+import { useContext } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import { UserContext } from "../../context/UserContextProvider";
-import { PostCategory, PostPaymentMethod } from "../../data/fetch";
 
 export const NewPaymentMethod = ({
   SetNewCPMFormValue,
@@ -14,7 +12,7 @@ export const NewPaymentMethod = ({
   const { LoggedUser } = useContext(UserContext);
   // * STATI
   // * FUNZIONI
-  
+
   const HandleOnChange = (e) => {
     SetNewCPMFormValue({ ...NewCPMFormValue, [e.target.name]: e.target.value });
     if (!NewCPMFormValue.user)
@@ -45,6 +43,7 @@ export const NewPaymentMethod = ({
             value={NewCPMFormValue.type}
             onChange={HandleOnChange}
           >
+            <option value="">Seleziona un metodo di pagamento</option>
             <option value="cash">Contanti</option>
             <option value="debitCard">Carta di debito</option>
             <option value="creditCard">Carta di credito</option>
@@ -77,20 +76,6 @@ export const NewPaymentMethod = ({
           value={NewCPMFormValue.description}
           onChange={HandleOnChange}
         />
-      </Form.Group>
-
-      <Form.Group className="mb-3">
-        <Form.Label>In Out</Form.Label>
-        <Form.Select
-          name="inOut"
-          id="inOut"
-          value={NewCPMFormValue.inOut}
-          onChange={HandleOnChange}
-          required
-        >
-          <option value="in">Entrata</option>
-          <option value="out">Uscita</option>
-        </Form.Select>
       </Form.Group>
     </Form>
   );

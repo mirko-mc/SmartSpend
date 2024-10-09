@@ -19,11 +19,16 @@ const Transactions = new Schema(
     // descrizione della transazione
     description: {
       type: String,
-      required: true,
     },
     // importo della transazione
     amount: {
       type: Number,
+      required: true,
+    },
+    // tipo di transazione (in o out)
+    inOut: {
+      type: String,
+      enum: ["in", "out"],
       required: true,
     },
     // categoria della transazione

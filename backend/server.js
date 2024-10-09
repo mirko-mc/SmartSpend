@@ -13,6 +13,7 @@ import UsersRouter from "./routes/users.router.js";
 import CategoriesRouter from "./routes/categories.router.js";
 import PaymentMethodsRouter from "./routes/paymentMethods.router.js";
 import TransactionsRouter from "./routes/transactions.router.js";
+import TotalRouter from "./routes/total.router.js"
 
 // dichiaro il server
 const Server = express();
@@ -58,6 +59,7 @@ Server.use("/api/v1/user", UsersRouter);
 Server.use("/api/v1/category", CategoriesRouter);
 Server.use("/api/v1/paymentMethod", PaymentMethodsRouter);
 Server.use("/api/v1/transactions", TransactionsRouter);
+Server.use("/api/v1/total", TotalRouter);
 // connessione al database
 await moongoose
   .connect(process.env.MONGO_CONNECTION_URI)

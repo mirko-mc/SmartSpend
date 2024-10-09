@@ -34,13 +34,15 @@ export const GetMeInfo = async (req, res) => {
   try {
     console.log("AUTHENTICATION CONTROLLER => GetMeInfo");
     // recupero i dati dell'utente dall'headers
-    const User = req.LoggedUser;
+    let User = req.LoggedUser;
     // se i dati NON ci sono allora l'utente NON è loggato
     if (!User) throw new Error("Please login, you aren't logged");
-    // restituisco i dati dell'autore
-    return res.status(200).send(User);
+    User = await usersSchema.findById(req.LoggedUser.id).populate("totals");
+    if (!User) throw new Error("Error while getting user");
+    res.status(200).send(User);
   } catch (err) {
-    res.send("GetMeInfo error");
+    console.log(err);
+    res.send(res.status(400).send({ message: err.message }));
   }
 };
 
@@ -82,11 +84,9 @@ export const PostRegister = async (req, res) => {
 // POST /logout => logout utente (per JWT base non serve backend, basta togliere il token dal localStorage)
 export const PostLogout = async (req, res) => {};
 
-// todo FUNZIONA
 // GET login Google => è il link al server google
 export const GetLoginGoogle = async (req, res) => {};
 
-// todo FUNZIONA
 // GET callback Google => redirect al frontend
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");

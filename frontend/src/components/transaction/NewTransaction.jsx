@@ -30,13 +30,14 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
     SetNewTransaction({ ...NewTransaction, [e.target.name]: e.target.value });
     if (!NewTransaction.user)
       SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
+    console.log(NewTransaction);
   };
   // gestisco il salvataggio della nuova transazione
   const HandleSaveTransaction = async () => {
     // todo gestire errore creazione transazione
     // todo implementare alert di conferma/errore creazione transazione
     await PostTransaction(NewTransaction);
-    // SetIsNewTransaction(false);
+    // todo postare il totale nella tabella
   };
   return (
     <Col>
@@ -46,41 +47,29 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
             <Card.Title>Nuova transazione</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Form.Group className="mb-3">
-              <Form.Label>Negozio</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Inserisci negozio"
-                name="shop"
-                id="shop"
-                value={NewTransaction.shop}
-                onChange={HandleOnChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Indirizzo</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Inserisci indirizzo"
-                name="address"
-                id="address"
-                value={NewTransaction.address}
-                onChange={HandleOnChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Descrizione</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Inserisci descrizione"
-                name="description"
-                id="description"
-                maxLength={50}
-                value={NewTransaction.description}
-                onChange={HandleOnChange}
-              />
+            <Form.Group as={Row} className="mb-3">
+              <Col md={6}>
+                <Form.Label>Negozio</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Inserisci negozio"
+                  name="shop"
+                  id="shop"
+                  value={NewTransaction.shop}
+                  onChange={HandleOnChange}
+                />
+              </Col>
+              <Col md={6}>
+                <Form.Label>Indirizzo</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Inserisci indirizzo"
+                  name="address"
+                  id="address"
+                  value={NewTransaction.address}
+                  onChange={HandleOnChange}
+                />
+              </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
@@ -113,7 +102,13 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               </Col>
               <Col md={4}>
                 <Form.Label>Tipo</Form.Label>
-                <Form.Select name="type" id="type" required>
+                <Form.Select
+                  name="inOut"
+                  id="inOut"
+                  required
+                  value={NewTransaction.inOut}
+                  onChange={HandleOnChange}
+                >
                   <option value="">Seleziona un tipo</option>
                   <option value="in">Entrata</option>
                   <option value="out">Uscita</option>
@@ -122,41 +117,55 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Categoria</Form.Label>
-              <Form.Select
-                name="category"
-                id="category"
-                required
-                value={NewTransaction.category}
+              <Form.Label>Descrizione</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Inserisci descrizione"
+                name="description"
+                id="description"
+                maxLength={50}
+                value={NewTransaction.description}
                 onChange={HandleOnChange}
-              >
-                <option value="">Seleziona una categoria</option>
-                {Categories &&
-                  Categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  ))}
-              </Form.Select>
+              />
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Metodo di pagamento</Form.Label>
-              <Form.Select
-                name="paymentMethod"
-                id="paymentMethod"
-                required
-                value={NewTransaction.paymentMethod}
-                onChange={HandleOnChange}
-              >
-                <option value="">Seleziona un metodo di pagamento</option>
-                {PaymentMethods &&
-                  PaymentMethods.map((paymentMethod) => (
-                    <option key={paymentMethod._id} value={paymentMethod._id}>
-                      {paymentMethod.name}
-                    </option>
-                  ))}
-              </Form.Select>
+            <Form.Group as={Row} className="mb-3">
+              <Col md={6}>
+                <Form.Label>Categoria</Form.Label>
+                <Form.Select
+                  name="category"
+                  id="category"
+                  required
+                  value={NewTransaction.category}
+                  onChange={HandleOnChange}
+                >
+                  <option value="">Seleziona una categoria</option>
+                  {Categories &&
+                    Categories.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                </Form.Select>
+              </Col>
+              <Col md={6}>
+                <Form.Label>Metodo di pagamento</Form.Label>
+                <Form.Select
+                  name="paymentMethod"
+                  id="paymentMethod"
+                  required
+                  value={NewTransaction.paymentMethod}
+                  onChange={HandleOnChange}
+                >
+                  <option value="">Seleziona un metodo di pagamento</option>
+                  {PaymentMethods &&
+                    PaymentMethods.map((paymentMethod) => (
+                      <option key={paymentMethod._id} value={paymentMethod._id}>
+                        {paymentMethod.name}
+                      </option>
+                    ))}
+                </Form.Select>
+              </Col>
             </Form.Group>
           </Card.Body>
           <Card.Footer>

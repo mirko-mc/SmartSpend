@@ -2,12 +2,14 @@ import usersSchema from "../models/users.schema.js";
 import { userCheck } from "../utils/bodyCheck.js";
 import Bcrypt from "bcrypt";
 
-// todo FUNZIONA
 // GET /:userId => recupera l'utente
 export const GetUser = async (req, res) => {
   console.log("CONTROLLER USERS => GetUser");
   try {
-    const User = await usersSchema.findById(req.LoggedUser.id);
+    const User = await usersSchema
+      .findById(req.LoggedUser.id)
+      .populate("totals");
+      console.log(User)
     if (!User) throw new Error("Error while getting user");
     res.status(200).send(User);
   } catch (err) {
@@ -16,7 +18,6 @@ export const GetUser = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // PUT /:userId => modifica l'utente
 export const PutUser = async (req, res) => {
   console.log("CONTROLLER USERS => PutUser");
@@ -59,7 +60,6 @@ export const DeleteUser = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // PATCH /:userId => aggiunge l'avatar dell'utente
 export const PatchUser = async (req, res) => {
   console.log("CONTROLLER USERS => PatchUser");

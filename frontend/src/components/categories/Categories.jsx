@@ -5,6 +5,7 @@ import { UserContext } from "../../context/UserContextProvider";
 import { GetCategories } from "../../data/fetch";
 import { NewModal } from "../modals/NewModal";
 import { SingleCategory } from "./SingleCategory";
+import { CardLoader } from "../loader/CardLoader";
 
 export const Categories = () => {
   console.log("COMPONENT => categories.jsx");
@@ -23,7 +24,7 @@ export const Categories = () => {
     return (
       <Container>
         <Row>
-          <Col>Loading...</Col>
+          <CardLoader />
         </Row>
       </Container>
     );

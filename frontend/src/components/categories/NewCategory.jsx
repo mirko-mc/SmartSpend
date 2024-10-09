@@ -35,17 +35,6 @@ export const NewCategory = ({
 
       <Form.Group as={Row} className="mb-3">
         <Col md={6} className="w-50">
-          <Form.Label>Tipo</Form.Label>
-          <Form.Select
-            name="type"
-            id="type"
-            required
-            value={NewCPMFormValue.type}
-            onChange={HandleOnChange}
-          >
-            <option value="in">Entrata</option>
-            <option value="out">Uscita</option>
-          </Form.Select>
         </Col>
         <Col md={6} className="w-50">
           <Form.Label>Colore</Form.Label>

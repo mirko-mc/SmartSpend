@@ -24,8 +24,8 @@ export const GetCategory = async (req, res) => {
 export const GetCategories = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => GetCategories");
   try {
-    if (req.body.user !== req.LoggedUser.id)
-      throw new Error("Error on user id");
+    // if (req.body.user !== req.LoggedUser.id)
+    //   throw new Error("Error on user id");
     const Categories = await categoriesSchema.find({ user: req.LoggedUser.id });
     if (!Categories)
       throw new Error({ message: "Error while getting categories" });
@@ -40,8 +40,8 @@ export const PostCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
     // controllo che l'id nel body sia dell'utente loggato
-    if (req.body.user !== req.LoggedUser.id)
-      throw new Error("Error on user id");
+    // if (req.body.user !== req.LoggedUser.id)
+    //   throw new Error("Error on user id");
 
     // controllo i dati del body
     const Data = await categoryCheck(req.body, true);

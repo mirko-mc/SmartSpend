@@ -11,6 +11,7 @@ import {
 import { UserContext } from "../../context/UserContextProvider";
 import { DeletePaymentMethod, GetPaymentMethods } from "../../data/fetch";
 import { NewModal } from "../modals/NewModal";
+import { CardLoader } from "../loader/CardLoader";
 
 export const PaymentMethods = () => {
   console.log("COMPONENTS => paymentMethods.jsx");
@@ -30,7 +31,7 @@ export const PaymentMethods = () => {
     return (
       <Container>
         <Row>
-          <Col>Loading...</Col>
+          <CardLoader />
         </Row>
       </Container>
     );
@@ -49,14 +50,30 @@ export const PaymentMethods = () => {
               key={PaymentMethod._id}
               className="d-flex justify-content-evenly align-items-center"
             >
-              <Form.Control type="text" value={PaymentMethod.name} disabled />
-              <Form.Control type="text" value={PaymentMethod.type} disabled />
+              <Form.Control
+                type="text"
+                name="name"
+                value={PaymentMethod.name}
+                disabled
+              />
+              <Form.Control
+                type="text"
+                name="type"
+                value={PaymentMethod.type}
+                disabled
+              />
               <Form.Control
                 type="text"
                 value={PaymentMethod.description}
                 disabled
               />
-              <Form.Control type="color" value={PaymentMethod.color} disabled />
+              <Form.Control
+                type="color"
+                name="color"
+                id="color"
+                value={PaymentMethod.color}
+                disabled
+              />
               <Button variant="primary" onClick={() => SetEditing(true)}>
                 Edit
               </Button>

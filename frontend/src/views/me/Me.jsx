@@ -18,7 +18,7 @@ export const Me = () => {
   console.log("VIEWS => Me.jsx");
   // * PROPS
   // * CONTEXT
-  const { Token, LoggedUser, SetToken } = useContext(UserContext);
+  const { Token, LoggedUser, SetToken, Theme } = useContext(UserContext);
   // // * INITIAL FORM VALUE
   // const InitialFormValue = LoggedUser;
   // console.log(InitialFormValue);
@@ -53,7 +53,7 @@ export const Me = () => {
 
   if (Token && UserFormValue)
     return (
-      <Container className="mt-5">
+      <Container className="mt-5" data-bs-theme={Theme} bg={Theme}>
         <Row className="justify-content-center">
           <Col md={12}>
             <Card>

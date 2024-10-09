@@ -1,7 +1,9 @@
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 import categoriesSchema from "../models/categories.schema.js";
 import transactionsSchema from "../models/transactions.schema.js";
-import { transactionCheck } from "../utils/bodyCheck.js";
+import { totalCheck, transactionCheck } from "../utils/bodyCheck.js";
+import { PostTotal, PutTotal } from "./totals.controller.js";
+import totalsSchema from "../models/totals.schema.js";
 
 // GET => recuperare tutte le transazioni
 export const GetTransactions = async (req, res) => {
@@ -45,13 +47,13 @@ export const GetTransaction = async (req, res) => {
   }
 };
 
-// POST => creare una nuova transazione
+// POST /:userId => creare una nuova transazione
 export const PostTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PostTransaction");
   try {
-    if (req.body.user === req.LoggedUser.id)
-      req.body = { ...req.body, user: req.LoggedUser.id };
-    else throw new Error("Error on user id");
+    console.log(req.body);
+    if (req.body.user !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     const User = await paymentMethodsSchema
       .findById(req.body.paymentMethod)
       .select("user");
@@ -63,8 +65,21 @@ export const PostTransaction = async (req, res) => {
     if (!Category || Category.user.toString() !== req.LoggedUser.id)
       throw new Error("Category not found");
 
-    const Data = await transactionCheck(req.body, true);
-    const NewTransaction = await transactionsSchema.create(Data);
+    const TransactionData = await transactionCheck(req.body, true);
+    const TotalBody = {
+      user: req.LoggedUser.id,
+      inOut: TransactionData.inOut,
+      amount: TransactionData.amount,
+    };
+    if (await totalsSchema.exists({ user: req.LoggedUser.id })) {
+      const TotalData = await totalCheck(TotalBody, false);
+      console.log(TotalData);
+      await PutTotal(TotalData);
+    } else {
+      const TotalData = await totalCheck(TotalBody, true);
+      await PostTotal(TotalData);
+    }
+    const NewTransaction = await transactionsSchema.create(TransactionData);
     if (!NewTransaction) throw new Error("Error while creating payment method");
     res.status(200).send(NewTransaction);
   } catch (err) {
@@ -96,7 +111,7 @@ export const PutTransaction = async (req, res) => {
       .select("user");
     if (!Category || Category.user.toString() !== req.LoggedUser.id)
       throw new Error("Category not found");
-
+    // todo trovare in quale punto inserire il richiamo alla funzione di modifica totali calcolando la differenza
     const Data = await transactionCheck(req.body, false);
     const EditTransaction = await transactionsSchema.findByIdAndUpdate(
       req.params.transactionId,
@@ -116,6 +131,27 @@ export const PutTransaction = async (req, res) => {
 export const DeleteTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => DeleteTransactions");
   try {
+    // recupero la transazione
+    const Transaction = await transactionsSchema.findById(
+      req.params.transactionId
+    );
+    // se la transazione non esiste genero errore
+    if (!Transaction) throw new Error("Transaction not found");
+    console.log(Transaction);
+    // verifico che l'id dell'utente loggato sia uguale all'id della transazione
+    if (Transaction.user.toString() !== req.LoggedUser.id)
+      throw new Error("Error on user id");
+    // recupero i totali dell'utente
+    const Total = await totalsSchema.findOne({ user: req.LoggedUser.id });
+    // modifico il totale sottraendo la transazione da eliminare
+    console.log(Transaction.inOut, Transaction.amount);
+    console.log(Total.totalIn, Total.totalOut);
+    Transaction.inOut === "in"
+      ? (Total.totalIn -= Transaction.amount)
+      : (Total.totalOut -= Transaction.amount);
+    // salvo i totali
+    Total.save();
+    // elimino la transazione
     const DeletedTransaction = await transactionsSchema.findByIdAndDelete(
       req.params.transactionId,
       { new: true }
