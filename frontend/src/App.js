@@ -8,7 +8,6 @@ import {
 import { Home } from "./views/home/Home";
 import { Me } from "./views/me/Me";
 import { MyNavbar } from "./components/navbar/MyNavbar";
-import { Footer } from "./components/footer/Footer";
 import { NotFound } from "./views/notFound/NotFound";
 import { ProtectedRoutes } from "./components/routesManage/ProtectedRoutes";
 import { Dashboard } from "./views/dashboard/Dashboard";
@@ -18,8 +17,13 @@ import { SingleTransaction } from "./components/transaction/SingleTransaction";
 import { Categories } from "./components/categories/Categories";
 import { PaymentMethods } from "./components/paymentMethods/PaymentMethods";
 import { TransactionDetails } from "./components/transaction/TransactionDetails";
+import { MyFooter } from "./components/footer/MyFooter";
+import { Container } from "react-bootstrap";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContextProvider";
 function App() {
   console.log("ROOT => App.js");
+  const { Theme } = useContext(UserContext);
   /*
   '/api/v1/auth/register'
   '/api/v1/user/:userId'
@@ -60,7 +64,7 @@ function App() {
         <Route path="/*" element={<Navigate to="/404" />} />
         <Route path="/404" element={<NotFound />} />
       </Routes>
-      <Footer />
+      <MyFooter />
     </Router>
   );
 }

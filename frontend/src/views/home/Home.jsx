@@ -17,7 +17,7 @@ export const Home = () => {
   // * FUNZIONI
   if (!Token)
     return (
-      <Container data-bs-theme={Theme} bg={Theme}>
+      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
         {ShowLoginRegister && (
           <Row>
             {ShowLoginResetPassword ? (

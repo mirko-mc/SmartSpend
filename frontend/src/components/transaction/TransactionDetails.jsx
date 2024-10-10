@@ -1,56 +1,36 @@
-import { Card, Col, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../context/UserContextProvider";
+import { GetTransaction } from "../../data/fetch";
+import { CardLoader } from "../loader/CardLoader";
+import { SingleTransaction } from "./SingleTransaction";
 
 export const TransactionDetails = () => {
   console.log("COMPONENT => TransactionDetails.jsx");
   // * CONTEXT
+  const { Theme, IsPrivacy } = useContext(UserContext);
   // * STATI
-  const { IdTransaction } = useParams();
+  const TransactionId = useParams().transactionId;
+  const [Transaction, SetTransaction] = useState(null);
+  console.log(TransactionId);
   // * FUNZIONI
-  const TransactionToRender = null;
-  if (!IdTransaction)
+  useEffect(() => {
+    TransactionId &&
+      GetTransaction(TransactionId)
+        .then((data) => SetTransaction(data))
+        .catch((err) => console.log(err));
+  }, [TransactionId]);
+  if (!Transaction) return <CardLoader />;
+  if (Transaction)
     return (
-      <Row>
-        <Col xs={12} className="mb-3 d-flex">
-          <Col>
-            <Card>
-              <Card.Header>Dettagli Transazione</Card.Header>
-              <Card.Body>
-                <Card.Title>Data: </Card.Title>
-                <Card.Text>Importo: </Card.Text>
-                <Card.Text>Descrizione: </Card.Text>
-                <Card.Text>Utente: </Card.Text>
-                <Card.Text>Categoria: </Card.Text>
-                <Card.Text>Metodo di pagamento: </Card.Text>
-              </Card.Body>
-            </Card>
+      <Container data-bs-theme={Theme} bg={Theme}>
+        <Row>
+          <Col xs={1} className="mb-3"></Col>
+          <Col xs={10} className="mb-3">
+            <SingleTransaction transaction={Transaction} type="full" />
           </Col>
-        </Col>
-      </Row>
+        </Row>
+      </Container>
     );
-  return (
-    <Row>
-      <Col xs={12} key={TransactionToRender._id} className="mb-3 d-flex">
-        <Col>
-          <Card>
-            <Card.Header>Dettagli Transazione</Card.Header>
-            <Card.Body>
-              <Card.Title>Data: {TransactionToRender.date}</Card.Title>
-              <Card.Text>Importo: {TransactionToRender.amount}</Card.Text>
-              <Card.Text>
-                Descrizione: {TransactionToRender.description}
-              </Card.Text>
-              <Card.Text>Utente: {TransactionToRender.user?.name}</Card.Text>
-              <Card.Text>
-                Categoria: {TransactionToRender.category?.name}
-              </Card.Text>
-              <Card.Text>
-                Metodo di pagamento: {TransactionToRender.paymentMethod?.name}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Col>
-    </Row>
-  );
 };

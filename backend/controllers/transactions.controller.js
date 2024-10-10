@@ -92,15 +92,12 @@ export const PostTransaction = async (req, res) => {
 export const PutTransaction = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
-    console.log(req.body);
+    if (req.body.user._id !== req.LoggedUser.id) throw new Error("Error on user id");
     const Transaction = await transactionsSchema.findById(
       req.params.transactionId
     );
     if (!Transaction) throw new Error("Transaction not found");
 
-    if (Transaction.user === req.LoggedUser.id)
-      req.body = { ...req.body, user: req.LoggedUser.id };
-    else throw new Error("Error on user id");
     const User = await paymentMethodsSchema
       .findById(req.body.paymentMethod)
       .select("user");

@@ -10,6 +10,7 @@ export const UserContextProvider = ({ children }) => {
   // stato per contenere il token di autenticazione inizializzato a null (non loggato)
   const [Token, SetToken] = useState(localStorage.getItem("token"));
   const [Theme, SetTheme] = useState("light");
+  const [IsPrivacy, SetIsPrivacy] = useState(false);
   // * FUNZIONI
   // funzione per rimuovere il token dal localStorage e dallo stato
   const Logout = () => {
@@ -41,7 +42,16 @@ export const UserContextProvider = ({ children }) => {
   }, [LoggedUser]);
 
   // valori resi disponibili tramite context
-  const Value = { LoggedUser, Token, SetToken, Logout, Theme, SetTheme };
+  const Value = {
+    LoggedUser,
+    Token,
+    SetToken,
+    Logout,
+    Theme,
+    SetTheme,
+    IsPrivacy,
+    SetIsPrivacy,
+  };
   return <UserContext.Provider value={Value}>{children}</UserContext.Provider>;
 };
 

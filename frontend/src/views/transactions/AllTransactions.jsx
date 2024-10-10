@@ -1,13 +1,25 @@
-import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardFooter,
+  Col,
+  Container,
+  ListGroup,
+  Row,
+  Table,
+} from "react-bootstrap";
 import { NewTransaction } from "../../components/transaction/NewTransaction";
 import { RecentTransaction } from "../../components/transaction/RecentTransaction";
 import { NewCategory } from "../../components/categories/NewCategory";
-import { Outlet, useParams } from "react-router-dom";
+import { Navigate, Outlet, useParams } from "react-router-dom";
 import { SingleTransaction } from "../../components/transaction/SingleTransaction";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { GetTransactions } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faEye } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const AllTransactions = () => {
   console.log("VIEW => AllTransactions.jsx");
@@ -26,17 +38,16 @@ export const AllTransactions = () => {
   }, [LoggedUser]);
   if (!Transactions) return <CardLoader />;
 
-  console.log(TransactionId === true);
+  if (TransactionId?.transactionId) return <Outlet />;
 
   if (Transactions)
     return (
-      <Container>
+      <Container data-bs-theme={Theme} bg={Theme}>
         <Row>
           <Col>
             <Card className="mb-3 shadow">
               <Card.Header className="d-flex justify-content-between">
-                <Card.Title>Transazioni recenti</Card.Title>
-                <Button variant={Theme}>Visualizza tutte</Button>
+                <Card.Title>Elenco movimenti</Card.Title>
               </Card.Header>
               <Card.Body>
                 {/* <Table striped bordered hover size="sm">
@@ -50,14 +61,14 @@ export const AllTransactions = () => {
                     </tr>
                   </thead>
                   <tbody> */}
-                    {Transactions.map((transaction) => (
-                      <SingleTransaction
-                        key={transaction._id}
-                        transaction={transaction}
-                        // IsPrivacy={IsPrivacy}
-                      />
-                    ))}
-                  {/* </tbody>
+                {Transactions.map((transaction) => (
+                  <SingleTransaction
+                    key={transaction._id}
+                    transaction={transaction}
+                    type="mini"
+                  />
+                ))}
+                {/* </tbody>
                 </Table> */}
               </Card.Body>
             </Card>

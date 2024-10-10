@@ -4,6 +4,10 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
+  CardHeader,
+  CardText,
+  CardTitle,
   Col,
   Container,
   Image,
@@ -21,9 +25,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 export const Dashboard = () => {
   console.log("VIEWS => Dashboard.jsx");
   // * CONTEXT
-  const { LoggedUser, Theme } = useContext(UserContext);
+  const { LoggedUser, Theme, IsPrivacy, SetIsPrivacy } =
+    useContext(UserContext);
   // * STATI
-  const [IsPrivacy, SetIsPrivacy] = useState(true);
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
   // * FUNZIONI
   // * STATI
@@ -37,6 +41,7 @@ export const Dashboard = () => {
         SetTotalOut(data.totalOut);
       });
   }, [LoggedUser]);
+
   if (LoggedUser)
     return (
       <Container data-bs-theme={Theme} bg={Theme}>
@@ -72,6 +77,9 @@ export const Dashboard = () => {
                     {IsPrivacy ? "******" : TotalIn - TotalOut}
                   </Card.Text>
                 </Card.Body>
+                <CardFooter>
+                  Saldo totale
+                </CardFooter>
               </Card>
             )}
           </Col>
@@ -81,9 +89,22 @@ export const Dashboard = () => {
               <CardLoader />
             ) : (
               <Card className="shadow h-100 mb-0 p-0">
+                <CardHeader>
+                  <CardTitle>Rapporto entrate - uscite</CardTitle>
+                </CardHeader>
                 <CardBody>
                   <Charts TotalIn={TotalIn} TotalOut={TotalOut} />
                 </CardBody>
+                <CardFooter className="text-center">
+                  {TotalIn && TotalOut && (
+                    <CardText>
+                      Entrate:{" "}
+                      {((TotalIn / (TotalIn + TotalOut)) * 100).toFixed(2)}% -
+                      Uscite:{" "}
+                      {((TotalOut / (TotalIn + TotalOut)) * 100).toFixed(2)}%
+                    </CardText>
+                  )}
+                </CardFooter>
               </Card>
             )}
           </Col>
@@ -94,7 +115,9 @@ export const Dashboard = () => {
             {!LoggedUser || !Theme ? (
               <CardLoader />
             ) : (
-              IsNewTransaction && <NewTransaction />
+              IsNewTransaction && (
+                <NewTransaction SetIsNewTransaction={SetIsNewTransaction} />
+              )
             )}
           </Col>
         </Row>
@@ -103,7 +126,9 @@ export const Dashboard = () => {
             {!LoggedUser || !Theme ? (
               <CardLoader />
             ) : (
-              !IsNewTransaction && <RecentTransaction IsPrivacy={IsPrivacy} />
+              !IsNewTransaction && (
+                <RecentTransaction SetIsNewTransaction={SetIsNewTransaction} />
+              )
             )}
           </Col>
         </Row>

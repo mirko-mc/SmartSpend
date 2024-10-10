@@ -9,9 +9,8 @@ import {
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCopyright } from "@fortawesome/free-regular-svg-icons";
-import Toggle from "../utils/Toggle";
 
-export const Footer = () => {
+export const MyFooter = () => {
   console.log("COMPONENTS => Footer.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);

@@ -7,11 +7,14 @@ import {
   PostTransaction,
 } from "../../data/fetch";
 import { UserContext } from "../../context/UserContextProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faXmarkCircle } from "@fortawesome/free-regular-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const NewTransaction = ({ SetIsNewTransaction }) => {
   console.log("COMPONENT => NewTransaction.jsx");
   // * CONTEXT
-  const { LoggedUser } = useContext(UserContext);
+  const { Theme, LoggedUser } = useContext(UserContext);
   // * STATI
   const [NewTransaction, SetNewTransaction] = useState(
     SetInitialFormValues("transaction")
@@ -27,16 +30,21 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
   }, []);
   // gestisco l'inserimento dei dati nel form value raccogliendoli dagli input dell'utente
   const HandleOnChange = (e) => {
+    e.preventDefault();
     SetNewTransaction({ ...NewTransaction, [e.target.name]: e.target.value });
     if (!NewTransaction.user)
       SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
     console.log(NewTransaction);
   };
   // gestisco il salvataggio della nuova transazione
-  const HandleSaveTransaction = async () => {
+  const HandleSaveTransaction = async (e) => {
+    e.preventDefault();
     // todo gestire errore creazione transazione
     // todo implementare alert di conferma/errore creazione transazione
-    await PostTransaction(NewTransaction);
+    await PostTransaction(NewTransaction)
+      .then(() => alert("Transazione creata"))
+      .catch((err) => console.log(err))
+      .finally(() => SetIsNewTransaction(false));
     // todo postare il totale nella tabella
   };
   return (
@@ -168,15 +176,18 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               </Col>
             </Form.Group>
           </Card.Body>
-          <Card.Footer>
+          <Card.Footer className="d-flex justify-content-evenly">
             <Button
-              variant="secondary"
+              variant={Theme === "light" ? "danger" : "outline-danger"}
               onClick={() => SetIsNewTransaction(false)}
             >
-              Annulla ❌
+              Annulla <FontAwesomeIcon icon={faXmark} size="xl" />
             </Button>
-            <Button variant="primary" type="submit">
-              Salva 💾
+            <Button
+              variant={Theme === "light" ? "success" : "outline-success"}
+              type="submit"
+            >
+              Salva <FontAwesomeIcon icon={faSave} size="xl" />
             </Button>
           </Card.Footer>
         </Form>
