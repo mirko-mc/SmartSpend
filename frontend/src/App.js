@@ -12,15 +12,15 @@ import { NotFound } from "./views/notFound/NotFound";
 import { ProtectedRoutes } from "./components/routesManage/ProtectedRoutes";
 import { Dashboard } from "./views/dashboard/Dashboard";
 import { UnprotectedRoutes } from "./components/routesManage/UnprotectedRoutes";
-import { AllTransactions } from "./views/transactions/AllTransactions";
-import { SingleTransaction } from "./components/transaction/SingleTransaction";
-import { Categories } from "./components/categories/Categories";
-import { PaymentMethods } from "./components/paymentMethods/PaymentMethods";
+import { AllTransactions } from "./views/all/AllTransactions";
 import { TransactionDetails } from "./components/transaction/TransactionDetails";
 import { MyFooter } from "./components/footer/MyFooter";
-import { Container } from "react-bootstrap";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContextProvider";
+import { AllCategories } from "./views/all/AllCategories";
+import { CategoryDetails } from "./components/categories/CategoryDetails";
+import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
+import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
 function App() {
   console.log("ROOT => App.js");
   const { Theme } = useContext(UserContext);
@@ -48,12 +48,12 @@ function App() {
             <Route path=":transactionId" element={<TransactionDetails />} />
           </Route>
           {/* CATEGORIE */}
-          <Route path="categories" element={<Categories />}>
-            <Route path=":categoryId" element={<Categories />} />
+          <Route path="categories" element={<AllCategories />}>
+            <Route path=":categoryId" element={<CategoryDetails />} />
           </Route>
           {/* METODI DI PAGAMENTO */}
-          <Route path="paymentMethods" element={<PaymentMethods />}>
-            <Route path=":paymentMethodId" element={<PaymentMethods />} />
+          <Route path="paymentMethods" element={<AllPaymentMethods />}>
+            <Route path=":paymentMethodId" element={<PaymentMethodDetails />} />
           </Route>
         </Route>
         {/* rotte NON PROTETTE */}
