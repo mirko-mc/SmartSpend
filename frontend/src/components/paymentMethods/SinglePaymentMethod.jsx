@@ -12,9 +12,9 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {
-  DeleteCategory,
-  GetCategories,
-  PutCategory,
+  DeletePaymentMethod,
+  GetPaymentMethods,
+  PutPaymentMethod,
 } from "../../data/fetch";
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -37,51 +37,54 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
 
-export const SingleCategory = ({ category, index, type }) => {
-  console.log("COMPONENT => SingleCategory.jsx");
+export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
+  console.log("COMPONENT => SinglePaymentMethod.jsx");
   // * CONTEXT
   const { Theme, IsPrivacy } = useContext(UserContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
-  const [Categories, SetCategories] = useState(null);
-  const [EditCategoryFormValues, SetEditCategoryFormValues] =
-    useState(category);
+  const [PaymentMethods, SetPaymentMethods] = useState(null);
+  const [EditPaymentMethodFormValues, SetEditPaymentMethodFormValues] =
+    useState(paymentMethod);
   // * FUNZIONI
   useEffect(() => {
-    GetCategories()
-      .then((data) => SetCategories(data))
+    GetPaymentMethods()
+      .then((data) => SetPaymentMethods(data))
       .catch((err) => console.log(err));
   }, []);
   const HandleChange = (e) => {
     e.preventDefault();
-    SetEditCategoryFormValues({
-      ...EditCategoryFormValues,
+    SetEditPaymentMethodFormValues({
+      ...EditPaymentMethodFormValues,
       [e.target.name]: e.target.value,
     });
   };
-  const HandleDeleteCategory = () => {
-    DeleteCategory(category._id)
+  const HandleDeletePaymentMethod = () => {
+    DeletePaymentMethod(paymentMethod._id)
       .then(() => {
         Navigate(0);
-        alert("Categoria eliminata correttamente!");
+        alert("Metodo di pagamento eliminato correttamente!");
       })
       .catch((err) => console.log(err));
   };
-  const HandleEditCategory = () => {
-    console.log(EditCategoryFormValues);
-    PutCategory(EditCategoryFormValues._id, EditCategoryFormValues)
-      .then(() => alert("Categoria modificata correttamente!"))
+  const HandleEditPaymentMethod = () => {
+    console.log(EditPaymentMethodFormValues);
+    PutPaymentMethod(
+      EditPaymentMethodFormValues._id,
+      EditPaymentMethodFormValues
+    )
+      .then(() => alert("Metodo di pagamento modificato correttamente!"))
       .catch((err) => console.log(err));
     SetEditMode(!EditMode);
-    SetEditCategoryFormValues(category);
+    SetEditPaymentMethodFormValues(paymentMethod);
   };
   // * RENDER
-  if (category && type === "mini")
+  if (paymentMethod && type === "mini")
     return (
       <ListGroup variant="flush" className="mb-1 shadow">
         <ListGroup.Item
-          key={category._id}
+          key={paymentMethod._id}
           className="d-flex justify-content-evenly align-items-center w-100"
         >
           <Form.Group>
@@ -93,7 +96,7 @@ export const SingleCategory = ({ category, index, type }) => {
             <Form.Control
               type="date"
               name="date"
-              value={new Date(category.date).toISOString().slice(0, 10)}
+              value={new Date(paymentMethod.date).toISOString().slice(0, 10)}
               disabled
             />
           </Form.Group>
@@ -107,7 +110,7 @@ export const SingleCategory = ({ category, index, type }) => {
             <Form.Control
               type="text"
               name="shop"
-              value={category.shop}
+              value={paymentMethod.shop}
               disabled
             />
           </Form.Group>
@@ -121,7 +124,7 @@ export const SingleCategory = ({ category, index, type }) => {
             <Form.Control
               type={IsPrivacy ? "text" : "number"}
               name="amount"
-              value={IsPrivacy ? "******" : category.amount}
+              value={IsPrivacy ? "******" : paymentMethod.amount}
               disabled
             />
           </Form.Group>
@@ -133,7 +136,7 @@ export const SingleCategory = ({ category, index, type }) => {
               </Form.Label>
             )}
             <Form.Label>
-              {category?.inOut === "in" ? (
+              {paymentMethod?.inOut === "in" ? (
                 <FontAwesomeIcon icon={faLeftLong} color="green" size="xl" />
               ) : (
                 <FontAwesomeIcon icon={faRightLong} color="red" size="xl" />
@@ -149,13 +152,13 @@ export const SingleCategory = ({ category, index, type }) => {
             )}
             <Button
               variant={Theme}
-              onClick={() => Navigate(`/category/${category._id}`)}
+              onClick={() => Navigate(`/paymentMethod/${paymentMethod._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
             </Button>
             <Button
               variant="danger"
-              onClick={() => HandleDeleteCategory(category._id)}
+              onClick={() => HandleDeletePaymentMethod(paymentMethod._id)}
             >
               <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
@@ -163,14 +166,14 @@ export const SingleCategory = ({ category, index, type }) => {
         </ListGroup.Item>
       </ListGroup>
     );
-  if (!Categories) return <CardLoader />;
-  if (category && type === "full")
+  if (!PaymentMethods) return <CardLoader />;
+  if (paymentMethod && type === "full")
     return (
       <Card className="mb-3 shadow">
         <Card.Header className="d-flex justify-content-between">
           <Card.Title>
-            {`Shop: ${EditCategoryFormValues.shop} - Data ${new Date(
-              EditCategoryFormValues.date
+            {`Shop: ${EditPaymentMethodFormValues.shop} - Data ${new Date(
+              EditPaymentMethodFormValues.date
             ).toLocaleDateString()}`}
           </Card.Title>
         </Card.Header>
@@ -186,7 +189,7 @@ export const SingleCategory = ({ category, index, type }) => {
                     id="address"
                     type="text"
                     name="address"
-                    value={EditCategoryFormValues.address}
+                    value={EditPaymentMethodFormValues.address}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -201,7 +204,7 @@ export const SingleCategory = ({ category, index, type }) => {
                     id="date"
                     type="date"
                     name="date"
-                    value={new Date(EditCategoryFormValues.date)
+                    value={new Date(EditPaymentMethodFormValues.date)
                       .toISOString()
                       .slice(0, 10)}
                     onChange={HandleChange}
@@ -218,7 +221,7 @@ export const SingleCategory = ({ category, index, type }) => {
                     id="shop"
                     type="text"
                     name="shop"
-                    value={EditCategoryFormValues.shop}
+                    value={EditPaymentMethodFormValues.shop}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -234,7 +237,7 @@ export const SingleCategory = ({ category, index, type }) => {
                     as="textarea"
                     type="text"
                     name="description"
-                    value={EditCategoryFormValues.description}
+                    value={EditPaymentMethodFormValues.description}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -249,7 +252,7 @@ export const SingleCategory = ({ category, index, type }) => {
                     id="amount"
                     type="number"
                     name="amount"
-                    value={EditCategoryFormValues.amount}
+                    value={EditPaymentMethodFormValues.amount}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -263,7 +266,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   <Form.Select
                     id="inOut"
                     name="inOut"
-                    value={EditCategoryFormValues.inOut}
+                    value={EditPaymentMethodFormValues.inOut}
                     onChange={HandleChange}
                   >
                     <option value="in">Entrata</option>
@@ -280,12 +283,12 @@ export const SingleCategory = ({ category, index, type }) => {
                   <Form.Select
                     id="paymentMethod"
                     name="paymentMethod"
-                    value={EditCategoryFormValues.paymentMethod?.name}
+                    value={EditPaymentMethodFormValues.paymentMethod?.name}
                     onChange={HandleChange}
                   >
-                    {Categories.map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
+                    {PaymentMethods.map((paymentMethod) => (
+                      <option key={paymentMethod._id} value={paymentMethod._id}>
+                        {paymentMethod.name}
                       </option>
                     ))}
                   </Form.Select>
@@ -303,7 +306,7 @@ export const SingleCategory = ({ category, index, type }) => {
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
                   <CardText>
-                    {new Date(category.date).toLocaleDateString()}
+                    {new Date(paymentMethod.date).toLocaleDateString()}
                   </CardText>
                 </ListGroupItem>
               </ListGroup>
@@ -315,7 +318,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.shop}</CardText>
+                  <CardText>{paymentMethod.shop}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -326,7 +329,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.address}</CardText>
+                  <CardText>{paymentMethod.address}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -337,7 +340,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.description}</CardText>
+                  <CardText>{paymentMethod.description}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -348,7 +351,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>€ {category.amount}</CardText>
+                  <CardText>€ {paymentMethod.amount}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -360,7 +363,7 @@ export const SingleCategory = ({ category, index, type }) => {
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
                   <CardText>
-                    {category.inOut === "in" ? (
+                    {paymentMethod.inOut === "in" ? (
                       <FontAwesomeIcon
                         icon={faLeftLong}
                         color="green"
@@ -384,7 +387,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.paymentMethod?.name}</CardText>
+                  <CardText>{paymentMethod.paymentMethod?.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -395,7 +398,7 @@ export const SingleCategory = ({ category, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.category?.name}</CardText>
+                  <CardText>{paymentMethod.category?.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
             </>
@@ -412,7 +415,7 @@ export const SingleCategory = ({ category, index, type }) => {
               </Button>
               <Button
                 variant={Theme === "dark" ? "outline-success" : "success"}
-                onClick={HandleEditCategory}
+                onClick={HandleEditPaymentMethod}
               >
                 <FontAwesomeIcon icon={faSave} />
               </Button>
@@ -425,7 +428,7 @@ export const SingleCategory = ({ category, index, type }) => {
               >
                 <FontAwesomeIcon icon={faEdit} />
               </Button>
-              <Button variant="danger" onClick={HandleDeleteCategory}>
+              <Button variant="danger" onClick={HandleDeletePaymentMethod}>
                 <FontAwesomeIcon icon={faTrashAlt} />
               </Button>
             </>
@@ -434,105 +437,3 @@ export const SingleCategory = ({ category, index, type }) => {
       </Card>
     );
 };
-
-// import { Button, Form, ListGroup } from "react-bootstrap";
-// import { DeleteCategory, PutCategory } from "../../data/fetch";
-// import { useState } from "react";
-// import { SetInitialFormValues } from "../../data/formValue";
-
-// export const SingleCategory = ({ category }) => {
-//   console.log("COMPONENTS => singleCategory.jsx");
-//   // * STATI
-//   const [Editing, SetEditing] = useState(false);
-//   const InitialPutCategoryFormValue = SetInitialFormValues(category);
-//   const [PutCategoryFormValue, SetPutCategoryFormValue] = useState(
-//     InitialPutCategoryFormValue
-//   );
-//   // * FUNZIONI
-//   const HandleChange = (e) => {
-//     e.preventDefault();
-//     SetPutCategoryFormValue({
-//       ...PutCategoryFormValue,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-//   console.log(InitialPutCategoryFormValue);
-//   console.log(PutCategoryFormValue);
-//   const HandlePutCategory = () => {
-//     PutCategory(category._id, PutCategoryFormValue)
-//       .then(() => {
-//         alert("dati aggiornati correttamente");
-//         SetEditing(false);
-//       })
-//       .catch((err) => console.log(err));
-//   };
-
-//   return (
-//     <ListGroup variant="flush">
-//       <ListGroup.Item
-//         className="d-flex justify-content-evenly align-items-center"
-//         key={category._id}
-//       >
-//         <Form.Control
-//           type="text"
-//           name="name"
-//           value={PutCategoryFormValue.name}
-//           disabled={!Editing}
-//           onChange={HandleChange}
-//         />
-//         <Form.Control
-//           type="text"
-//           name="description"
-//           value={PutCategoryFormValue.description}
-//           disabled={!Editing}
-//           onChange={HandleChange}
-//         />
-//         <Form.Control
-//           type="color"
-//           name="color"
-//           value={PutCategoryFormValue.color}
-//           disabled={!Editing}
-//           onChange={HandleChange}
-//         />
-//         {!Editing ? (
-//           <Button
-//             variant="primary"
-//             onClick={() => {
-//               SetEditing(true);
-//             }}
-//           >
-//             Modifica
-//           </Button>
-//         ) : (
-//           <Button
-//             variant="success"
-//             onClick={() => {
-//               HandlePutCategory();
-//             }}
-//           >
-//             Salva
-//           </Button>
-//         )}
-//         {!Editing ? (
-//           <Button
-//             variant="danger"
-//             onClick={() => {
-//               DeleteCategory(category._id);
-//             }}
-//           >
-//             Elimina
-//           </Button>
-//         ) : (
-//           <Button
-//             variant="danger"
-//             onClick={() => {
-//               SetEditing(false);
-//             }}
-//           >
-//             Annulla
-//           </Button>
-//         )}
-//       </ListGroup.Item>
-//     </ListGroup>
-//   );
-// };
