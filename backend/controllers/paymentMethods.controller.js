@@ -6,12 +6,11 @@ import { paymentMethodCheck } from "../utils/bodyCheck.js";
 export const GetPaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethod");
   try {
-    if (req.body.user !== req.LoggedUser.id)
-      throw new Error("Error on user id");
     const PaymentMethod = await paymentMethodsSchema.findById(
       req.params.paymentMethodId
     );
     if (!PaymentMethod) throw new Error("Payment method not found");
+    if (PaymentMethod.user._id.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
     res.status(200).send(PaymentMethod);
   } catch (err) {
     console.log(err);
@@ -23,14 +22,12 @@ export const GetPaymentMethod = async (req, res) => {
 export const GetPaymentMethods = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
-    // ??? devo effettuare un controllo sull'id dell'utente?
-    // if (req.body.user !== req.LoggedUser.id)
-    //   throw new Error("Error on user id");
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
     });
     console.log(PaymentMethods);
     if (!PaymentMethods) throw new Error("Error while getting payment methods");
+    // if (PaymentMethods.user.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
     res.status(200).send(PaymentMethods);
   } catch (err) {
     console.log(err);
@@ -87,8 +84,8 @@ export const PutPaymentMethod = async (req, res) => {
 export const DeletePaymentMethod = async (req, res) => {
   console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {
-    if (req.body.user !== req.LoggedUser.id)
-      throw new Error("Error on user id");
+    // if (req.body.user !== req.LoggedUser.id)
+    //   throw new Error("Error on user id");
     const DeletedPaymentMethod = await paymentMethodsSchema.findByIdAndDelete(
       req.params.paymentMethodId,
       { new: true }

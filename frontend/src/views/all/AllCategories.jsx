@@ -1,9 +1,4 @@
-import {
-  Card,
-  Col,
-  Container,
-  Row,
-} from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -17,7 +12,7 @@ export const AllCategories = () => {
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI
   const [Categories, SetCategories] = useState(null);
-  const CategoryId = useParams();
+  const CategoryId = useParams().categoryId;
   // * FUNZIONI
   useEffect(() => {
     if (LoggedUser) {
@@ -28,7 +23,7 @@ export const AllCategories = () => {
   }, [LoggedUser]);
   if (!Categories) return <CardLoader />;
 
-  if (CategoryId?.categoryId) return <Outlet />;
+  if (CategoryId) return <Outlet />;
 
   if (Categories)
     return (
@@ -40,11 +35,12 @@ export const AllCategories = () => {
                 <Card.Title>Elenco categorie</Card.Title>
               </Card.Header>
               <Card.Body>
-                {Categories.map((category) => (
+                {Categories.map((category, index) => (
                   <SingleCategory
                     key={category._id}
                     category={category}
                     type="mini"
+                    index={index}
                   />
                 ))}
               </Card.Body>

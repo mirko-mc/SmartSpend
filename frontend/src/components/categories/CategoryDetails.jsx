@@ -13,7 +13,6 @@ export const CategoryDetails = () => {
   // * STATI
   const CategoryId = useParams().categoryId;
   const [Category, SetCategory] = useState(null);
-  console.log(CategoryId);
   // * FUNZIONI
   useEffect(() => {
     CategoryId &&
@@ -28,7 +27,7 @@ export const CategoryDetails = () => {
         <Row>
           <Col xs={1} className="mb-3"></Col>
           <Col xs={10} className="mb-3">
-            <SingleCategory transaction={Category} type="full" />
+            <SingleCategory category={Category} type="full" />
           </Col>
         </Row>
       </Container>

@@ -29,29 +29,31 @@ import { UserContext } from "../../context/UserContextProvider";
 import {
   faCancel,
   faEuro,
-  faLeftLong,
   faLocationDot,
-  faRightLeft,
-  faRightLong,
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
+import { SetInitialFormValues } from "../../data/formValue";
 
 export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
   console.log("COMPONENT => SinglePaymentMethod.jsx");
   // * CONTEXT
-  const { Theme, IsPrivacy } = useContext(UserContext);
+  const { Theme } = useContext(UserContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
   const [PaymentMethods, SetPaymentMethods] = useState(null);
   const [EditPaymentMethodFormValues, SetEditPaymentMethodFormValues] =
     useState(paymentMethod);
+  const TypesPaymentMethod = SetInitialFormValues("typePaymentMethod");
   // * FUNZIONI
   useEffect(() => {
-    GetPaymentMethods()
-      .then((data) => SetPaymentMethods(data))
-      .catch((err) => console.log(err));
+    type === "mini"
+      ? GetPaymentMethods()
+          .then((data) => SetPaymentMethods(data))
+          .catch((err) => console.log(err))
+      : SetPaymentMethods(paymentMethod);
+    console.log(paymentMethod);
   }, []);
   const HandleChange = (e) => {
     e.preventDefault();
@@ -63,13 +65,13 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
   const HandleDeletePaymentMethod = () => {
     DeletePaymentMethod(paymentMethod._id)
       .then(() => {
-        Navigate(0);
+        // Navigate(0);
         alert("Metodo di pagamento eliminato correttamente!");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => Navigate("/paymentMethods"));
   };
   const HandleEditPaymentMethod = () => {
-    console.log(EditPaymentMethodFormValues);
     PutPaymentMethod(
       EditPaymentMethodFormValues._id,
       EditPaymentMethodFormValues
@@ -94,9 +96,9 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
               </Form.Label>
             )}
             <Form.Control
-              type="date"
-              name="date"
-              value={new Date(paymentMethod.date).toISOString().slice(0, 10)}
+              type="text"
+              name="name"
+              value={paymentMethod.name}
               disabled
             />
           </Form.Group>
@@ -109,8 +111,8 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
             )}
             <Form.Control
               type="text"
-              name="shop"
-              value={paymentMethod.shop}
+              name="type"
+              value={TypesPaymentMethod[paymentMethod.type]}
               disabled
             />
           </Form.Group>
@@ -122,26 +124,11 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
               </Form.Label>
             )}
             <Form.Control
-              type={IsPrivacy ? "text" : "number"}
-              name="amount"
-              value={IsPrivacy ? "******" : paymentMethod.amount}
+              type="text"
+              name="description"
+              value={paymentMethod.description}
               disabled
             />
-          </Form.Group>
-
-          <Form.Group>
-            {index === 0 && (
-              <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faRightLeft} />
-              </Form.Label>
-            )}
-            <Form.Label>
-              {paymentMethod?.inOut === "in" ? (
-                <FontAwesomeIcon icon={faLeftLong} color="green" size="xl" />
-              ) : (
-                <FontAwesomeIcon icon={faRightLong} color="red" size="xl" />
-              )}
-            </Form.Label>
           </Form.Group>
 
           <Form.Group>
@@ -152,15 +139,9 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
             )}
             <Button
               variant={Theme}
-              onClick={() => Navigate(`/paymentMethod/${paymentMethod._id}`)}
+              onClick={() => Navigate(`/paymentMethods/${paymentMethod._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => HandleDeletePaymentMethod(paymentMethod._id)}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
           </Form.Group>
         </ListGroup.Item>
@@ -171,62 +152,11 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
     return (
       <Card className="mb-3 shadow">
         <Card.Header className="d-flex justify-content-between">
-          <Card.Title>
-            {`Shop: ${EditPaymentMethodFormValues.shop} - Data ${new Date(
-              EditPaymentMethodFormValues.date
-            ).toLocaleDateString()}`}
-          </Card.Title>
+          <Card.Title>Dettaglio metodo di pagamento</Card.Title>
         </Card.Header>
         <Card.Body as={Row}>
           {EditMode && (
             <>
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Indirizzo
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="address"
-                    type="text"
-                    name="address"
-                    value={EditPaymentMethodFormValues.address}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Data
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={new Date(EditPaymentMethodFormValues.date)
-                      .toISOString()
-                      .slice(0, 10)}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Shop
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="shop"
-                    type="text"
-                    name="shop"
-                    value={EditPaymentMethodFormValues.shop}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
                   Descrizione
@@ -234,8 +164,8 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
                 <Col sm={9}>
                   <Form.Control
                     id="description"
-                    as="textarea"
                     type="text"
+                    as="textarea"
                     name="description"
                     value={EditPaymentMethodFormValues.description}
                     onChange={HandleChange}
@@ -245,14 +175,14 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
 
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Importo
+                  Saldo iniziale
                 </Form.Label>
                 <Col sm={9}>
                   <Form.Control
-                    id="amount"
-                    type="number"
-                    name="amount"
-                    value={EditPaymentMethodFormValues.amount}
+                    id="initialBalance"
+                    type="text"
+                    name="initialBalance"
+                    value={EditPaymentMethodFormValues.initialBalance}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -260,37 +190,41 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
 
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Tipo movimento
+                  Nome
                 </Form.Label>
                 <Col sm={9}>
-                  <Form.Select
-                    id="inOut"
-                    name="inOut"
-                    value={EditPaymentMethodFormValues.inOut}
+                  <Form.Control
+                    id="name"
+                    type="text"
+                    name="name"
+                    value={EditPaymentMethodFormValues.name}
                     onChange={HandleChange}
-                  >
-                    <option value="in">Entrata</option>
-                    <option value="out">Uscita</option>
-                  </Form.Select>
+                  />
                 </Col>
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Metodo di pagamento
+                  Tipo
                 </Form.Label>
                 <Col sm={9}>
                   <Form.Select
-                    id="paymentMethod"
-                    name="paymentMethod"
-                    value={EditPaymentMethodFormValues.paymentMethod?.name}
+                    id="type"
+                    type="text"
+                    name="type"
+                    value={TypesPaymentMethod[EditPaymentMethodFormValues.type]}
                     onChange={HandleChange}
                   >
-                    {PaymentMethods.map((paymentMethod) => (
-                      <option key={paymentMethod._id} value={paymentMethod._id}>
-                        {paymentMethod.name}
-                      </option>
-                    ))}
+                    {Object.keys(TypesPaymentMethod).map(
+                      (TypePaymentMethod) => (
+                        <option
+                          key={TypePaymentMethod}
+                          value={TypePaymentMethod}
+                        >
+                          {TypesPaymentMethod[TypePaymentMethod]}
+                        </option>
+                      )
+                    )}
                   </Form.Select>
                 </Col>
               </FormGroup>
@@ -301,41 +235,6 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
               <ListGroup variant={Theme} horizontal className="text-end">
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline ">
-                    Data:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>
-                    {new Date(paymentMethod.date).toLocaleDateString()}
-                  </CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Negozio:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{paymentMethod.shop}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Indirizzo:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{paymentMethod.address}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
                     Descrizione:
                   </Card.Subtitle>
                 </ListGroupItem>
@@ -347,58 +246,33 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
               <ListGroup variant={Theme} horizontal>
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline">
-                    Importo:
+                    Saldo iniziale:
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>€ {paymentMethod.amount}</CardText>
+                  <CardText>{paymentMethod.initialBalance}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
               <ListGroup variant={Theme} horizontal>
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline">
-                    Tipo movimento:
+                    Nome:
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>
-                    {paymentMethod.inOut === "in" ? (
-                      <FontAwesomeIcon
-                        icon={faLeftLong}
-                        color="green"
-                        size="xl"
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faRightLong}
-                        color="red"
-                        size="xl"
-                      />
-                    )}
-                  </CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 w-50 text-end">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Metodo di pagamento:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{paymentMethod.paymentMethod?.name}</CardText>
+                  <CardText>{paymentMethod.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
               <ListGroup variant={Theme} horizontal>
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline">
-                    Categoria:
+                    Tipo:
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{paymentMethod.category?.name}</CardText>
+                  <CardText>{TypesPaymentMethod[paymentMethod.type]}</CardText>
                 </ListGroupItem>
               </ListGroup>
             </>

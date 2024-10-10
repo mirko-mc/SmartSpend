@@ -41,7 +41,14 @@ export const SetInitialFormValues = (FormValuesType) => {
         category: "",
         paymentMethod: "",
         user: "",
-        inOut:""
+        inOut: "",
+      };
+    case "typePaymentMethod":
+      return {
+        debitCard: "Carta di debito",
+        creditCard: "Carta di credito",
+        cash: "Contanti",
+        digitalWallet: "Portafoglio digitali",
       };
     default:
       return { message: "Type not found" };

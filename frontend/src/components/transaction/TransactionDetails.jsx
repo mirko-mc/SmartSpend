@@ -9,11 +9,10 @@ import { SingleTransaction } from "./SingleTransaction";
 export const TransactionDetails = () => {
   console.log("COMPONENT => TransactionDetails.jsx");
   // * CONTEXT
-  const { Theme, IsPrivacy } = useContext(UserContext);
+  const { Theme } = useContext(UserContext);
   // * STATI
   const TransactionId = useParams().transactionId;
   const [Transaction, SetTransaction] = useState(null);
-  console.log(TransactionId);
   // * FUNZIONI
   useEffect(() => {
     TransactionId &&

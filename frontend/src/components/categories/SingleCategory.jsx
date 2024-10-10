@@ -5,17 +5,14 @@ import {
   CardText,
   Col,
   Form,
+  FormControl,
   FormGroup,
   ListGroup,
   ListGroupItem,
   Row,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {
-  DeleteCategory,
-  GetCategories,
-  PutCategory,
-} from "../../data/fetch";
+import { DeleteCategory, GetCategories, PutCategory } from "../../data/fetch";
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,10 +26,7 @@ import { UserContext } from "../../context/UserContextProvider";
 import {
   faCancel,
   faEuro,
-  faLeftLong,
   faLocationDot,
-  faRightLeft,
-  faRightLong,
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
@@ -40,7 +34,7 @@ import { CardLoader } from "../loader/CardLoader";
 export const SingleCategory = ({ category, index, type }) => {
   console.log("COMPONENT => SingleCategory.jsx");
   // * CONTEXT
-  const { Theme, IsPrivacy } = useContext(UserContext);
+  const { Theme } = useContext(UserContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
@@ -49,9 +43,11 @@ export const SingleCategory = ({ category, index, type }) => {
     useState(category);
   // * FUNZIONI
   useEffect(() => {
-    GetCategories()
-      .then((data) => SetCategories(data))
-      .catch((err) => console.log(err));
+    type === "mini"
+      ? GetCategories()
+          .then((data) => SetCategories(data))
+          .catch((err) => console.log(err))
+      : SetCategories(category);
   }, []);
   const HandleChange = (e) => {
     e.preventDefault();
@@ -63,13 +59,13 @@ export const SingleCategory = ({ category, index, type }) => {
   const HandleDeleteCategory = () => {
     DeleteCategory(category._id)
       .then(() => {
-        Navigate(0);
+        // Navigate(0);
         alert("Categoria eliminata correttamente!");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => Navigate("/categories"));
   };
   const HandleEditCategory = () => {
-    console.log(EditCategoryFormValues);
     PutCategory(EditCategoryFormValues._id, EditCategoryFormValues)
       .then(() => alert("Categoria modificata correttamente!"))
       .catch((err) => console.log(err));
@@ -91,9 +87,9 @@ export const SingleCategory = ({ category, index, type }) => {
               </Form.Label>
             )}
             <Form.Control
-              type="date"
-              name="date"
-              value={new Date(category.date).toISOString().slice(0, 10)}
+              type="text"
+              name="name"
+              value={category.name}
               disabled
             />
           </Form.Group>
@@ -106,8 +102,8 @@ export const SingleCategory = ({ category, index, type }) => {
             )}
             <Form.Control
               type="text"
-              name="shop"
-              value={category.shop}
+              name="description"
+              value={category.description}
               disabled
             />
           </Form.Group>
@@ -119,26 +115,11 @@ export const SingleCategory = ({ category, index, type }) => {
               </Form.Label>
             )}
             <Form.Control
-              type={IsPrivacy ? "text" : "number"}
-              name="amount"
-              value={IsPrivacy ? "******" : category.amount}
+              type="color"
+              name="color"
+              value={category.color}
               disabled
             />
-          </Form.Group>
-
-          <Form.Group>
-            {index === 0 && (
-              <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faRightLeft} />
-              </Form.Label>
-            )}
-            <Form.Label>
-              {category?.inOut === "in" ? (
-                <FontAwesomeIcon icon={faLeftLong} color="green" size="xl" />
-              ) : (
-                <FontAwesomeIcon icon={faRightLong} color="red" size="xl" />
-              )}
-            </Form.Label>
           </Form.Group>
 
           <Form.Group>
@@ -149,15 +130,9 @@ export const SingleCategory = ({ category, index, type }) => {
             )}
             <Button
               variant={Theme}
-              onClick={() => Navigate(`/category/${category._id}`)}
+              onClick={() => Navigate(`/categories/${category._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => HandleDeleteCategory(category._id)}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
           </Form.Group>
         </ListGroup.Item>
@@ -168,57 +143,21 @@ export const SingleCategory = ({ category, index, type }) => {
     return (
       <Card className="mb-3 shadow">
         <Card.Header className="d-flex justify-content-between">
-          <Card.Title>
-            {`Shop: ${EditCategoryFormValues.shop} - Data ${new Date(
-              EditCategoryFormValues.date
-            ).toLocaleDateString()}`}
-          </Card.Title>
+          <Card.Title>Dettaglio categoria</Card.Title>
         </Card.Header>
         <Card.Body as={Row}>
           {EditMode && (
             <>
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Indirizzo
+                  Nome
                 </Form.Label>
                 <Col sm={9}>
                   <Form.Control
-                    id="address"
+                    id="name"
                     type="text"
-                    name="address"
-                    value={EditCategoryFormValues.address}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Data
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={new Date(EditCategoryFormValues.date)
-                      .toISOString()
-                      .slice(0, 10)}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Shop
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="shop"
-                    type="text"
-                    name="shop"
-                    value={EditCategoryFormValues.shop}
+                    name="name"
+                    value={EditCategoryFormValues.name}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -242,53 +181,16 @@ export const SingleCategory = ({ category, index, type }) => {
 
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Importo
+                  Colore
                 </Form.Label>
                 <Col sm={9}>
                   <Form.Control
-                    id="amount"
-                    type="number"
-                    name="amount"
-                    value={EditCategoryFormValues.amount}
+                    id="color"
+                    type="color"
+                    name="color"
+                    value={EditCategoryFormValues.color}
                     onChange={HandleChange}
                   />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Tipo movimento
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Select
-                    id="inOut"
-                    name="inOut"
-                    value={EditCategoryFormValues.inOut}
-                    onChange={HandleChange}
-                  >
-                    <option value="in">Entrata</option>
-                    <option value="out">Uscita</option>
-                  </Form.Select>
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Metodo di pagamento
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Select
-                    id="paymentMethod"
-                    name="paymentMethod"
-                    value={EditCategoryFormValues.paymentMethod?.name}
-                    onChange={HandleChange}
-                  >
-                    {Categories.map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </Form.Select>
                 </Col>
               </FormGroup>
             </>
@@ -298,35 +200,11 @@ export const SingleCategory = ({ category, index, type }) => {
               <ListGroup variant={Theme} horizontal className="text-end">
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline ">
-                    Data:
+                    Nome:
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>
-                    {new Date(category.date).toLocaleDateString()}
-                  </CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Negozio:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.shop}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Indirizzo:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.address}</CardText>
+                  <CardText>{category.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -344,58 +222,11 @@ export const SingleCategory = ({ category, index, type }) => {
               <ListGroup variant={Theme} horizontal>
                 <ListGroupItem className="border-0 text-end w-50">
                   <Card.Subtitle className="d-inline align-baseline">
-                    Importo:
+                    Colore:
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>€ {category.amount}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Tipo movimento:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>
-                    {category.inOut === "in" ? (
-                      <FontAwesomeIcon
-                        icon={faLeftLong}
-                        color="green"
-                        size="xl"
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faRightLong}
-                        color="red"
-                        size="xl"
-                      />
-                    )}
-                  </CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 w-50 text-end">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Metodo di pagamento:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.paymentMethod?.name}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Categoria:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{category.category?.name}</CardText>
+                  <FormControl type="color" value={category.color} disabled />
                 </ListGroupItem>
               </ListGroup>
             </>

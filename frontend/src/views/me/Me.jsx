@@ -195,7 +195,7 @@ export const Me = () => {
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
+                    variant={Theme === "dark" ? "outline-light" : "dark"}
                     onClick={() => SetEditing(!Editing)}
                   >
                     Modifica profilo

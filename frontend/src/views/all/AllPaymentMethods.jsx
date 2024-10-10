@@ -1,9 +1,4 @@
-import {
-  Card,
-  Col,
-  Container,
-  Row,
-} from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -17,7 +12,7 @@ export const AllPaymentMethods = () => {
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI
   const [PaymentMethods, SetPaymentMethods] = useState(null);
-  const PaymentMethodId = useParams();
+  const PaymentMethodId = useParams().paymentMethodId;
   // * FUNZIONI
   useEffect(() => {
     if (LoggedUser) {
@@ -28,7 +23,7 @@ export const AllPaymentMethods = () => {
   }, [LoggedUser]);
   if (!PaymentMethods) return <CardLoader />;
 
-  if (PaymentMethodId?.paymentMethodId) return <Outlet />;
+  if (PaymentMethodId) return <Outlet />;
 
   if (PaymentMethods)
     return (
@@ -40,11 +35,12 @@ export const AllPaymentMethods = () => {
                 <Card.Title>Elenco metodi di pagamento</Card.Title>
               </Card.Header>
               <Card.Body>
-                {PaymentMethods.map((paymentMethod) => (
+                {PaymentMethods.map((paymentMethod, index) => (
                   <SinglePaymentMethod
                     key={paymentMethod._id}
-                    paymentMethods={paymentMethod}
+                    paymentMethod={paymentMethod}
                     type="mini"
+                    index={index}
                   />
                 ))}
               </Card.Body>
