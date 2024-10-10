@@ -143,17 +143,18 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                 <FontAwesomeIcon icon={faRightLeft} />
               </Form.Label>
             )}
-            <Form.Label className=""
-            // type="text"
-            // name="inOut"
-            // value={
-            // transaction?.inOut === "in" ? (
-            // <FontAwesomeIcon icon={faLeftLong} />
-            // ) : (
-            // <FontAwesomeIcon icon={faRightLong} />
-            // )
-            // }
-            // disabled
+            <Form.Label
+              className=""
+              // type="text"
+              // name="inOut"
+              // value={
+              // transaction?.inOut === "in" ? (
+              // <FontAwesomeIcon icon={faLeftLong} />
+              // ) : (
+              // <FontAwesomeIcon icon={faRightLong} />
+              // )
+              // }
+              // disabled
             >
               {transaction?.inOut === "in" ? (
                 <FontAwesomeIcon icon={faLeftLong} color="green" size="xl" />
@@ -200,10 +201,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
           {EditMode && (
             <>
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Indirizzo
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Control
                     id="address"
                     type="text"
@@ -215,10 +216,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Data
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Control
                     id="date"
                     type="date"
@@ -232,10 +233,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Shop
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Control
                     id="shop"
                     type="text"
@@ -247,10 +248,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Descrizione
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Control
                     id="description"
                     as="textarea"
@@ -263,10 +264,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Importo
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Control
                     id="amount"
                     type="number"
@@ -278,10 +279,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Tipo movimento
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Select
                     id="inOut"
                     name="inOut"
@@ -295,10 +296,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Metodo di pagamento
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Select
                     id="paymentMethod"
                     name="paymentMethod"
@@ -315,10 +316,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </FormGroup>
 
               <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={6}>
+                <Form.Label column sm={3} className="text-end">
                   Categorie
                 </Form.Label>
-                <Col sm={6}>
+                <Col sm={9}>
                   <Form.Select
                     id="category"
                     name="category"
@@ -390,7 +391,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.amount}</CardText>
+                  <CardText>€ {transaction.amount}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -401,7 +402,21 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.inOut}</CardText>
+                  <CardText>
+                    {transaction.inOut === "in" ? (
+                      <FontAwesomeIcon
+                        icon={faLeftLong}
+                        color="green"
+                        size="xl"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faRightLong}
+                        color="red"
+                        size="xl"
+                      />
+                    )}
+                  </CardText>
                 </ListGroupItem>
               </ListGroup>
 
