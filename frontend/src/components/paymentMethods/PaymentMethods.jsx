@@ -29,10 +29,12 @@ export const PaymentMethods = () => {
   const Navigate = useNavigate();
   // * FUNZIONI
   useEffect(() => {
-    GetPaymentMethods()
-      .then((data) => SetPaymentMethods(data))
-      .catch((err) => console.log(err));
-  }, [LoggedUser]);
+    !Show &&
+      LoggedUser &&
+      GetPaymentMethods()
+        .then((data) => SetPaymentMethods(data))
+        .catch((err) => console.log(err));
+  }, [LoggedUser, Show]);
   if (!PaymentMethods)
     return (
       <Container>

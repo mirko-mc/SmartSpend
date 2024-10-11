@@ -53,13 +53,15 @@ export const SingleTransaction = ({ transaction, index, type }) => {
     useState(transaction);
   // * FUNZIONI
   useEffect(() => {
-    GetCategories()
-      .then((data) => SetCategiries(data))
-      .catch((err) => console.log(err));
-    GetPaymentMethods()
-      .then((data) => SetPaymentMethods(data))
-      .catch((err) => console.log(err));
-  }, []);
+    !EditMode &&
+      GetCategories()
+        .then((data) => SetCategiries(data))
+        .catch((err) => console.log(err));
+    !EditMode &&
+      GetPaymentMethods()
+        .then((data) => SetPaymentMethods(data))
+        .catch((err) => console.log(err));
+  }, [EditMode]);
   const HandleChange = (e) => {
     e.preventDefault();
     SetEditTransactionFormValues({
@@ -449,48 +451,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </Button>
             </>
           )}
-          {/* <EditModal
-            tipo="transaction"
-            Show={Show}
-            SetShow={SetShow}
-            toEdit={transaction}
-          /> */}
         </CardFooter>
       </Card>
     );
-
-  // return (
-  //   <tr>
-  //     <EditModal
-  //       tipo="transaction"
-  //       Show={Show}
-  //       SetShow={SetShow}
-  //       toEdit={transaction}
-  //     />
-  //     <td>{new Date(transaction.date).toLocaleDateString()}</td>
-  //     <td>{IsPrivacy ? "******" : transaction.amount} €</td>
-  //     <td>{transaction.description}</td>
-  //     <td>{transaction.paymentMethod?.name}</td>
-  //     <td>
-  //       <Button
-  //         variant={transaction.user.favoriteTheme}
-  //         onClick={() => Navigate(`/transactions/${transaction._id}`)}
-  //       >
-  //         <FontAwesomeIcon icon={faEye} />
-  //       </Button>
-  //       <Button
-  //         variant={transaction.user.favoriteTheme}
-  //         onClick={() => SetShow(true)}
-  //       >
-  //         <FontAwesomeIcon icon={faEdit} />
-  //       </Button>
-  //       <Button
-  //         variant={transaction.user.favoriteTheme}
-  //         onClick={HandleDeleteTransaction}
-  //       >
-  //         <FontAwesomeIcon icon={faTrashAlt} />
-  //       </Button>
-  //     </td>
-  //   </tr>
-  // );
 };
