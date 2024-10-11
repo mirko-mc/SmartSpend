@@ -53,7 +53,7 @@ export const Me = () => {
 
   if (Token && UserFormValue)
     return (
-      <Container className="mt-5" data-bs-theme={Theme} bg={Theme}>
+      <Container className="mt-5" data-bs-theme={Theme} bg={`bg-${Theme}`}>
         <Row className="justify-content-center">
           <Col md={12}>
             <Card>

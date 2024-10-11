@@ -18,7 +18,7 @@ export const PostLogin = async (req, res) => {
     if (!Bcrypt.compare(req.body.password, User.password))
       throw new Error("Wrong credentials");
     // genero un token di accesso
-    const Token = await JwtCreation(User._id);
+    const Token = JwtCreation(User._id);
     // se il token è vuoto genero un errore
     if (!Token) throw new Error("Error while generating token");
     // restituisco il token di accesso al frontend
@@ -50,9 +50,7 @@ export const GetMeInfo = async (req, res) => {
 export const PostRegister = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => PostRegister");
   try {
-    // controllo che la mail sia in formato valida
-    const EmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    // if (!EmailRegex.test(req.body.email)) throw new Error("Email is not valid");
+    // todo controllo che la mail sia in formato valida
     // se l'utente è già presente nel database genero un errore
     if (await usersSchema.findOne({ email: req.body.email }))
       throw new Error("User already exists");
@@ -63,6 +61,23 @@ export const PostRegister = async (req, res) => {
     Data.password = await Bcrypt.hash(Data.password, 10);
     // creazione utente
     const User = await usersSchema.create(Data);
+
+    // creo categoria generico
+    await categoriesSchema.create({
+      name: "Generica",
+      description: "Categoria generica",
+      user: User._id,
+      color: "#000000",
+    });
+    // creo metodo di pagamento contanti
+    await paymentMethodsSchema.create({
+      name: "Contanti",
+      description: "Pagamento per contanti",
+      type: "cash",
+      initialBalance: 0,
+      user: User._id,
+    });
+
     // se l'utente è vuoto genero un errore
     if (!User) throw new Error("Error while creating user");
     // se l'utente è creato gli invio la mail di conferma registrazione

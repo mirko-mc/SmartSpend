@@ -1,5 +1,5 @@
 import { Button, Container, Row } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { LoginMailPassword } from "../../components/authentication/LoginMailPassword";
 import { LoginGoogle } from "../../components/authentication/LoginGoogle";
@@ -10,14 +10,14 @@ import { Register } from "../../components/authentication/Register";
 export const Home = () => {
   console.log("VIEW => Home.jsx");
   // * CONTEXT
-  const { Token, SetToken, Theme } = useContext(UserContext);
+  const { Token, Theme, ThemeClassName } = useContext(UserContext);
   // * STATI
   const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
   const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
   // * FUNZIONI
   if (!Token)
     return (
-      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
+      <Container data-bs-theme={Theme} className={ThemeClassName()}>
         {ShowLoginRegister && (
           <Row>
             {ShowLoginResetPassword ? (
@@ -30,14 +30,14 @@ export const Home = () => {
                   SetShowLoginResetPassword={SetShowLoginResetPassword}
                 />
                 <LoginGoogle />
+                <Button
+                  variant="primary"
+                  onClick={() => SetShowLoginRegister(false)}
+                >
+                  Registrazione
+                </Button>
               </>
             )}
-            <Button
-              variant="primary"
-              onClick={() => SetShowLoginRegister(false)}
-            >
-              Registrazione
-            </Button>
           </Row>
         )}
         {!ShowLoginRegister && (
@@ -52,7 +52,7 @@ export const Home = () => {
     );
   if (Token && Theme)
     return (
-      <Container data-bs-theme={Theme} bg={Theme}>
+      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
         <Row>
           <Dashboard />
         </Row>

@@ -6,6 +6,9 @@ const Router = express.Router();
 // GET "" => recuperare tutte le transazioni
 Router.get("", TransactionsController.GetTransactions);
 
+// GET "/totals" => recupera i totali di tutte le transazioni
+Router.get("/totals", TransactionsController.GetTotals);
+
 // POST "" => creare una nuova transazione
 Router.post("", TransactionsController.PostTransaction);
 

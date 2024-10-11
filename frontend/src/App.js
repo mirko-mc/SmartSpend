@@ -21,6 +21,7 @@ import { AllCategories } from "./views/all/AllCategories";
 import { CategoryDetails } from "./components/categories/CategoryDetails";
 import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
 import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
+import { Container } from "react-bootstrap";
 function App() {
   console.log("ROOT => App.js");
   const { Theme } = useContext(UserContext);

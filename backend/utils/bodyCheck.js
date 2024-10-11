@@ -132,23 +132,3 @@ export const paymentMethodCheck = async (body, post) => {
     return false;
   }
 };
-
-export const totalCheck = async (body, post) => {
-  console.log("UTILS => totalCheck");
-  try {
-    const User = body?.user;
-    const InOut = body?.inOut;
-    const Amount = body?.amount;
-    if (!User || !InOut || !Amount)
-      throw new Error("Please fill all the fields");
-    const Data = { user: User };
-    InOut === "in"
-      ? Object.assign(Data, { totalIn: Amount })
-      : Object.assign(Data, { totalOut: Amount });
-    console.log("===========================================> ", Data);
-    return Data;
-  } catch (err) {
-    console.log(err);
-    return false;
-  }
-};

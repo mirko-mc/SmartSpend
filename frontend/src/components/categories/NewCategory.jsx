@@ -15,8 +15,6 @@ export const NewCategory = ({
   // gestisco l'inserimento dei dati nel form value raccogliendoli dagli input dell'utente
   const HandleOnChange = (e) => {
     SetNewCPMFormValue({ ...NewCPMFormValue, [e.target.name]: e.target.value });
-    if (!NewCPMFormValue.user)
-      SetNewCPMFormValue({ ...NewCPMFormValue, user: LoggedUser._id });
   };
   return (
     <Form onSubmit={HandleNewCPM}>

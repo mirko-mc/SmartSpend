@@ -25,7 +25,6 @@ export const GetPaymentMethods = async (req, res) => {
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
     });
-    console.log(PaymentMethods);
     if (!PaymentMethods) throw new Error("Error while getting payment methods");
     // if (PaymentMethods.user.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
     res.status(200).send(PaymentMethods);

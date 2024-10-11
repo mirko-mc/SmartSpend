@@ -27,7 +27,7 @@ export const AllPaymentMethods = () => {
 
   if (PaymentMethods)
     return (
-      <Container data-bs-theme={Theme} bg={Theme}>
+      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
         <Row>
           <Col>
             <Card className="mb-3 shadow">

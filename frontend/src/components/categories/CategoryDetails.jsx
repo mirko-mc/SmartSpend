@@ -23,7 +23,7 @@ export const CategoryDetails = () => {
   if (!Category) return <CardLoader />;
   if (Category)
     return (
-      <Container data-bs-theme={Theme} bg={Theme}>
+      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
         <Row>
           <Col xs={1} className="mb-3"></Col>
           <Col xs={10} className="mb-3">

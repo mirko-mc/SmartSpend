@@ -9,14 +9,11 @@ export const NewPaymentMethod = ({
 }) => {
   console.log("COMPONENT => NewTransaction.jsx");
   // * CONTEXT
-  const { LoggedUser } = useContext(UserContext);
   // * STATI
-  // * FUNZIONI
 
+  // * FUNZIONI
   const HandleOnChange = (e) => {
     SetNewCPMFormValue({ ...NewCPMFormValue, [e.target.name]: e.target.value });
-    if (!NewCPMFormValue.user)
-      SetNewCPMFormValue({ ...NewCPMFormValue, user: LoggedUser._id });
   };
   return (
     <Form onSubmit={HandleNewCPM}>

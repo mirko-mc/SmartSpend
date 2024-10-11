@@ -10,8 +10,6 @@ import {
   CardTitle,
   Col,
   Container,
-  Image,
-  PlaceholderButton,
   Row,
 } from "react-bootstrap";
 import { RecentTransaction } from "../../components/transaction/RecentTransaction.jsx";
@@ -25,7 +23,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 export const Dashboard = () => {
   console.log("VIEWS => Dashboard.jsx");
   // * CONTEXT
-  const { LoggedUser, Theme, IsPrivacy, SetIsPrivacy } =
+  const { LoggedUser, Theme, IsPrivacy, SetIsPrivacy, ThemeClassName } =
     useContext(UserContext);
   // * STATI
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
@@ -44,7 +42,7 @@ export const Dashboard = () => {
 
   if (LoggedUser)
     return (
-      <Container data-bs-theme={Theme} bg={Theme}>
+      <Container data-bs-theme={Theme} className={ThemeClassName()}>
         <Row>
           <Col className="mb-3">
             <h1>Dashboard</h1>
@@ -59,7 +57,7 @@ export const Dashboard = () => {
               <Card className="shadow h-100 mb-0 p-0">
                 <Card.Header className="d-flex justify-content-between align-items-center">
                   <Card.Title>Saldo totale</Card.Title>
-                  <Button
+                  {/* <Button
                     variant={Theme}
                     className="float-end"
                     onClick={() => SetIsPrivacy(!IsPrivacy)}
@@ -70,16 +68,14 @@ export const Dashboard = () => {
                     ) : (
                       <FontAwesomeIcon icon={faEyeSlash} />
                     )}
-                  </Button>
+                  </Button> */}
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>
                     {IsPrivacy ? "******" : TotalIn - TotalOut}
                   </Card.Text>
                 </Card.Body>
-                <CardFooter>
-                  Saldo totale
-                </CardFooter>
+                <CardFooter>Saldo totale</CardFooter>
               </Card>
             )}
           </Col>

@@ -8,7 +8,7 @@ import {
 } from "../../data/fetch";
 import { UserContext } from "../../context/UserContextProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faXmarkCircle } from "@fortawesome/free-regular-svg-icons";
+import { faSave } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const NewTransaction = ({ SetIsNewTransaction }) => {
@@ -27,13 +27,12 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
   useEffect(() => {
     GetPaymentMethods().then((data) => SetPaymentMethods(data));
     GetCategories().then((data) => SetCategories(data));
+    SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
   }, []);
   // gestisco l'inserimento dei dati nel form value raccogliendoli dagli input dell'utente
   const HandleOnChange = (e) => {
     e.preventDefault();
     SetNewTransaction({ ...NewTransaction, [e.target.name]: e.target.value });
-    if (!NewTransaction.user)
-      SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
     console.log(NewTransaction);
   };
   // gestisco il salvataggio della nuova transazione

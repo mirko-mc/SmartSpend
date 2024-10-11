@@ -37,9 +37,14 @@ export const UserContextProvider = ({ children }) => {
     Token && GetMeData();
   }, [Token]);
 
+  // salvo il tema preferito dell'utente nello stato
   useEffect(() => {
     LoggedUser && SetTheme(LoggedUser.favoriteTheme);
   }, [LoggedUser]);
+
+  // gestisco il className del tema
+  const ThemeClassName = (Theme) =>
+    !Theme ? "bg-warning text-dark" : "bg-dark text-warning";
 
   // valori resi disponibili tramite context
   const Value = {
@@ -51,6 +56,7 @@ export const UserContextProvider = ({ children }) => {
     SetTheme,
     IsPrivacy,
     SetIsPrivacy,
+    ThemeClassName,
   };
   return <UserContext.Provider value={Value}>{children}</UserContext.Provider>;
 };

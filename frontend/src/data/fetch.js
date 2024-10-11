@@ -4,7 +4,6 @@ const FetchUserUrl = `${process.env.REACT_APP_API_URL}/api/v1/user`;
 const FetchCategoriesUrl = `${process.env.REACT_APP_API_URL}/api/v1/category`;
 const FetchPaymentMethodsUrl = `${process.env.REACT_APP_API_URL}/api/v1/paymentMethod`;
 const FetchTransactionsUrl = `${process.env.REACT_APP_API_URL}/api/v1/transactions`;
-const FetchTotalsUrl = `${process.env.REACT_APP_API_URL}/api/v1/total`;
 
 // * AUTHENTICATION
 // POST /login => restituisce token di accesso, non protetta
@@ -386,10 +385,11 @@ export const DeleteTransaction = async (TransactionId) => {
   }
 };
 
-export const GetTotals = async (UserId) => {
+// DELETE /totals => eliminare una transazione
+export const GetTotals = async () => {
   console.log("DATA => Fetch => GetTotals");
   try {
-    const res = await fetch(`${FetchTotalsUrl}/${UserId}`, {
+    const res = await fetch(`${FetchTransactionsUrl}/totals`, {
       headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     if (!res.ok) throw new Error(res.statusText);

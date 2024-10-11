@@ -7,11 +7,14 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { UserContext } from "../../context/UserContextProvider";
 import { PutUser } from "../../data/fetch";
 import { Toggle } from "../utils/Toggle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 export const MyNavbar = () => {
   console.log("COMPONENT => MyNavbar.jsx");
   // * CONTEXT
-  const { LoggedUser, Logout, Theme, SetTheme } = useContext(UserContext);
+  const { LoggedUser, Logout, Theme, SetIsPrivacy, IsPrivacy, ThemeClassName } =
+    useContext(UserContext);
   // * STATI
   // * FUNZIONI
   const HandleSaveTheme = () => {
@@ -20,14 +23,7 @@ export const MyNavbar = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <Navbar
-      bg={Theme}
-      expand="lg"
-      className="mb-3 shadow"
-      sticky="top"
-      collapseOnSelect
-      data-bs-theme={Theme}
-    >
+    <Navbar className={`shadow ${ThemeClassName(Theme)}`} sticky="top" data-bs-theme={Theme}>
       <Container>
         <Row className="justify-content-between w-100">
           <Col xs="auto" md={4}>
@@ -35,71 +31,67 @@ export const MyNavbar = () => {
               favoriteTheme={LoggedUser?.favoriteTheme}
               HandleSaveTheme={HandleSaveTheme}
             />
-
-            <Navbar.Toggle aria-controls="myNavbar" />
+            <Button
+              variant={Theme}
+              className="float-end"
+              onClick={() => SetIsPrivacy(!IsPrivacy)}
+              size="sm"
+            >
+              {IsPrivacy ? (
+                <FontAwesomeIcon icon={faEye} />
+              ) : (
+                <FontAwesomeIcon icon={faEyeSlash} />
+              )}
+            </Button>
+            {/* <Navbar.Toggle aria-controls="myNavbar" /> */}
             {LoggedUser && (
-              <Navbar.Collapse id="myNavbar">
-                <Nav className="me-auto my-2 my-lg-0 navbar-nav-scroll">
-                  <NavDropdown
-                    title={
-                      <span>
-                        <Image
-                          src={LoggedUser.avatar}
-                          width="30"
-                          height="30"
-                          className="d-inline-block align-middle"
-                          alt="avatar"
-                          roundedCircle
-                        />
-                        <span className="d-none d-md-inline ms-2">
-                          Ciao {LoggedUser.name}
-                        </span>
+              // <Navbar.Collapse id="myNavbar">
+              <Nav className="me-auto my-2 my-lg-0 navbar-nav-scroll">
+                <NavDropdown
+                  title={
+                    <span>
+                      <Image
+                        src={LoggedUser.avatar}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-middle"
+                        alt="avatar"
+                        roundedCircle
+                      />
+                      <span className="d-none d-md-inline ms-2">
+                        Ciao {LoggedUser.name}
                       </span>
-                    }
+                    </span>
+                  }
+                  align="start"
+                  menuVariant={Theme}
+                >
+                  <NavDropdown.Item href="/me">Profilo</NavDropdown.Item>
+                  {/* <NavDropdown
+                    title="Le mie liste"
                     id="navbarScrollingDropdown"
                     align="end"
-                    menuVariant={Theme}
-                  >
-                    <NavDropdown.Item href="/me">Profilo</NavDropdown.Item>
-                    <NavDropdown
-                      title="Le mie liste"
-                      id="navbarScrollingDropdown"
-                      align="end"
-                    >
-                      <NavDropdown.Item href="/categories">
-                        Categorie
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="/paymentMethods">
-                        Metodi di pagamento
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="/transactions">
-                        Movimenti
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown.Divider />
+                  > */}
 
-                    <NavDropdown
-                      title="Aggiungi"
-                      id="navbarScrollingDropdown"
-                      align="end"
-                    >
-                      <NavDropdown.Item href="/categories/new">
-                        Categoria
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="/paymentMethods/new">
-                        Metodo di pagamento
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="/transactions/new">
-                        Transazione
-                      </NavDropdown.Item>
-                    </NavDropdown>
+                  <NavDropdown.Divider />
 
-                    <NavDropdown.Divider />
+                  <NavDropdown.Item href="/categories">
+                    Categorie
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/paymentMethods">
+                    Metodi di pagamento
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/transactions">
+                    Movimenti
+                  </NavDropdown.Item>
+                  {/* </NavDropdown> */}
 
-                    <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
-                  </NavDropdown>
-                </Nav>
-              </Navbar.Collapse>
+                  <NavDropdown.Divider />
+
+                  <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              // </Navbar.Collapse>
             )}
           </Col>
           <Col xs="auto" md={4} className="d-flex justify-content-end p-0">

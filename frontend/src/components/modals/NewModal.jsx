@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { NewCategory } from "../categories/NewCategory";
 import { NewPaymentMethod } from "../paymentMethods/NewPaymentMethod";
 import { SetInitialFormValues } from "../../data/formValue";
 import { PostCategory, PostPaymentMethod } from "../../data/fetch";
+import { UserContext } from "../../context/UserContextProvider";
 
 export const NewModal = ({ tipo, Show, SetShow }) => {
+  // * CONTEXT
+  const { LoggedUser } = useContext(UserContext);
+  // * FUNZIONI
   const HandleClose = () => SetShow(false);
   const [NewCPMFormValue, SetNewCPMFormValue] = useState(
     SetInitialFormValues(tipo)
   );
+  useEffect(() => {
+    SetNewCPMFormValue({ ...NewCPMFormValue, user: LoggedUser._id });
+  }, []);
   const HandleNewCPM = async (e) => {
     e.preventDefault();
     // todo gestire errore creazione categoria

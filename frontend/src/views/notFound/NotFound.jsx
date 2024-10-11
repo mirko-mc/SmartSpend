@@ -7,7 +7,7 @@ export const NotFound = () => {
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   return (
-    <Container data-bs-theme={Theme} bg={Theme}>
+    <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
       <Row>
         <Col
           xs={12}

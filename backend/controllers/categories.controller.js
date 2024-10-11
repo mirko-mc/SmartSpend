@@ -39,6 +39,7 @@ export const GetCategories = async (req, res) => {
 export const PostCategory = async (req, res) => {
   console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
+    // ??? come controllo l'id dell'utente
     // controllo che l'id nel body sia dell'utente loggato
     // if (req.body.user !== req.LoggedUser.id)
     //   throw new Error("Error on user id");
