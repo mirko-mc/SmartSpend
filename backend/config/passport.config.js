@@ -19,6 +19,7 @@ const GoogleStrategy = new PassportGoogleStrategy(
       family_name: surname,
       email,
       sub: googleId,
+      picture: avatar,
     } = profile._json;
 
     // cerco l'utente nel database tramite il suo googleId
@@ -30,6 +31,7 @@ const GoogleStrategy = new PassportGoogleStrategy(
         name,
         surname,
         email,
+        avatar,
       });
       // salvo l'utente nel database
       user = await NewUser.save();

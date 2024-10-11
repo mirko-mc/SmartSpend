@@ -5,6 +5,7 @@ import { userCheck } from "../utils/bodyCheck.js";
 import { PostSendMail } from "../utils/postSendMail.js";
 import categoriesSchema from "../models/categories.schema.js";
 import paymentMethodsSchema from "../models/paymentMethods.schema.js";
+import { decode } from "jsonwebtoken";
 
 // POST /login => restituisce token di accesso, non protetta
 export const PostLogin = async (req, res) => {
@@ -107,7 +108,36 @@ export const GetLoginGoogle = async (req, res) => {};
 // GET callback Google => redirect al frontend
 export const GetCallbackGoogle = async (req, res) => {
   console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
-  // qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.author
-  console.log(req.user.token);
-  res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.token}`);
+  try {
+    const UserId = await decode(req.user.token).user;
+    console.log(">>>>>>>>>>>>>> UserId => ", UserId);
+    const Categories = await categoriesSchema.find({ user: UserId });
+    console.log(">>>>>>>>>>>>>> Categories => ", Categories);
+    const PaymentMethods = await paymentMethodsSchema.find({ user: UserId });
+    console.log(">>>>>>>>>>>>>> PaymentMethods => ", PaymentMethods);
+    // creo categoria generico
+    Categories.length === 0 &&
+      (await categoriesSchema.create({
+        name: "Generica",
+        description: "Categoria generica",
+        user: UserId,
+        color: "#000000",
+      }));
+    // creo metodo di pagamento contanti
+    PaymentMethods.length === 0 &&
+      (await paymentMethodsSchema.create({
+        name: "Contanti",
+        description: "Pagamento per contanti",
+        type: "cash",
+        initialBalance: 0,
+        user: UserId,
+      }));
+
+    // qui facciamo il redirect al frontend passandogli nella query string il jwt creato in passport che l'ha aggiunto in req.user
+    // console.log(req.user.token);
+    res.redirect(`${process.env.FRONTEND_URL}?token=${req.user.token}`);
+  } catch (err) {
+    console.error(err);
+    res.status(401).send("Error while logging with Google");
+  }
 };

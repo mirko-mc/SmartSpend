@@ -114,7 +114,7 @@ export const Me = () => {
                           type="date"
                           name="birthdate"
                           id="birthdate"
-                          value={
+                          value={UserFormValue.birthdate&&
                             new Date(UserFormValue.birthdate)
                               .toISOString()
                               .split("T")[0]

@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CardSubtitle,
   CardText,
   CardTitle,
   Col,
@@ -58,11 +59,17 @@ export const Dashboard = () => {
                 </Card.Header>
                 <Card.Body className="d-flex justify-content-center align-items-center">
                   <Card.Text className="display-1 text-center fw-bold">
-                    {IsPrivacy ? "******" : (TotalIn - TotalOut).toFixed(2)}
+                    {IsPrivacy
+                      ? "******"
+                      : "€ " + (TotalIn - TotalOut).toFixed(2)}
                   </Card.Text>
                 </Card.Body>
                 <CardFooter className="text-center">
-                  {TotalIn - TotalOut > 0 ? "Sei in credito" : "Sei in debito"}
+                  {TotalIn - TotalOut === 0
+                    ? ""
+                    : TotalIn - TotalOut > 0
+                    ? "Sei in credito"
+                    : "Sei in debito"}
                 </CardFooter>
               </Card>
             )}
@@ -77,17 +84,25 @@ export const Dashboard = () => {
                   <CardTitle>Rapporto entrate - uscite</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Charts TotalIn={TotalIn} TotalOut={TotalOut} />
+                  {TotalIn - TotalOut === 0 ? (
+                    <CardSubtitle className="d-flex justify-content-center align-items-center h-100">
+                      Registra movimenti per avere un rapporto entrate e uscite
+                    </CardSubtitle>
+                  ) : (
+                    <Charts TotalIn={TotalIn} TotalOut={TotalOut} />
+                  )}
                 </CardBody>
                 <CardFooter className="text-center">
-                  {
+                  {TotalIn - TotalOut === 0 ? (
+                    ""
+                  ) : (
                     <CardText>
                       Entrate:{" "}
                       {((TotalIn / (TotalIn + TotalOut)) * 100).toFixed(2)}% -
                       Uscite:{" "}
                       {((TotalOut / (TotalIn + TotalOut)) * 100).toFixed(2)}%
                     </CardText>
-                  }
+                  )}
                 </CardFooter>
               </Card>
             )}

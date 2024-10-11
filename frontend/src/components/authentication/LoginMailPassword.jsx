@@ -11,10 +11,7 @@ export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
   const HandleLogin = (event) => {
     // evito che si aggiorni la pagina
     event.preventDefault();
-    // !!! PostLogin({ email: event.target[0].value, password: event.target[1].value })
-    // todo
-    // decommentare la riga precedente ed eliminare la successiva che serve solo per un accesso più rapido in fase di test
-    PostLogin({ email: "hjk@hjk.hjk", password: "hjkhjk" })
+    PostLogin({ email: event.target[0].value, password: event.target[1].value })
       .then((data) => {
         localStorage.setItem("token", data.token);
         SetToken(data.token);

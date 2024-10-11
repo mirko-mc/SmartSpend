@@ -18,10 +18,12 @@ export const Categories = () => {
   const Navigate = useNavigate();
   // * FUNZIONI
   useEffect(() => {
-    GetCategories()
-      .then((data) => SetCategories(data))
-      .catch((err) => console.log(err));
-  }, [LoggedUser]);
+    !Show &&
+      LoggedUser &&
+      GetCategories()
+        .then((data) => SetCategories(data))
+        .catch((err) => console.log(err));
+  }, [LoggedUser, Show]);
   if (!Categories)
     return (
       <Container>
