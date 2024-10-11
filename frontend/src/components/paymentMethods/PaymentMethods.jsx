@@ -61,6 +61,13 @@ export const PaymentMethods = () => {
         </ListGroup>
       </Card.Body>
       <CardFooter>
+        <Button
+          variant={Theme === "dark" ? "outline-light" : "dark"}
+          onClick={() => Navigate("/paymentMethods")}
+          size="sm"
+        >
+          Visualizza tutti
+        </Button>
         <Button variant="primary" onClick={() => SetShow(true)}>
           Aggiungi metodo di pagamento
         </Button>

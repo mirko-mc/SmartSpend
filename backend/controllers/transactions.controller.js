@@ -11,18 +11,26 @@ import { transactionCheck } from "../utils/bodyCheck.js";
 export const GetTotals = async (req, res) => {
   console.log("CONTROLLER TRANSACTIONS => GetTotals");
   try {
-    const Totals = await transactionsSchema
+    const Transaction = await transactionsSchema
       .find({ user: req.LoggedUser.id })
       .select("inOut amount");
-    if (!Totals) throw new Error("Totals not found");
+    if (!Transaction) throw new Error("Totals not found");
     let TotalIn = 0;
     let TotalOut = 0;
-    Totals.forEach((total) => {
+    Transaction.forEach((total) => {
       if (total.inOut === "in") {
         TotalIn += total.amount;
       } else {
         TotalOut += total.amount;
       }
+    });
+
+    const PaymentMethod = await paymentMethodsSchema
+      .find({ user: req.LoggedUser.id })
+      .select("initialBalance");
+    if (!PaymentMethod) throw new Error("Totals not found");
+    PaymentMethod.forEach((total) => {
+      TotalIn += total.initialBalance;
     });
     res.status(200).send({ totalIn: TotalIn, totalOut: TotalOut });
   } catch (err) {
