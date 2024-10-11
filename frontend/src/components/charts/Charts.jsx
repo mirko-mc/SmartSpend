@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { GetTotals } from "../../data/fetch";
-import { Card, Col, Container, Row } from "react-bootstrap";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-// ??? settato bene?
 
 export const Charts = ({ TotalIn, TotalOut }) => {
   console.log("CHARTS => Charts.jsx");

@@ -45,14 +45,6 @@ export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
         <Button variant="primary" type="submit">
           Accedi
         </Button>
-        <Button
-          variant="link"
-          type="button"
-          className="ms-2"
-          onClick={() => SetShowLoginResetPassword(true)}
-        >
-          Recupera password
-        </Button>
       </Form>
     </Col>
   );

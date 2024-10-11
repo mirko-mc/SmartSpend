@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { LoginMailPassword } from "../../components/authentication/LoginMailPassword";
 import { LoginGoogle } from "../../components/authentication/LoginGoogle";
-import { ChangePassword } from "../../components/authentication/RecoveryPassword";
 import { Dashboard } from "../dashboard/Dashboard";
 import { Register } from "../../components/authentication/Register";
 
@@ -13,39 +12,23 @@ export const Home = () => {
   const { Token, Theme, ThemeClassName } = useContext(UserContext);
   // * STATI
   const [ShowLoginRegister, SetShowLoginRegister] = useState(true);
-  const [ShowLoginResetPassword, SetShowLoginResetPassword] = useState(false);
   // * FUNZIONI
   if (!Token)
     return (
       <Container data-bs-theme={Theme} className={ThemeClassName()}>
         {ShowLoginRegister && (
           <Row>
-            {ShowLoginResetPassword ? (
-              <ChangePassword
-                SetShowLoginResetPassword={SetShowLoginResetPassword}
-              />
-            ) : (
-              <>
-                <LoginMailPassword
-                  SetShowLoginResetPassword={SetShowLoginResetPassword}
-                />
-                <LoginGoogle />
-                <Button
-                  variant="primary"
-                  onClick={() => SetShowLoginRegister(false)}
-                >
-                  Registrazione
-                </Button>
-              </>
-            )}
+            <LoginMailPassword />
+            <LoginGoogle />
+            <Button variant={Theme} onClick={() => SetShowLoginRegister(false)}>
+              Registrazione
+            </Button>
           </Row>
         )}
         {!ShowLoginRegister && (
           <Row>
-            <Register />
-            <Button variant="link" onClick={() => SetShowLoginRegister(true)}>
-              Vai ai metodi d'accesso
-            </Button>
+            <Register SetShowLoginRegister={SetShowLoginRegister}/>
+            
           </Row>
         )}
       </Container>

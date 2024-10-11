@@ -9,21 +9,24 @@ import {
   Image,
   Row,
 } from "react-bootstrap";
-import { SetInitialFormValues } from "../../data/formValue";
 import { DeleteUser, PutUser } from "../../data/fetch";
 import { Categories } from "../../components/categories/Categories";
 import { PaymentMethods } from "../../components/paymentMethods/PaymentMethods";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCancel } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faSave,
+  faTrashAlt,
+} from "@fortawesome/free-regular-svg-icons";
 
 export const Me = () => {
   console.log("VIEWS => Me.jsx");
   // * PROPS
   // * CONTEXT
   const { Token, LoggedUser, SetToken, Theme } = useContext(UserContext);
-  // // * INITIAL FORM VALUE
-  // const InitialFormValue = LoggedUser;
-  // console.log(InitialFormValue);
   // * STATI
-  const [Editing, SetEditing] = useState(false);
+  const [EditMode, SetEditMode] = useState(false);
   const [UserFormValue, SetUserFormValue] = useState(null);
   // * FUNZIONI
   useEffect(() => {
@@ -35,11 +38,10 @@ export const Me = () => {
     PutUser(LoggedUser._id, UserFormValue)
       .then(() => alert("Dati modificati correttamente!"))
       .catch((err) => console.log(err));
-    SetEditing(false);
+    SetEditMode(false);
   };
   const HandleOnChange = (e) => {
     SetUserFormValue({ ...UserFormValue, [e.target.name]: e.target.value });
-    console.log(UserFormValue);
   };
   const HandleDelete = () => {
     DeleteUser(LoggedUser._id)
@@ -54,7 +56,7 @@ export const Me = () => {
   if (Token && UserFormValue)
     return (
       <Container className="mt-5" data-bs-theme={Theme} bg={`bg-${Theme}`}>
-        <Row className="justify-content-center">
+        <Row className="mb-3 justify-content-center">
           <Col md={12}>
             <Card>
               <Card.Header className="d-flex justify-content-between align-items-center">
@@ -84,7 +86,7 @@ export const Me = () => {
                           id="name"
                           value={UserFormValue.name}
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
@@ -99,7 +101,7 @@ export const Me = () => {
                           id="surname"
                           value={UserFormValue.surname}
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
@@ -118,7 +120,7 @@ export const Me = () => {
                               .split("T")[0]
                           }
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
@@ -133,7 +135,7 @@ export const Me = () => {
                           id="email"
                           value={UserFormValue.email}
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
@@ -145,7 +147,7 @@ export const Me = () => {
                         <Form.Select
                           name="favoriteTheme"
                           id="favoriteTheme"
-                          disabled={!Editing}
+                          disabled={!EditMode}
                           value={UserFormValue.favoriteTheme}
                           onChange={HandleOnChange}
                         >
@@ -154,7 +156,7 @@ export const Me = () => {
                         </Form.Select>
                       </Col>
                     </Form.Group>
-                    <Form.Group as={Row} hidden={!Editing}>
+                    <Form.Group as={Row} hidden={!EditMode}>
                       <Form.Label column md={3}>
                         Password
                       </Form.Label>
@@ -165,11 +167,11 @@ export const Me = () => {
                           id="password"
                           value={UserFormValue.password}
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
-                    <Form.Group as={Row} hidden={!Editing}>
+                    <Form.Group as={Row} hidden={!EditMode}>
                       <Form.Label column md={3}>
                         Conferma password
                       </Form.Label>
@@ -180,7 +182,7 @@ export const Me = () => {
                           id="passwordConfirm"
                           value={UserFormValue.passwordConfirm}
                           onChange={HandleOnChange}
-                          disabled={!Editing}
+                          disabled={!EditMode}
                         />
                       </Col>
                     </Form.Group>
@@ -189,34 +191,40 @@ export const Me = () => {
               </Card.Body>
 
               <Card.Footer className="d-flex justify-content-around">
-                {Editing ? (
-                  <Button variant="success" onClick={HandleSave}>
-                    Salva
-                  </Button>
+                {EditMode ? (
+                  <>
+                    <Button
+                      variant={Theme === "dark" ? "outline-danger" : "danger"}
+                      onClick={() => SetEditMode(false)}
+                    >
+                      <FontAwesomeIcon icon={faCancel} />
+                    </Button>
+                    <Button
+                      variant={Theme === "dark" ? "outline-success" : "success"}
+                      onClick={HandleSave}
+                    >
+                      <FontAwesomeIcon icon={faSave} />
+                    </Button>
+                  </>
                 ) : (
-                  <Button
-                    variant={Theme === "dark" ? "outline-light" : "dark"}
-                    onClick={() => SetEditing(!Editing)}
-                  >
-                    Modifica profilo
-                  </Button>
+                  <>
+                    <Button
+                      variant={Theme === "dark" ? `outline-light` : "dark"}
+                      onClick={() => SetEditMode(true)}
+                    >
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button variant="danger" onClick={HandleDelete}>
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </Button>
+                  </>
                 )}
-                <Button variant="danger" onClick={HandleDelete}>
-                  Elimina account
-                </Button>
               </Card.Footer>
             </Card>
           </Col>
         </Row>
 
-        <Row className="mb-3">
-          <Col md={12}>
-            <h5 className="mb-2">Budget:</h5>
-            <p className="text-muted">€ {UserFormValue.balance}</p>
-          </Col>
-        </Row>
-
-        <Row className="mb-3">
+        <Row className="pb-3">
           <Col md={6}>
             <Categories />
           </Col>

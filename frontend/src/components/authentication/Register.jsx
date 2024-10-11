@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { SetInitialFormValues } from "../../data/formValue";
 import { PatchUserAvatar, PostRegister } from "../../data/fetch";
-import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
-export const Register = () => {
+export const Register = ({ SetShowLoginRegister }) => {
   console.log("AUTHENTICATION => Register.jsx");
   // * CONTEXT
   const { Theme, SetToken } = useContext(UserContext);
@@ -136,6 +136,10 @@ export const Register = () => {
       </Form.Group>
       <Button variant={Theme} type="submit">
         Registrati
+      </Button>
+      <span> oppure </span>
+      <Button variant={Theme} onClick={() => SetShowLoginRegister(true)}>
+        Vai ai metodi d'accesso
       </Button>
     </Form>
   );

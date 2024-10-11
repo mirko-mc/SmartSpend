@@ -15,26 +15,12 @@ import { UnprotectedRoutes } from "./components/routesManage/UnprotectedRoutes";
 import { AllTransactions } from "./views/all/AllTransactions";
 import { TransactionDetails } from "./components/transaction/TransactionDetails";
 import { MyFooter } from "./components/footer/MyFooter";
-import { useContext } from "react";
-import { UserContext } from "./context/UserContextProvider";
 import { AllCategories } from "./views/all/AllCategories";
 import { CategoryDetails } from "./components/categories/CategoryDetails";
 import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
 import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
-import { Container } from "react-bootstrap";
 function App() {
   console.log("ROOT => App.js");
-  const { Theme } = useContext(UserContext);
-  /*
-  '/api/v1/auth/register'
-  '/api/v1/user/:userId'
-
-  '/api/v1/category'
-  '/api/v1/category/:categoryId'
-
-  '/api/v1/paymentMethod'
-  '/api/v1/paymentMethod/:paymentMethodId'
-  */
   return (
     <Router>
       <MyNavbar />

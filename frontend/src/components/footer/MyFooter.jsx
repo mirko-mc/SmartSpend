@@ -26,7 +26,7 @@ export const MyFooter = () => {
           <Row>
             <Col>
               <Link
-                to="https://github.com/mirko-mc"
+                to="https://github.com/mirko-mc/SmartSpend"
                 target="_blank"
                 rel="noreferrer"
               >

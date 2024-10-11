@@ -6,20 +6,17 @@ import {
   Col,
   Form,
   FormGroup,
-  FormLabel,
   ListGroup,
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   DeleteTransaction,
   GetCategories,
   GetPaymentMethods,
   PutTransaction,
 } from "../../data/fetch";
-import { NewModal } from "../modals/NewModal";
-import { EditModal } from "../modals/EditModal";
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -27,7 +24,6 @@ import {
   faEdit,
   faTrashAlt,
   faSave,
-  faCalendarMinus,
   faCalendarDays,
 } from "@fortawesome/free-regular-svg-icons";
 import { UserContext } from "../../context/UserContextProvider";
@@ -74,18 +70,16 @@ export const SingleTransaction = ({ transaction, index, type }) => {
   const HandleDeleteTransaction = () => {
     DeleteTransaction(transaction._id)
       .then(() => {
-        Navigate(0);
         alert("Transazione eliminata correttamente!");
+        Navigate("/transactions");
       })
       .catch((err) => console.log(err));
   };
   const HandleEditTransaction = () => {
-    console.log(EditTransactionFormValues);
     PutTransaction(EditTransactionFormValues._id, EditTransactionFormValues)
       .then(() => alert("Transazione modificata correttamente!"))
-      .catch((err) => console.log(err));
-    SetEditMode(!EditMode);
-    SetEditTransactionFormValues(transaction);
+      .catch((err) => console.log(err))
+      .finally(() => Navigate(0));
   };
   // * RENDER
   if (transaction && type === "mini")
@@ -143,19 +137,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                 <FontAwesomeIcon icon={faRightLeft} />
               </Form.Label>
             )}
-            <Form.Label
-              className=""
-              // type="text"
-              // name="inOut"
-              // value={
-              // transaction?.inOut === "in" ? (
-              // <FontAwesomeIcon icon={faLeftLong} />
-              // ) : (
-              // <FontAwesomeIcon icon={faRightLong} />
-              // )
-              // }
-              // disabled
-            >
+            <Form.Label>
               {transaction?.inOut === "in" ? (
                 <FontAwesomeIcon icon={faLeftLong} color="green" size="xl" />
               ) : (
@@ -175,12 +157,6 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               onClick={() => Navigate(`/transactions/${transaction._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => HandleDeleteTransaction(transaction._id)}
-            >
-              <FontAwesomeIcon icon={faTrashAlt} />
             </Button>
           </Form.Group>
         </ListGroup.Item>

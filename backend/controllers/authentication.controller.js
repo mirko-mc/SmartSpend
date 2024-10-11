@@ -3,6 +3,8 @@ import usersSchema from "../models/users.schema.js";
 import Bcrypt from "bcrypt";
 import { userCheck } from "../utils/bodyCheck.js";
 import { PostSendMail } from "../utils/postSendMail.js";
+import categoriesSchema from "../models/categories.schema.js";
+import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 
 // POST /login => restituisce token di accesso, non protetta
 export const PostLogin = async (req, res) => {

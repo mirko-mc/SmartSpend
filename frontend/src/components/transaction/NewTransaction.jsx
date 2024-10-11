@@ -91,7 +91,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   onChange={HandleOnChange}
                   required
                   min={0}
-                  step={0.5}
+                  step={0.01}
                   max={9999.99}
                 />
               </Col>
