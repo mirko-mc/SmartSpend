@@ -48,13 +48,13 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
   const TypesPaymentMethod = SetInitialFormValues("typePaymentMethod");
   // * FUNZIONI
   useEffect(() => {
-    type === "mini"
+    !EditMode && type === "mini"
       ? GetPaymentMethods()
           .then((data) => SetPaymentMethods(data))
           .catch((err) => console.log(err))
       : SetPaymentMethods(paymentMethod);
     console.log(paymentMethod);
-  }, []);
+  }, [EditMode]);
   const HandleChange = (e) => {
     e.preventDefault();
     SetEditPaymentMethodFormValues({
@@ -77,9 +77,8 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
       EditPaymentMethodFormValues
     )
       .then(() => alert("Metodo di pagamento modificato correttamente!"))
-      .catch((err) => console.log(err));
-    SetEditMode(!EditMode);
-    SetEditPaymentMethodFormValues(paymentMethod);
+      .catch((err) => console.log(err))
+      .finally(() => Navigate(0));
   };
   // * RENDER
   if (paymentMethod && type === "mini")

@@ -10,7 +10,8 @@ export const GetPaymentMethod = async (req, res) => {
       req.params.paymentMethodId
     );
     if (!PaymentMethod) throw new Error("Payment method not found");
-    if (PaymentMethod.user._id.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
+    if (PaymentMethod.user._id.toString() !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     res.status(200).send(PaymentMethod);
   } catch (err) {
     console.log(err);
