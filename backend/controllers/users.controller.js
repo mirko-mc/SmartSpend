@@ -1,3 +1,5 @@
+import categoriesSchema from "../models/categories.schema.js";
+import paymentMethodsSchema from "../models/paymentMethods.schema.js";
 import usersSchema from "../models/users.schema.js";
 import { userCheck } from "../utils/bodyCheck.js";
 import Bcrypt from "bcrypt";
@@ -9,7 +11,7 @@ export const GetUser = async (req, res) => {
     const User = await usersSchema
       .findById(req.LoggedUser.id)
       .populate("totals");
-      console.log(User)
+    console.log(User);
     if (!User) throw new Error("Error while getting user");
     res.status(200).send(User);
   } catch (err) {
@@ -44,11 +46,23 @@ export const PutUser = async (req, res) => {
   }
 };
 
-// todo FUNZIONA
 // DELETE /:userId => elimina l'utente
 export const DeleteUser = async (req, res) => {
   console.log("CONTROLLER USERS => DeleteUser");
   try {
+    const DeletedCategories = await categoriesSchema.deleteMany({
+      user: req.LoggedUser.id,
+      new: true,
+    });
+    if (!DeletedCategories) throw new Error("Error while deleting categories");
+
+    const DeletedPaymentMethods = await paymentMethodsSchema.deleteMany({
+      user: req.LoggedUser.id,
+      new: true,
+    });
+    if (!DeletedPaymentMethods)
+      throw new Error("Error while deleting categories");
+
     const DeletedUser = await usersSchema.findByIdAndDelete(req.LoggedUser.id, {
       new: true,
     });
