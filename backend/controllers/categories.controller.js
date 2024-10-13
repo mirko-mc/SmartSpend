@@ -4,14 +4,14 @@ import { categoryCheck } from "../utils/bodyCheck.js";
 // * /api/v1/category
 // GET /:categoryId => recuperare una categorie
 export const GetCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => GetCategory");
   try {
     // recupero la categoria dal database
     const Category = await categoriesSchema.findById(req.params.categoryId);
     // se la categoria non esiste genero errore
     if (!Category) throw new Error({ message: "Category not found" });
     // controllo che l'id nel body sia dell'utente loggato
-    if (Category.user._id.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
+    if (Category.user._id.toString() !== req.LoggedUser.id)
+      throw new Error("Error on user id");
     // se la categoria esiste restituisco la categoria
     res.status(200).send(Category);
   } catch (err) {
@@ -22,10 +22,10 @@ export const GetCategory = async (req, res) => {
 
 // GET /:categoryId => recuperare tutte le categorie
 export const GetCategories = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => GetCategories");
   try {
     const Categories = await categoriesSchema.find({ user: req.LoggedUser.id });
-    if (!Categories) throw new Error({ message: "Error while getting categories" });
+    if (!Categories)
+      throw new Error({ message: "Error while getting categories" });
     // ??? come effettuare il controllo utente
     // if (Categories.user._id.toString() !== req.LoggedUser.id) throw new Error("Error on user id");
     res.status(200).send(Categories);
@@ -37,7 +37,6 @@ export const GetCategories = async (req, res) => {
 
 // POST  => creare una nuova categoria
 export const PostCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => PostCategory");
   try {
     // ??? come controllo l'id dell'utente
     // controllo che l'id nel body sia dell'utente loggato
@@ -61,9 +60,8 @@ export const PostCategory = async (req, res) => {
 
 // PUT /:categoryId => modificare una categoria
 export const PutCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => PutCategory");
   try {
-    console.log(req.body)
+    console.log(req.body);
     // controllo che l'id nel body sia dell'utente loggato
     if (req.body.user !== req.LoggedUser.id)
       throw new Error("Error on user id");
@@ -99,7 +97,6 @@ export const PutCategory = async (req, res) => {
 
 // DELETE /:categoryId => eliminare una categoria
 export const DeleteCategory = async (req, res) => {
-  console.log("CONTROLLER CATEGORIES => DeleteCategory");
   try {
     // se la categoria non esiste genero errore
     const Category = await categoriesSchema.findById(req.params.categoryId);

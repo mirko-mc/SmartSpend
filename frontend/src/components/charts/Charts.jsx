@@ -5,7 +5,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const Charts = ({ TotalIn, TotalOut }) => {
-  console.log("CHARTS => Charts.jsx");
   const data = {
     labels: ["Entrate", "Uscite"],
     datasets: [

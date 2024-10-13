@@ -19,7 +19,6 @@ import { CardLoader } from "../../components/loader/CardLoader.jsx";
 import { GetTotals } from "../../data/fetch.js";
 
 export const Dashboard = () => {
-  console.log("VIEWS => Dashboard.jsx");
   // * CONTEXT
   const { LoggedUser, Theme, IsPrivacy, ThemeClassName } =
     useContext(UserContext);

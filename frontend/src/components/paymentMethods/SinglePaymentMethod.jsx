@@ -36,7 +36,6 @@ import { CardLoader } from "../loader/CardLoader";
 import { SetInitialFormValues } from "../../data/formValue";
 
 export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
-  console.log("COMPONENT => SinglePaymentMethod.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   // * STATI
@@ -53,7 +52,6 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
           .then((data) => SetPaymentMethods(data))
           .catch((err) => console.log(err))
       : SetPaymentMethods(paymentMethod);
-    console.log(paymentMethod);
   }, [EditMode]);
   const HandleChange = (e) => {
     e.preventDefault();

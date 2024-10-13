@@ -1,25 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import {
   Row,
-  Col,
   Card,
   Button,
-  Form,
   Container,
   ListGroup,
   CardFooter,
 } from "react-bootstrap";
 import { UserContext } from "../../context/UserContextProvider";
-import { DeletePaymentMethod, GetPaymentMethods } from "../../data/fetch";
+import { GetPaymentMethods } from "../../data/fetch";
 import { NewModal } from "../modals/NewModal";
 import { CardLoader } from "../loader/CardLoader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { SinglePaymentMethod } from "./SinglePaymentMethod";
 
 export const PaymentMethods = () => {
-  console.log("COMPONENTS => paymentMethods.jsx");
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI

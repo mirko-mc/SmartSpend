@@ -32,7 +32,6 @@ import {
 import { CardLoader } from "../loader/CardLoader";
 
 export const SingleCategory = ({ category, index, type }) => {
-  console.log("COMPONENT => SingleCategory.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   // * STATI
@@ -59,7 +58,6 @@ export const SingleCategory = ({ category, index, type }) => {
   const HandleDeleteCategory = () => {
     DeleteCategory(category._id)
       .then(() => {
-        // Navigate(0);
         alert("Categoria eliminata correttamente!");
       })
       .catch((err) => console.log(err))

@@ -7,7 +7,6 @@ import { CardLoader } from "../../components/loader/CardLoader";
 import { SingleCategory } from "../../components/categories/SingleCategory";
 
 export const AllCategories = () => {
-  console.log("VIEW => AllCategories.jsx");
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI

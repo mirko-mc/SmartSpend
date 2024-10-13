@@ -9,7 +9,6 @@ import { transactionCheck } from "../utils/bodyCheck.js";
 // todo res => saldo
 // GET "/totals" => recupera i totali di tutte le transazioni
 export const GetTotals = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => GetTotals");
   try {
     const Transaction = await transactionsSchema
       .find({ user: req.LoggedUser.id })
@@ -41,7 +40,6 @@ export const GetTotals = async (req, res) => {
 
 // GET => recuperare tutte le transazioni
 export const GetTransactions = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => GetTransactions");
   try {
     if (req.body.id) {
       const Transaction = await transactionsSchema.findById(
@@ -66,7 +64,6 @@ export const GetTransactions = async (req, res) => {
 
 // GET /:transactionId => recuperare una transazione
 export const GetTransaction = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => GetTransaction");
   try {
     const Transaction = await transactionsSchema
       .findById(req.params.transactionId)
@@ -83,7 +80,6 @@ export const GetTransaction = async (req, res) => {
 
 // POST /:userId => creare una nuova transazione
 export const PostTransaction = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => PostTransaction");
   try {
     console.log(req.body);
     if (req.body.user !== req.LoggedUser.id)
@@ -111,7 +107,6 @@ export const PostTransaction = async (req, res) => {
 
 // PUT /:transactionId => modificare una transazione
 export const PutTransaction = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => PutTransaction");
   try {
     if (req.body.user._id !== req.LoggedUser.id)
       throw new Error("Error on user id");
@@ -147,7 +142,6 @@ export const PutTransaction = async (req, res) => {
 
 // DELETE /:transactionId => eliminare una transazione
 export const DeleteTransaction = async (req, res) => {
-  console.log("CONTROLLER TRANSACTIONS => DeleteTransactions");
   try {
     // recupero la transazione
     const Transaction = await transactionsSchema.findById(

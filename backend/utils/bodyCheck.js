@@ -1,5 +1,4 @@
 export const userCheck = async (body, post) => {
-  console.log("UTILS => userCheck");
   try {
     // definizione variabili dei dati da inviare al database
     const Name = body?.name;
@@ -45,7 +44,6 @@ export const userCheck = async (body, post) => {
 };
 
 export const transactionCheck = async (body, post) => {
-  console.log("UTILS => transactionCheck");
   try {
     const Date = body?.date;
     const Shop = body?.shop;
@@ -81,7 +79,6 @@ export const transactionCheck = async (body, post) => {
 };
 
 export const categoryCheck = async (body, post) => {
-  console.log("UTILS => categoryCheck");
   try {
     const Name = body?.name;
     const User = body?.user;
@@ -102,7 +99,6 @@ export const categoryCheck = async (body, post) => {
 };
 
 export const paymentMethodCheck = async (body, post) => {
-  console.log("UTILS => paymentMethodCheck");
   try {
     const Name = body?.name;
     const Description = body?.description;

@@ -9,7 +9,6 @@ import { decode } from "jsonwebtoken";
 
 // POST /login => restituisce token di accesso, non protetta
 export const PostLogin = async (req, res) => {
-  console.log("AUTHENTICATION CONTROLLER => PostLogin");
   try {
     // ricerco l'utente nel database tramite la sua mail prelevando anche il campo password
     const User = await usersSchema
@@ -35,7 +34,6 @@ export const PostLogin = async (req, res) => {
 // GET /me => restituisce l'utente collegato al token di accesso, protetta
 export const GetMeInfo = async (req, res) => {
   try {
-    console.log("AUTHENTICATION CONTROLLER => GetMeInfo");
     // recupero i dati dell'utente dall'headers
     let User = req.LoggedUser;
     // se i dati NON ci sono allora l'utente NON è loggato
@@ -51,7 +49,6 @@ export const GetMeInfo = async (req, res) => {
 
 // POST /register => crea un nuovo utente
 export const PostRegister = async (req, res) => {
-  console.log("AUTHENTICATION CONTROLLER => PostRegister");
   try {
     // todo controllo che la mail sia in formato valida
     // se l'utente è già presente nel database genero un errore
@@ -107,14 +104,10 @@ export const GetLoginGoogle = async (req, res) => {};
 
 // GET callback Google => redirect al frontend
 export const GetCallbackGoogle = async (req, res) => {
-  console.log("AUTHENTICATION CONTROLLER => GetCallbackGoogle");
   try {
     const UserId = await decode(req.user.token).user;
-    console.log(">>>>>>>>>>>>>> UserId => ", UserId);
     const Categories = await categoriesSchema.find({ user: UserId });
-    console.log(">>>>>>>>>>>>>> Categories => ", Categories);
     const PaymentMethods = await paymentMethodsSchema.find({ user: UserId });
-    console.log(">>>>>>>>>>>>>> PaymentMethods => ", PaymentMethods);
     // creo categoria generico
     Categories.length === 0 &&
       (await categoriesSchema.create({

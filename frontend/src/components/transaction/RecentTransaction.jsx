@@ -7,7 +7,6 @@ import { CardLoader } from "../loader/CardLoader";
 import { useNavigate } from "react-router-dom";
 
 export const RecentTransaction = ({ SetIsNewTransaction }) => {
-  console.log("COMPONENT => RecentTransaction.jsx");
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI

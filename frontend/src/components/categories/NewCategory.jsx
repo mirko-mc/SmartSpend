@@ -1,15 +1,11 @@
-import { useContext } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { UserContext } from "../../context/UserContextProvider";
+import { Col, Form, Row } from "react-bootstrap";
 
 export const NewCategory = ({
   SetNewCPMFormValue,
   HandleNewCPM,
   NewCPMFormValue,
 }) => {
-  console.log("COMPONENT => NewCategory.jsx");
   // * CONTEXT
-  const { LoggedUser } = useContext(UserContext);
   // * STATI
   // * FUNZIONI
   // gestisco l'inserimento dei dati nel form value raccogliendoli dagli input dell'utente
@@ -32,8 +28,7 @@ export const NewCategory = ({
       </Form.Group>
 
       <Form.Group as={Row} className="mb-3">
-        <Col md={6} className="w-50">
-        </Col>
+        <Col md={6} className="w-50"></Col>
         <Col md={6} className="w-50">
           <Form.Label>Colore</Form.Label>
           <Form.Control

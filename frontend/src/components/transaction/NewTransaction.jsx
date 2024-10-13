@@ -12,7 +12,6 @@ import { faSave } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const NewTransaction = ({ SetIsNewTransaction }) => {
-  console.log("COMPONENT => NewTransaction.jsx");
   // * CONTEXT
   const { Theme, LoggedUser } = useContext(UserContext);
   // * STATI

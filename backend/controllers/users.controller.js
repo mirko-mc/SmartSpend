@@ -6,7 +6,6 @@ import Bcrypt from "bcrypt";
 
 // GET /:userId => recupera l'utente
 export const GetUser = async (req, res) => {
-  console.log("CONTROLLER USERS => GetUser");
   try {
     const User = await usersSchema
       .findById(req.LoggedUser.id)
@@ -22,7 +21,6 @@ export const GetUser = async (req, res) => {
 
 // PUT /:userId => modifica l'utente
 export const PutUser = async (req, res) => {
-  console.log("CONTROLLER USERS => PutUser");
   try {
     const User = await usersSchema.findById(req.LoggedUser.id);
     if (!User) throw new Error("User not found");
@@ -48,7 +46,6 @@ export const PutUser = async (req, res) => {
 
 // DELETE /:userId => elimina l'utente
 export const DeleteUser = async (req, res) => {
-  console.log("CONTROLLER USERS => DeleteUser");
   try {
     const DeletedCategories = await categoriesSchema.deleteMany({
       user: req.LoggedUser.id,
@@ -76,7 +73,6 @@ export const DeleteUser = async (req, res) => {
 
 // PATCH /:userId => aggiunge l'avatar dell'utente
 export const PatchUser = async (req, res) => {
-  console.log("CONTROLLER USERS => PatchUser");
   try {
     const PatchedUser = await usersSchema.findByIdAndUpdate(
       req.LoggedUser.id,

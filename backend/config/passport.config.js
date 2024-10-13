@@ -3,7 +3,6 @@ import PassportGoogleStrategy from "passport-google-oauth20";
 import usersSchema from "../models/users.schema.js";
 import { JwtCreation } from "./jwt.config.js";
 
-console.log("CONFIG => passport.config.js - GoogleStrategy");
 // definisco la strategia google indicando le credenziali d'accesso e l'indirizzo della callbackGoogle
 const GoogleStrategy = new PassportGoogleStrategy(
   {

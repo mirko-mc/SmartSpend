@@ -2,7 +2,6 @@ import Jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const JwtCreation = (userId) => {
-  console.log("CONFIG => jwt.config.js - JwtCreation");
   try {
     /** creiamo il JwtToken per l'utente passandogli :
      * - i dati che deve contenere

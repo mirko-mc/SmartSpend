@@ -7,13 +7,11 @@ import { CardLoader } from "../loader/CardLoader";
 import { SinglePaymentMethod } from "./SinglePaymentMethod";
 
 export const PaymentMethodDetails = () => {
-  console.log("COMPONENT => PaymentMethodDetails.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   // * STATI
   const PaymentMethodId = useParams().paymentMethodId;
   const [PaymentMethod, SetPaymentMethod] = useState(null);
-  console.log(PaymentMethodId);
   // * FUNZIONI
   useEffect(() => {
     PaymentMethodId &&

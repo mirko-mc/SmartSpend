@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import { Col, Form, Row } from "react-bootstrap";
-import { UserContext } from "../../context/UserContextProvider";
 
 export const NewPaymentMethod = ({
   SetNewCPMFormValue,
   HandleNewCPM,
   NewCPMFormValue,
 }) => {
-  console.log("COMPONENT => NewTransaction.jsx");
   // * CONTEXT
   // * STATI
 

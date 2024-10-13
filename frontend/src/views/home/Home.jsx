@@ -7,7 +7,6 @@ import { Dashboard } from "../dashboard/Dashboard";
 import { Register } from "../../components/authentication/Register";
 
 export const Home = () => {
-  console.log("VIEW => Home.jsx");
   // * CONTEXT
   const { Token, Theme, ThemeClassName } = useContext(UserContext);
   // * STATI
@@ -27,8 +26,7 @@ export const Home = () => {
         )}
         {!ShowLoginRegister && (
           <Row>
-            <Register SetShowLoginRegister={SetShowLoginRegister}/>
-            
+            <Register SetShowLoginRegister={SetShowLoginRegister} />
           </Row>
         )}
       </Container>

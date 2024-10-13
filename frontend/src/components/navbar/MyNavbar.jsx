@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Button, Col, Image, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 export const MyNavbar = () => {
-  console.log("COMPONENT => MyNavbar.jsx");
   // * CONTEXT
   const { LoggedUser, Logout, Theme, SetIsPrivacy, IsPrivacy, ThemeClassName } =
     useContext(UserContext);
@@ -23,7 +22,11 @@ export const MyNavbar = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <Navbar className={`shadow ${ThemeClassName(Theme)}`} sticky="top" data-bs-theme={Theme}>
+    <Navbar
+      className={`shadow ${ThemeClassName(Theme)}`}
+      sticky="top"
+      data-bs-theme={Theme}
+    >
       <Container>
         <Row className="justify-content-between w-100">
           <Col xs="auto" md={4}>

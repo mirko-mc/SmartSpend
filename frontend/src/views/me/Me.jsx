@@ -21,7 +21,6 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 
 export const Me = () => {
-  console.log("VIEWS => Me.jsx");
   // * PROPS
   // * CONTEXT
   const { Token, LoggedUser, SetToken, Theme } = useContext(UserContext);
@@ -114,7 +113,8 @@ export const Me = () => {
                           type="date"
                           name="birthdate"
                           id="birthdate"
-                          value={UserFormValue.birthdate&&
+                          value={
+                            UserFormValue.birthdate &&
                             new Date(UserFormValue.birthdate)
                               .toISOString()
                               .split("T")[0]

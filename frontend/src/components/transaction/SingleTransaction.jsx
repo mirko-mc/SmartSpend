@@ -39,8 +39,6 @@ import {
 import { CardLoader } from "../loader/CardLoader";
 
 export const SingleTransaction = ({ transaction, index, type }) => {
-  console.log("COMPONENT => SingleTransaction.jsx");
-
   // * CONTEXT
   const { Theme, IsPrivacy } = useContext(UserContext);
   // * STATI

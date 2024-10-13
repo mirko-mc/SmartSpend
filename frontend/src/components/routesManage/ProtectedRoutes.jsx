@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 export const ProtectedRoutes = () => {
-  console.log("ROUTES MANAGE => ProtectedRoutes.jsx");
   // * CONTEXT
   const { Token, SetToken, ThemeClassName } = useContext(UserContext);
   // * FUNZIONI
@@ -28,7 +27,7 @@ export const ProtectedRoutes = () => {
     </>
   ) : (
     <>
-        <Navigate to="/login" />
+      <Navigate to="/login" />
     </>
   );
 };

@@ -5,7 +5,6 @@ import { PatchUserAvatar, PostRegister } from "../../data/fetch";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 export const Register = ({ SetShowLoginRegister }) => {
-  console.log("AUTHENTICATION => Register.jsx");
   // * CONTEXT
   const { Theme, SetToken } = useContext(UserContext);
   // * INITIAL FORM VALUE
@@ -17,7 +16,6 @@ export const Register = ({ SetShowLoginRegister }) => {
     SetUserFormValue({ ...UserFormValue, [e.target.name]: e.target.value });
   };
   const HandlePostRegister = async (e) => {
-    console.log("MODALS => NewModals.jsx => HandlePostRegister");
     // prevengo il refresh della pagina
     e.preventDefault();
     // salvo l'utente

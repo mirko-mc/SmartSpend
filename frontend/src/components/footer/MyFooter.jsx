@@ -11,10 +11,8 @@ import {
 import { faCopyright } from "@fortawesome/free-regular-svg-icons";
 
 export const MyFooter = () => {
-  console.log("COMPONENTS => Footer.jsx");
   // * CONTEXT
   const { Theme, ThemeClassName } = useContext(UserContext);
-  console.log(Theme);
   // todo sistemare tema ed aggiungere loader
   if (Theme)
     return (

@@ -1,4 +1,4 @@
-import { Row, Col, Card, Button, Container } from "react-bootstrap";
+import { Row, Card, Button, Container } from "react-bootstrap";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -9,7 +9,6 @@ import { CardLoader } from "../loader/CardLoader";
 import { useNavigate } from "react-router-dom";
 
 export const Categories = () => {
-  console.log("COMPONENT => categories.jsx");
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI

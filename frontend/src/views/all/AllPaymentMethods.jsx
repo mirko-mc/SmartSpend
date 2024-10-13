@@ -7,7 +7,6 @@ import { CardLoader } from "../../components/loader/CardLoader";
 import { SinglePaymentMethod } from "../../components/paymentMethods/SinglePaymentMethod";
 
 export const AllPaymentMethods = () => {
-  console.log("VIEW => AllPaymentMethods.jsx");
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
   // * STATI

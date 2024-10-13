@@ -3,7 +3,6 @@ import { GetMeInfo } from "../data/fetch";
 
 export const UserContext = createContext(null);
 export const UserContextProvider = ({ children }) => {
-  console.log("CONTEXT => UserContextProvider.jsx");
   // * STATI
   // stato per contenere l'oggetto coi dati dell'utente loggato inizializzato a null (non loggato)
   const [LoggedUser, SetLoggedUser] = useState(null);
@@ -21,7 +20,6 @@ export const UserContextProvider = ({ children }) => {
 
   // funzione asincrona per recuperare i dati dell'utente loggato e settarli nello stato
   const GetMeData = async () => {
-    console.log("CONTEXT => UserContextProvider => GetMeData");
     try {
       // setto i dati dell'utente nello stato
       const MeData = await GetMeInfo();
@@ -60,25 +58,3 @@ export const UserContextProvider = ({ children }) => {
   };
   return <UserContext.Provider value={Value}>{children}</UserContext.Provider>;
 };
-
-// TODO
-// * gestire il token ricevuto da Google che dovrebbe arrivare successivamente il le rotte che sono immediate
-/**
-       * const manageToken = function (){
-            // recupero l'eventuale token dall'url (ricevuto da un login oauth)
-            const objUrlParams = new URLSearchParams(window.location.search)
-            const urlToken = objUrlParams.get('token')
-            // verifico se è presente un token nel localstorage
-            const storageToken = localStorage.getItem('token')
-            // se c'è il token nell'url uso quello perchè è di sicuro il più recente
-            if(urlToken){
-                setToken(urlToken)
-                localStorage.setItem('token', urlToken)
-            }
-            // se non c'è nell'url, ma c'è nello storage, allora considero quello
-            if(!urlToken && storageToken){
-                setToken(storageToken)
-            }
-        }
-        useEffect(manageToken, [])
-       */

@@ -3,7 +3,6 @@ import { Col, Container, Image, Row } from "react-bootstrap";
 import { UserContext } from "../../context/UserContextProvider";
 
 export const NotFound = () => {
-  console.log("VIEW => NotFound.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   return (

@@ -7,7 +7,6 @@ import { GetCategory } from "../../data/fetch";
 import { SingleCategory } from "./SingleCategory";
 
 export const CategoryDetails = () => {
-  console.log("COMPONENT => CategoryDetails.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   // * STATI

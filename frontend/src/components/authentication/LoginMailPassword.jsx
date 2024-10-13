@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 
 export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
-  console.log("AUTHENTICATION => HandleLogin");
   // * CONTEXT
   const { SetToken } = useContext(UserContext);
   // * FUNZIONI

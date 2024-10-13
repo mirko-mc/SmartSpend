@@ -4,7 +4,6 @@ import { paymentMethodCheck } from "../utils/bodyCheck.js";
 // * /api/v1/paymentMethod
 // GET /:paymentMethodId => recuperare un metodo di pagamento
 export const GetPaymentMethod = async (req, res) => {
-  console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethod");
   try {
     const PaymentMethod = await paymentMethodsSchema.findById(
       req.params.paymentMethodId
@@ -21,7 +20,6 @@ export const GetPaymentMethod = async (req, res) => {
 
 // GET "" => recuperare tutti i metodi di pagamento
 export const GetPaymentMethods = async (req, res) => {
-  console.log("CONTROLLER PAYMENT METHODS => GetPaymentMethods");
   try {
     const PaymentMethods = await paymentMethodsSchema.find({
       user: req.LoggedUser.id,
@@ -37,7 +35,6 @@ export const GetPaymentMethods = async (req, res) => {
 
 // POST "" => creare un nuovo metodo di pagamento
 export const PostPaymentMethod = async (req, res) => {
-  console.log("CONTROLLER PAYMENT METHODS => PostPaymentMethod");
   try {
     console.log(req.body);
     if (req.body.user !== req.LoggedUser.id)
@@ -56,7 +53,6 @@ export const PostPaymentMethod = async (req, res) => {
 
 // PUT /:paymentMethodId => modificare un metodo di pagamento
 export const PutPaymentMethod = async (req, res) => {
-  console.log("CONTROLLER PAYMENT METHODS => PutPaymentMethod");
   try {
     if (req.body.user !== req.LoggedUser.id)
       throw new Error("Error on user id");
@@ -82,7 +78,6 @@ export const PutPaymentMethod = async (req, res) => {
 
 // DELETE /:paymentMethodId => eliminare un metodo di pagamento
 export const DeletePaymentMethod = async (req, res) => {
-  console.log("CONTROLLER PAYMENT METHODS => DeletePaymentMethods");
   try {
     // if (req.body.user !== req.LoggedUser.id)
     //   throw new Error("Error on user id");

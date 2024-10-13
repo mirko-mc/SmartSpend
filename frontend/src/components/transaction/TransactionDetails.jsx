@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContextProvider";
 import { GetTransaction } from "../../data/fetch";
@@ -7,7 +7,6 @@ import { CardLoader } from "../loader/CardLoader";
 import { SingleTransaction } from "./SingleTransaction";
 
 export const TransactionDetails = () => {
-  console.log("COMPONENT => TransactionDetails.jsx");
   // * CONTEXT
   const { Theme } = useContext(UserContext);
   // * STATI

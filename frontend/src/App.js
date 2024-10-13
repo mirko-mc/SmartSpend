@@ -20,7 +20,6 @@ import { CategoryDetails } from "./components/categories/CategoryDetails";
 import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
 import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
 function App() {
-  console.log("ROOT => App.js");
   return (
     <Router>
       <MyNavbar />
