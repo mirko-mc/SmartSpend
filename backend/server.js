@@ -27,7 +27,7 @@ Server.use(helmet());
 // * configurazione cors
 // dichiaro gli indirizzi accettati in chiamata tramite un array ["frontend1", "frontend2"]
 const WhiteList = [
-  "https://smart-spend-three.vercel.app/",
+  "https://smart-spend-three.vercel.app",
   "http://localhost:3000",
 ];
 // dichiaro l'oggetto cors che validerà l'accesso all'API
