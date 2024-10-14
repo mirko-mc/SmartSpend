@@ -16,10 +16,7 @@ export const MyFooter = () => {
   // todo sistemare tema ed aggiungere loader
   if (Theme)
     return (
-      <footer
-        className={`footer mt-auto py-3 ${ThemeClassName(Theme)}`}
-        data-bs-theme={Theme}
-      >
+      <footer className={`${ThemeClassName(true)}`} data-bs-theme={Theme}>
         <Container className="mb-3 text-center">
           <Row>
             <Col>

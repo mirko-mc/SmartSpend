@@ -63,7 +63,7 @@ export const PaymentMethods = () => {
         >
           Visualizza tutti
         </Button>
-        <Button variant="primary" onClick={() => SetShow(true)}>
+        <Button variant={Theme} onClick={() => SetShow(true)}>
           Aggiungi metodo di pagamento
         </Button>
       </CardFooter>

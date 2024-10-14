@@ -5,7 +5,7 @@ import { UserContext } from "../../context/UserContextProvider";
 
 export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
   // * CONTEXT
-  const { SetToken } = useContext(UserContext);
+  const { Theme, SetToken } = useContext(UserContext);
   // * FUNZIONI
   const HandleLogin = (event) => {
     // evito che si aggiorni la pagina
@@ -22,11 +22,12 @@ export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
       md={6}
       className="d-flex align-items-center justify-content-center flex-column"
     >
+      <h6>Inserisci username e password per accedere</h6>
       <Form
         onSubmit={HandleLogin}
-        className="d-flex flex-column align-items-center"
+        className="d-flex flex-column align-items-center mt-3"
       >
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="emailPasswordForm">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" placeholder="Inserisci email" />
         </Form.Group>
@@ -38,7 +39,7 @@ export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
             minLength={6}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant={Theme} type="submit">
           Accedi
         </Button>
       </Form>

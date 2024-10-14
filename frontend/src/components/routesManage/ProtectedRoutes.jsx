@@ -1,11 +1,10 @@
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContextProvider";
 import { Navigate, Outlet } from "react-router-dom";
-import { Container } from "react-bootstrap";
 
 export const ProtectedRoutes = () => {
   // * CONTEXT
-  const { Token, SetToken, ThemeClassName } = useContext(UserContext);
+  const { Token, SetToken } = useContext(UserContext);
   // * FUNZIONI
   // prendo il token dall'url
   const JwtToken = new URLSearchParams(window.location.search).get("token");
@@ -16,18 +15,8 @@ export const ProtectedRoutes = () => {
       localStorage.setItem("token", JwtToken);
       SetToken(JwtToken);
     }
-  }, []);
+  }, [Token]);
   // * fine blocco accesso google
   // * outlet è un componente standard che permette di renderizzare le rotte innestate (figlie)
-  return Token ? (
-    <>
-      <Container fluid className={ThemeClassName()}>
-        <Outlet />
-      </Container>
-    </>
-  ) : (
-    <>
-      <Navigate to="/login" />
-    </>
-  );
+  return Token ? <Outlet /> : <Navigate to="/login" />;
 };

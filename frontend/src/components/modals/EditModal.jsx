@@ -93,7 +93,7 @@ export const EditModal = ({ tipo, Show, SetShow, toEdit }) => {
           <Button variant="secondary" onClick={() => SetShow(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={HandleEdit}>
+          <Button variant={Theme} onClick={HandleEdit}>
             Save Changes
           </Button>
         </Modal.Footer>

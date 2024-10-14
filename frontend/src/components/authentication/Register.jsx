@@ -33,7 +33,8 @@ export const Register = ({ SetShowLoginRegister }) => {
   };
   return (
     <Form onSubmit={HandlePostRegister}>
-      <h1>Registrati</h1>
+      <h1 className="text-center">Registrazione</h1>
+      <h5>Inserisci i tuoi dati per effettuare la registrazione</h5>
       <Form.Group as={Row} className="mb-3">
         <Col sm={4}>
           <Form.Label>Nome</Form.Label>
@@ -108,7 +109,7 @@ export const Register = ({ SetShowLoginRegister }) => {
       </Form.Group>
 
       <Form.Group as={Row} className="mb-3">
-        <Col sm={4}>
+        <Col sm={4} className="offset-sm-2">
           <Form.Label>Tema preferito</Form.Label>
           <Form.Select
             name="favoriteTheme"
@@ -132,13 +133,14 @@ export const Register = ({ SetShowLoginRegister }) => {
           />
         </Col>
       </Form.Group>
-      <Button variant={Theme} type="submit">
-        Registrati
-      </Button>
-      <span> oppure </span>
-      <Button variant={Theme} onClick={() => SetShowLoginRegister(true)}>
-        Vai ai metodi d'accesso
-      </Button>
+      <Col className="d-flex justify-content-around mt-5">
+        <Button variant={Theme} type="submit">
+          Registrati
+        </Button>
+        <Button variant={Theme} onClick={() => SetShowLoginRegister(true)}>
+          Vai ai metodi d'accesso
+        </Button>
+      </Col>
     </Form>
   );
 };

@@ -26,7 +26,10 @@ Server.use(morgan("dev"));
 Server.use(helmet());
 // * configurazione cors
 // dichiaro gli indirizzi accettati in chiamata tramite un array ["frontend1", "frontend2"]
-const WhiteList = ["http://localhost:3000"];
+const WhiteList = [
+  "https://smart-spend-three.vercel.app/",
+  "http://localhost:3000",
+];
 // dichiaro l'oggetto cors che validerà l'accesso all'API
 const CorsOptions = {
   origin: function (origin, callback) {
@@ -41,9 +44,9 @@ const CorsOptions = {
   },
 };
 // cors permette la comunicazione tra frontend e backend su porte differenti ed accetta qualsiasi chiamata
-Server.use(cors());
+// Server.use(cors());
 // utilizzo CORS passandogli l'oggetto CorsOption per validare il chiamante
-// !!! Server.use(cors(CorsOptions));
+Server.use(cors(CorsOptions));
 // fine configurazione cors
 // abilitazione all'utilizzo di json
 Server.use(express.json());

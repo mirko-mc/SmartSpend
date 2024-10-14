@@ -8,7 +8,7 @@ import { UserContext } from "../../context/UserContextProvider";
 
 export const NewModal = ({ tipo, Show, SetShow }) => {
   // * CONTEXT
-  const { LoggedUser } = useContext(UserContext);
+  const { Theme, LoggedUser } = useContext(UserContext);
   // * FUNZIONI
   const HandleClose = () => SetShow(false);
   const [NewCPMFormValue, SetNewCPMFormValue] = useState(
@@ -72,7 +72,7 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
           <Button variant="secondary" onClick={HandleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={HandleNewCPM}>
+          <Button variant={Theme} onClick={HandleNewCPM}>
             Save Changes
           </Button>
         </Modal.Footer>
