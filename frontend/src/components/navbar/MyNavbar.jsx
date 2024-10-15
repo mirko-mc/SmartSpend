@@ -7,13 +7,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { UserContext } from "../../context/UserContextProvider";
 import { PutUser } from "../../data/fetch";
 import { Toggle } from "../utils/Toggle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 export const MyNavbar = () => {
   // * CONTEXT
-  const { LoggedUser, Logout, Theme, SetIsPrivacy, IsPrivacy, ThemeClassName } =
-    useContext(UserContext);
+  const { LoggedUser, Logout, Theme, ThemeClassName } = useContext(UserContext);
   // * STATI
   // * FUNZIONI
   const HandleSaveTheme = () => {
@@ -24,7 +21,7 @@ export const MyNavbar = () => {
   return (
     <header sticky="top">
       <Navbar
-        className={`shadow ${ThemeClassName(true)} h-100`}
+        className={`shadow ${ThemeClassName()} h-100`}
         data-bs-theme={Theme}
       >
         <Container>
@@ -34,18 +31,7 @@ export const MyNavbar = () => {
                 favoriteTheme={LoggedUser?.favoriteTheme}
                 HandleSaveTheme={HandleSaveTheme}
               />
-              <Button
-                variant={Theme}
-                className="float-end"
-                onClick={() => SetIsPrivacy(!IsPrivacy)}
-                size="sm"
-              >
-                {IsPrivacy ? (
-                  <FontAwesomeIcon icon={faEye} />
-                ) : (
-                  <FontAwesomeIcon icon={faEyeSlash} />
-                )}
-              </Button>
+
               {/* <Navbar.Toggle aria-controls="myNavbar" /> */}
               {LoggedUser && (
                 // <Navbar.Collapse id="myNavbar">

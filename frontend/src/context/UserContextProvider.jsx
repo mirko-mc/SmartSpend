@@ -41,12 +41,7 @@ export const UserContextProvider = ({ children }) => {
   }, [LoggedUser]);
 
   // gestisco il className del tema
-  const ThemeClassName = (reverseTheme) => {
-    if (!reverseTheme && Theme === "light") return "bg-light text-dark";
-    if (reverseTheme && Theme === "light") return "bg-light text-light";
-    if (!reverseTheme && Theme === "dark") return "bg-secondary text-dark";
-    if (reverseTheme && Theme === "dark") return "bg-dark text-light";
-  };
+  const ThemeClassName = () => (Theme === "light" ? "light" : "dark");
 
   // valori resi disponibili tramite context
   const Value = {

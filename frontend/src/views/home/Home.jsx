@@ -34,7 +34,7 @@ export const Home = () => {
               <h4 className="text-center mt-5">...oppure registrati</h4>
               <Button
                 className="mt-3"
-                variant={Theme}
+                variant="dark"
                 onClick={() => SetShowLoginRegister(false)}
               >
                 Registrazione
@@ -45,7 +45,7 @@ export const Home = () => {
         {!ShowLoginRegister && (
           <Row>
             <Col>
-            <Register SetShowLoginRegister={SetShowLoginRegister} />
+              <Register SetShowLoginRegister={SetShowLoginRegister} />
             </Col>
           </Row>
         )}

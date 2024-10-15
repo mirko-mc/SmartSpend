@@ -16,7 +16,7 @@ export const MyFooter = () => {
   // todo sistemare tema ed aggiungere loader
   if (Theme)
     return (
-      <footer className={`${ThemeClassName(true)}`} data-bs-theme={Theme}>
+      <footer className={ThemeClassName()} data-bs-theme={Theme}>
         <Container className="mb-3 text-center">
           <Row>
             <Col>
@@ -24,6 +24,7 @@ export const MyFooter = () => {
                 to="https://github.com/mirko-mc/SmartSpend"
                 target="_blank"
                 rel="noreferrer"
+                className={ThemeClassName()}
               >
                 <FontAwesomeIcon icon={faGithub} size="2x" />
               </Link>
@@ -32,6 +33,7 @@ export const MyFooter = () => {
                 to="https://www.linkedin.com/in/mirko-campetiello-29b893309/"
                 target="_blank"
                 rel="noreferrer"
+                className={ThemeClassName()}
               >
                 <FontAwesomeIcon icon={faLinkedin} size="2x" />
               </Link>
@@ -40,11 +42,13 @@ export const MyFooter = () => {
                 to="https://t.me/mirko88mc"
                 target="_blank"
                 rel="noreferrer"
+                className={ThemeClassName()}
               >
                 <FontAwesomeIcon icon={faTelegram} size="2x" />
               </Link>
               <p className="text-muted">
-                <FontAwesomeIcon icon={faCopyright} /> 2024 Mirko Campetiello
+                <FontAwesomeIcon icon={faCopyright} /> SmartSpend 2024 Mirko
+                Campetiello
               </p>
             </Col>
           </Row>

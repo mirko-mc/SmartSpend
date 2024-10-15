@@ -43,7 +43,7 @@ export const Dashboard = () => {
       <Container data-bs-theme={Theme} className={`pt-3 ${ThemeClassName()}`}>
         <Row className="mb-3">
           <Col>
-            <h1>Dashboard</h1>
+            <h1 className="text-center">Dashboard</h1>
           </Col>
         </Row>
 

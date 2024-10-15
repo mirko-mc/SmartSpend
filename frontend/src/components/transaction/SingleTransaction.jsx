@@ -92,6 +92,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
+                Data &#160;
                 <FontAwesomeIcon icon={faCalendarDays} />
               </Form.Label>
             )}
@@ -100,6 +101,9 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               name="date"
               value={new Date(transaction.date).toISOString().slice(0, 10)}
               disabled
+              style={{
+                border: `1px solid ${EditTransactionFormValues.category.color}`,
+              }}
             />
           </Form.Group>
 

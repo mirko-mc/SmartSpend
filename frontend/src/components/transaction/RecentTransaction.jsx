@@ -38,10 +38,10 @@ export const RecentTransaction = ({ SetIsNewTransaction }) => {
           ))}
         </Card.Body>
         <CardFooter className="d-flex justify-content-evenly">
-          <Button variant={Theme} onClick={() => Navigate("/transactions")}>
+          <Button variant="outline-warning" onClick={() => Navigate("/transactions")}>
             Visualizza tutte
           </Button>
-          <Button variant={Theme} onClick={() => SetIsNewTransaction(true)}>
+          <Button variant="outline-warning" onClick={() => SetIsNewTransaction(true)}>
             Aggiungi transazione
           </Button>
         </CardFooter>

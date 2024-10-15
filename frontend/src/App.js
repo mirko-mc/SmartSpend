@@ -19,11 +19,15 @@ import { AllCategories } from "./views/all/AllCategories";
 import { CategoryDetails } from "./components/categories/CategoryDetails";
 import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
 import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContextProvider";
+
 function App() {
+  const { ThemeClassName } = useContext(UserContext);
   return (
     <Router>
       <MyNavbar />
-      <main className="m-0 p-0">
+      <main className="m-0 p-0" data-bs-theme={ThemeClassName()}>
         <Routes>
           {/* rotte PROTETTE */}
           <Route element={<ProtectedRoutes />}>
