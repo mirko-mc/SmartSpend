@@ -55,7 +55,7 @@ export const Categories = () => {
           Aggiungi categoria
         </Button>
         <Button
-          variant={Theme === "dark" ? "outline-light" : "dark"}
+          variant={Theme === "dark" ? "outline-warning" : "dark"}
           onClick={() => Navigate("/categories")}
           size="sm"
         >

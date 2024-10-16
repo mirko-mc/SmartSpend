@@ -23,11 +23,11 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContextProvider";
 
 function App() {
-  const { ThemeClassName } = useContext(UserContext);
+  const { Theme } = useContext(UserContext);
   return (
     <Router>
       <MyNavbar />
-      <main className="m-0 p-0" data-bs-theme={ThemeClassName()}>
+      <main className="m-0 p-0" data-bs-theme={Theme}>
         <Routes>
           {/* rotte PROTETTE */}
           <Route element={<ProtectedRoutes />}>

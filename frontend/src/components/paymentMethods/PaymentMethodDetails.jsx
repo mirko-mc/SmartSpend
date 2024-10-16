@@ -22,10 +22,9 @@ export const PaymentMethodDetails = () => {
   if (!PaymentMethod) return <CardLoader />;
   if (PaymentMethod)
     return (
-      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
+      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
         <Row>
-          <Col xs={1} className="mb-3"></Col>
-          <Col xs={10} className="mb-3">
+          <Col xs={10} className="mb-3 offset-1">
             <SinglePaymentMethod paymentMethod={PaymentMethod} type="full" />
           </Col>
         </Row>

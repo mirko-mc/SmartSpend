@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# SmartSpend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SmartSpend is a web application to manage your personal expenses. It's accessible at the following address: https://smart-spend-three.vercel.app
 
-## Available Scripts
+It's based on the MERN stack (React, Nodejs, Expressjs, MongoDB) and has the following features:
 
-In the project directory, you can run:
+- login via email and password
+- login via Google
+- create, edit and delete user
+- create, edit and delete category
+- create, edit and delete payment method
+- create, edit and delete financial transaction
+  When a user is created, a default category and a default payment method are given to the user, which can be modified or deleted.
+  In the dashboard page, the last 5 transactions are shown and a graph with the ratio between income and expense is presented.
 
-### `npm start`
+# SmartSpend (Italiano)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+SmartSpend è un'applicazione web per gestire le tue spese personali. È accessibile all'indirizzo https://smart-spend-three.vercel.app
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+È basata sullo stack MERN (React, Nodejs, Expressjs, MongoDB) e ha le seguenti funzionalità:
 
-### `npm test`
+- login via email e password
+- login via Google
+- crea, modifica e elimina utente
+- crea, modifica e elimina categoria
+- crea, modifica e elimina metodo di pagamento
+- crea, modifica e elimina transazione finanziaria
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Quando un utente viene creato, viene dato all'utente una categoria e un metodo di pagamento di default che possono essere modificati o eliminati.
+Nella pagina dashboard, vengono mostrati gli ultimi 5 movimenti e un grafico con il rapporto tra le entrate e le uscite.

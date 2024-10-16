@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export const RecentTransaction = ({ SetIsNewTransaction }) => {
   // * CONTEXT
-  const { LoggedUser, Theme } = useContext(UserContext);
+  const { LoggedUser } = useContext(UserContext);
   // * STATI
   const [Transactions, SetTransactions] = useState(null);
   const Navigate = useNavigate();

@@ -26,7 +26,7 @@ export const AllCategories = () => {
 
   if (Categories)
     return (
-      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
+      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
         <Row>
           <Col>
             <Card className="mb-3 shadow">
