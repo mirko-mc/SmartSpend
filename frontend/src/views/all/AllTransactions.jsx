@@ -1,4 +1,11 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Container,
+  FormControl,
+  FormGroup,
+  Row,
+} from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { SingleTransaction } from "../../components/transaction/SingleTransaction";
 import { useContext, useEffect, useState } from "react";
@@ -36,6 +43,9 @@ export const AllTransactions = () => {
         });
     }
   }, [LoggedUser]);
+  const HandleChange = (e) => {
+    // todo implementa ricerca
+  };
   if (!Transactions) return <CardLoader />;
 
   if (TransactionId?.transactionId) return <Outlet />;
@@ -51,6 +61,10 @@ export const AllTransactions = () => {
                 <Card.Title>Elenco movimenti</Card.Title>
               </Card.Header>
               <Card.Body>
+                <FormGroup>
+                  <FormControl type="text" onChange={HandleChange} />
+                </FormGroup>
+
                 {ShowAlert?.Type === "getTransactions" && <MyAlert />}
                 {!Transactions[0]?.date ? (
                   <Card.Text className="text-center">
