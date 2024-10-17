@@ -46,19 +46,11 @@ export const Categories = () => {
           />
         ))}
       </Card.Body>
-      <Card.Footer>
-        <Button
-          variant={Theme === "dark" ? "outline-light" : "dark"}
-          onClick={() => SetShow(true)}
-          size="sm"
-        >
+      <Card.Footer className="d-flex justify-content-evenly">
+        <Button variant={Theme} onClick={() => SetShow(true)}>
           Aggiungi categoria
         </Button>
-        <Button
-          variant={Theme === "dark" ? "outline-warning" : "dark"}
-          onClick={() => Navigate("/categories")}
-          size="sm"
-        >
+        <Button variant={Theme} onClick={() => Navigate("/categories")}>
           Visualizza tutte
         </Button>
       </Card.Footer>

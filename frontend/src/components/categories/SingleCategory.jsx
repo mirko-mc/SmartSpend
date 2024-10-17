@@ -80,7 +80,10 @@ export const SingleCategory = ({ category, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faCalendarDays} />
+                <span>
+                  Nome &#160;
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
@@ -88,13 +91,19 @@ export const SingleCategory = ({ category, index, type }) => {
               name="name"
               value={category.name}
               disabled
+              style={{
+                border: `0.5px solid ${category.color}`,
+              }}
             />
           </Form.Group>
 
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faLocationDot} />
+                <span>
+                  Descrizione &#160;
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
@@ -102,20 +111,9 @@ export const SingleCategory = ({ category, index, type }) => {
               name="description"
               value={category.description}
               disabled
-            />
-          </Form.Group>
-
-          <Form.Group>
-            {index === 0 && (
-              <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faEuro} />
-              </Form.Label>
-            )}
-            <Form.Control
-              type="color"
-              name="color"
-              value={category.color}
-              disabled
+              style={{
+                border: `0.5px solid ${category.color}`,
+              }}
             />
           </Form.Group>
 

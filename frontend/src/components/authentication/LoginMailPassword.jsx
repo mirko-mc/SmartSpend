@@ -1,11 +1,16 @@
 import { Button, Col, Form } from "react-bootstrap";
 import { PostLogin } from "../../data/fetch";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../context/UserContextProvider";
+import { MyAlert } from "../utils/MyAlert";
+import { AlertContext } from "../../context/AlertContextProvider";
 
-export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
+export const LoginMailPassword = () => {
   // * CONTEXT
   const { Theme, SetToken } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
+  // * STATI
   // * FUNZIONI
   const HandleLogin = (event) => {
     // evito che si aggiorni la pagina
@@ -15,34 +20,47 @@ export const LoginMailPassword = ({ SetShowLoginResetPassword }) => {
         localStorage.setItem("token", data.token);
         SetToken(data.token);
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        SetAlertFormValue(
+          "login",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
   };
-  return (
-    <Col
-      md={6}
-      className="d-flex align-items-center justify-content-center flex-column"
-    >
-      <h6>Inserisci username e password per accedere</h6>
-      <Form
-        onSubmit={HandleLogin}
-        className="d-flex flex-column align-items-center mt-3"
+    return (
+      <Col
+        md={6}
+        className="d-flex align-items-center justify-content-center flex-column"
       >
-        <Form.Group className="mb-3" controlId="emailPasswordForm">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Inserisci email" />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Inserisci password"
-            minLength={6}
-          />
-        </Form.Group>
-        <Button variant={Theme} type="submit">
-          Accedi
-        </Button>
-      </Form>
-    </Col>
-  );
+        <h6>Inserisci username e password per accedere</h6>
+        {ShowAlert?.Type === "login" && <MyAlert />}
+        <Form
+          onSubmit={HandleLogin}
+          className="d-flex flex-column align-items-center mt-3"
+        >
+          <Form.Group className="mb-3" controlId="emailPasswordForm">
+            <Form.Label>Email</Form.Label>
+            <Form.Control type="email" placeholder="Inserisci email" />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Inserisci password"
+              minLength={6}
+            />
+          </Form.Group>
+          <Button variant={Theme} type="submit">
+            Accedi
+          </Button>
+        </Form>
+      </Col>
+    );
 };

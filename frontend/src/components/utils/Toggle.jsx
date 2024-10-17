@@ -15,37 +15,31 @@ export const Toggle = ({ favoriteTheme, HandleSaveTheme }) => {
     useContext(UserContext);
 
   return (
-    <ToggleButtonGroup
-      type="checkbox"
-      // variant="outline-primary"
-    >
+    <ToggleButtonGroup type="checkbox" variant={Theme}>
       {Theme === "light" ? (
         <ToggleButton
-          className={ThemeClassName()}
-          // variant={Theme === "light" ? "success" : "outline-secondary"}
+          variant={Theme}
           onClick={() => SetTheme(Theme === "light" ? "dark" : "light")}
         >
           <FontAwesomeIcon icon={faSun} />
         </ToggleButton>
       ) : (
         <ToggleButton
-          className={ThemeClassName()}
-          // variant={Theme === "dark" ? "outline-success" : "danger"}
+          variant={Theme}
           onClick={() => SetTheme(Theme === "light" ? "dark" : "light")}
         >
           <FontAwesomeIcon icon={faMoon} />
         </ToggleButton>
       )}
       <ToggleButton
-        // variant={Theme}
-        className={ThemeClassName()}
+        variant={Theme}
         onClick={() => SetIsPrivacy(!IsPrivacy)}
         size="sm"
       >
-        {IsPrivacy ? (
+        {Token && IsPrivacy ? (
           <FontAwesomeIcon icon={faEye} />
         ) : (
-          <FontAwesomeIcon icon={faEyeSlash} />
+          Token && !IsPrivacy && <FontAwesomeIcon icon={faEyeSlash} />
         )}
       </ToggleButton>
       {Token && favoriteTheme !== Theme && (

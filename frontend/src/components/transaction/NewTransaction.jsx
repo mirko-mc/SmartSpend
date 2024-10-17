@@ -10,41 +10,93 @@ import { UserContext } from "../../context/UserContextProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-regular-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const NewTransaction = ({ SetIsNewTransaction }) => {
   // * CONTEXT
   const { Theme, LoggedUser } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const [NewTransaction, SetNewTransaction] = useState(
     SetInitialFormValues("transaction")
   );
   const [PaymentMethods, SetPaymentMethods] = useState(null);
   const [Categories, SetCategories] = useState(null);
-  // todo
-  // inserire € nel campo importo
   // * FUNZIONI
   useEffect(() => {
-    GetPaymentMethods().then((data) => SetPaymentMethods(data));
-    GetCategories().then((data) => SetCategories(data));
+    GetPaymentMethods()
+      .then((data) => SetPaymentMethods(data))
+      .catch(() => {
+        SetAlertFormValue(
+          "newTransaction",
+          "danger",
+          "ERROR",
+          "Errore nel recupero dei metodi di pagamento, riprova più tardi."
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
+    GetCategories()
+      .then((data) => SetCategories(data))
+      .catch(() => {
+        SetAlertFormValue(
+          "newTransaction",
+          "danger",
+          "ERROR",
+          "Errore nel recupero delle categorie, riprova più tardi."
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
     SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
   }, []);
   // gestisco l'inserimento dei dati nel form value raccogliendoli dagli input dell'utente
   const HandleOnChange = (e) => {
     e.preventDefault();
     SetNewTransaction({ ...NewTransaction, [e.target.name]: e.target.value });
-    console.log(NewTransaction);
   };
   // gestisco il salvataggio della nuova transazione
   const HandleSaveTransaction = async (e) => {
     e.preventDefault();
-    // todo gestire errore creazione transazione
-    // todo implementare alert di conferma/errore creazione transazione
     await PostTransaction(NewTransaction)
-      .then(() => alert("Transazione creata"))
-      .catch((err) => console.log(err))
-      .finally(() => SetIsNewTransaction(false));
-    // todo postare il totale nella tabella
+      .then(() => {
+        SetAlertFormValue(
+          "newTransaction",
+          "success",
+          "MOVIMENTO AGGIUNTO",
+          "Movimento aggiunto con successo."
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          SetIsNewTransaction(false);
+        }, 5 * 1000);
+      })
+      .catch(() => {
+        SetAlertFormValue(
+          "newTransaction",
+          "danger",
+          "ERROR",
+          "Errore nella creazione del movimento, riprova più tardi."
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
   };
+
+  if (ShowAlert) return <MyAlert />;
   return (
     <Col>
       <Card className="mb-3 shadow">
@@ -55,14 +107,15 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
           <Card.Body>
             <Form.Group as={Row} className="mb-3">
               <Col md={6}>
-                <Form.Label>Negozio</Form.Label>
+                <Form.Label>Dove</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Inserisci negozio"
+                  placeholder="Ad esempio il negozio"
                   name="shop"
                   id="shop"
                   value={NewTransaction.shop}
                   onChange={HandleOnChange}
+                  required
                 />
               </Col>
               <Col md={6}>

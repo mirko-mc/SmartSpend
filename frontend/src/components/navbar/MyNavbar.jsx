@@ -7,6 +7,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { UserContext } from "../../context/UserContextProvider";
 import { PutUser } from "../../data/fetch";
 import { Toggle } from "../utils/Toggle";
+import { Link } from "react-router-dom";
 
 export const MyNavbar = () => {
   // * CONTEXT
@@ -26,16 +27,9 @@ export const MyNavbar = () => {
       >
         <Container>
           <Row className="justify-content-between w-100">
-            <Col xs="auto" md={4}>
-              <Toggle
-                favoriteTheme={LoggedUser?.favoriteTheme}
-                HandleSaveTheme={HandleSaveTheme}
-              />
-
-              {/* <Navbar.Toggle aria-controls="myNavbar" /> */}
-              {LoggedUser && (
-                // <Navbar.Collapse id="myNavbar">
-                <Nav className="me-auto my-2 my-lg-0 navbar-nav-scroll">
+            <Nav className="me-auto my-2 my-lg-0 justify-content-between align-items-center navbar-nav-scroll">
+              <Container className="d-flex align-items-center">
+                {LoggedUser && (
                   <NavDropdown
                     title={
                       <span>
@@ -56,11 +50,6 @@ export const MyNavbar = () => {
                     menuVariant={Theme}
                   >
                     <NavDropdown.Item href="/me">Profilo</NavDropdown.Item>
-                    {/* <NavDropdown
-                    title="Le mie liste"
-                    id="navbarScrollingDropdown"
-                    align="end"
-                    > */}
 
                     <NavDropdown.Divider />
 
@@ -73,18 +62,22 @@ export const MyNavbar = () => {
                     <NavDropdown.Item href="/transactions">
                       Movimenti
                     </NavDropdown.Item>
-                    {/* </NavDropdown> */}
 
                     <NavDropdown.Divider />
 
                     <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
                   </NavDropdown>
-                </Nav>
-                // </Navbar.Collapse>
-              )}
-            </Col>
-            <Col xs="auto" md={4} className="d-flex justify-content-end p-0">
-              <Navbar.Brand href="/" className="d-flex align-items-center m-0">
+                )}
+                <Toggle
+                  favoriteTheme={LoggedUser?.favoriteTheme}
+                  HandleSaveTheme={HandleSaveTheme}
+                />
+              </Container>
+              <Navbar.Brand
+                as={Link}
+                to={"/dashboard"}
+                className="d-flex align-items-center m-0"
+              >
                 <span className="d-none d-md-inline me-2">SmartSpend</span>
                 <Image
                   src="https://static4.depositphotos.com/1006994/298/v/950/depositphotos_2983099-stock-illustration-grunge-design.jpg"
@@ -95,7 +88,7 @@ export const MyNavbar = () => {
                   roundedCircle
                 />
               </Navbar.Brand>
-            </Col>
+            </Nav>
           </Row>
         </Container>
       </Navbar>

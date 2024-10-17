@@ -28,6 +28,7 @@ export const AllCategories = () => {
     return (
       <Container className="pt-xs-2 pt-md-3 pt-lg-5">
         <Row>
+          <h1 className="text-center mb-3">Categorie</h1>
           <Col>
             <Card className="mb-3 shadow">
               <Card.Header className="d-flex justify-content-between">

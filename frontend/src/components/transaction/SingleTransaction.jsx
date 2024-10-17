@@ -43,7 +43,6 @@ export const SingleTransaction = ({ transaction, index, type }) => {
   const { Theme, IsPrivacy } = useContext(UserContext);
   // * STATI
   const Navigate = useNavigate();
-  // const [Show, SetShow] = useState(false);
   const [EditMode, SetEditMode] = useState(false);
   const [Categories, SetCategiries] = useState(null);
   const [PaymentMethods, SetPaymentMethods] = useState(null);
@@ -92,8 +91,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                Data &#160;
-                <FontAwesomeIcon icon={faCalendarDays} />
+                <span>
+                  Data &#160;
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
@@ -110,7 +111,10 @@ export const SingleTransaction = ({ transaction, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faLocationDot} />
+                <span>
+                  Dove &#160;
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
@@ -118,20 +122,31 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               name="shop"
               value={transaction.shop}
               disabled
+              style={{
+                border: `1px solid ${EditTransactionFormValues.category.color}`,
+              }}
             />
           </Form.Group>
 
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faEuro} />
+                <span>
+                  Importo &#160;
+                  <FontAwesomeIcon icon={faEuro} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
               type={IsPrivacy ? "text" : "number"}
               name="amount"
-              value={IsPrivacy ? "******" : transaction.amount}
+              value={
+                IsPrivacy ? "******" : parseFloat(transaction.amount).toFixed(2)
+              }
               disabled
+              style={{
+                border: `0.5px solid ${EditTransactionFormValues.category.color}`,
+              }}
             />
           </Form.Group>
 
@@ -152,16 +167,17 @@ export const SingleTransaction = ({ transaction, index, type }) => {
 
           <Form.Group>
             {index === 0 && (
-              <Form.Label className="d-block text-center">
+              <Form.Label>
                 <FontAwesomeIcon icon={faSliders} />
               </Form.Label>
             )}
-            <Button
+            <Form.Label
+              className="d-block text-center"
               variant={Theme}
               onClick={() => Navigate(`/transactions/${transaction._id}`)}
             >
-              <FontAwesomeIcon icon={faEye} />
-            </Button>
+              <FontAwesomeIcon icon={faEye} className="text-center" />
+            </Form.Label>
           </Form.Group>
         </ListGroup.Item>
       </ListGroup>

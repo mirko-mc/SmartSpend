@@ -55,12 +55,8 @@ export const PaymentMethods = () => {
           ))}
         </ListGroup>
       </Card.Body>
-      <CardFooter>
-        <Button
-          variant={Theme === "dark" ? "outline-light" : "dark"}
-          onClick={() => Navigate("/paymentMethods")}
-          size="sm"
-        >
+      <CardFooter className="d-flex justify-content-evenly">
+        <Button variant={Theme} onClick={() => Navigate("/paymentMethods")}>
           Visualizza tutti
         </Button>
         <Button variant={Theme} onClick={() => SetShow(true)}>

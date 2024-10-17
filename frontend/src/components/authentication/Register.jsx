@@ -3,10 +3,14 @@ import { UserContext } from "../../context/UserContextProvider";
 import { SetInitialFormValues } from "../../data/formValue";
 import { PatchUserAvatar, PostRegister } from "../../data/fetch";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const Register = ({ SetShowLoginRegister }) => {
   // * CONTEXT
   const { Theme, SetToken } = useContext(UserContext);
+  const { SetAlertFormValue, ShowAlert, SetShowAlert } =
+    useContext(AlertContext);
   // * INITIAL FORM VALUE
   const InitialFormValue = SetInitialFormValues("user");
   // * STATI
@@ -16,20 +20,34 @@ export const Register = ({ SetShowLoginRegister }) => {
     SetUserFormValue({ ...UserFormValue, [e.target.name]: e.target.value });
   };
   const HandlePostRegister = async (e) => {
-    // prevengo il refresh della pagina
-    e.preventDefault();
-    // salvo l'utente
-    const NewUser = await PostRegister(UserFormValue);
-    // inizio a settare il token nella localStorage perché la patch dell'avatar è su rotta protetta
-    localStorage.setItem("token", NewUser.token);
-    // se l'utente ha fornito l'avatar allora patch avatar
-    if (UserFormValue.avatar) {
-      const FD = new FormData();
-      FD.append("avatar", UserFormValue.avatar);
-      await PatchUserAvatar(NewUser.id, FD);
+    try {
+      // prevengo il refresh della pagina
+      e.preventDefault();
+      // salvo l'utente
+      const NewUser = await PostRegister(UserFormValue);
+      // inizio a settare il token nella localStorage perché la patch dell'avatar è su rotta protetta
+      localStorage.setItem("token", NewUser.token);
+      // se l'utente ha fornito l'avatar allora patch avatar
+      if (UserFormValue.avatar) {
+        const FD = new FormData();
+        FD.append("avatar", UserFormValue.avatar);
+        await PatchUserAvatar(NewUser.id, FD);
+      }
+      // inserisco token in context
+      SetToken(NewUser.token);
+    } catch (err) {
+      SetAlertFormValue(
+        "register",
+        "danger",
+        "ERROR",
+        "C'è stato un errore nel registrare i tuoi dati, riprova più tardi."
+      ).then((AlertFormValue) => {
+        SetShowAlert(AlertFormValue);
+      });
+      setTimeout(() => {
+        SetShowAlert(false);
+      }, 5 * 1000);
     }
-    // inserisco token in context
-    SetToken(NewUser.token);
   };
   return (
     <Form onSubmit={HandlePostRegister}>
@@ -134,12 +152,18 @@ export const Register = ({ SetShowLoginRegister }) => {
         </Col>
       </Form.Group>
       <Col className="d-flex justify-content-around mt-5">
-        <Button variant={Theme} type="submit">
-          Registrati
-        </Button>
-        <Button variant={Theme} onClick={() => SetShowLoginRegister(true)}>
-          Vai ai metodi d'accesso
-        </Button>
+        {ShowAlert?.Type === "register" ? (
+          <MyAlert />
+        ) : (
+          <>
+            <Button variant={Theme} type="submit">
+              Registrati
+            </Button>
+            <Button variant={Theme} onClick={() => SetShowLoginRegister(true)}>
+              Vai ai metodi d'accesso
+            </Button>
+          </>
+        )}
       </Col>
     </Form>
   );

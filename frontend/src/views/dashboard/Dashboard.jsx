@@ -17,11 +17,15 @@ import { NewTransaction } from "../../components/transaction/NewTransaction.jsx"
 import { Charts } from "../../components/charts/Charts.jsx";
 import { CardLoader } from "../../components/loader/CardLoader.jsx";
 import { GetTotals } from "../../data/fetch.js";
+import { AlertContext } from "../../context/AlertContextProvider.jsx";
+import { MyAlert } from "../../components/utils/MyAlert.jsx";
 
 export const Dashboard = () => {
   // * CONTEXT
   const { LoggedUser, Theme, IsPrivacy, ThemeClassName } =
     useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
   // * FUNZIONI
@@ -32,10 +36,24 @@ export const Dashboard = () => {
   useEffect(() => {
     LoggedUser &&
       !IsNewTransaction &&
-      GetTotals(LoggedUser._id).then((data) => {
-        SetTotalIn(data.totalIn);
-        SetTotalOut(data.totalOut);
-      });
+      GetTotals(LoggedUser._id)
+        .then((data) => {
+          SetTotalIn(data.totalIn);
+          SetTotalOut(data.totalOut);
+        })
+        .catch(() => {
+          SetAlertFormValue(
+            "chart",
+            "danger",
+            "ERROR",
+            "Errore nel recupero dei dati, riprova più tardi."
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
   }, [LoggedUser, IsNewTransaction]);
 
   if (LoggedUser)
@@ -44,6 +62,7 @@ export const Dashboard = () => {
         <Row className="mb-3">
           <Col>
             <h1 className="text-center">Dashboard</h1>
+            {ShowAlert?.Type === "chart" && <MyAlert />}
           </Col>
         </Row>
 

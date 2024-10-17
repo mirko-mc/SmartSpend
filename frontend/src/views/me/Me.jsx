@@ -56,6 +56,7 @@ export const Me = () => {
     return (
       <Container className="pt-xs-2 pt-md-3 pt-lg-5">
         <Row className="mb-3 justify-content-center">
+          <h1 className="text-center mb-3">Il mio profilo</h1>
           <Col md={12}>
             <Card>
               <Card.Header className="d-flex justify-content-between align-items-center">

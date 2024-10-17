@@ -21,45 +21,48 @@ import { AllPaymentMethods } from "./views/all/AllPaymentMethods";
 import { PaymentMethodDetails } from "./components/paymentMethods/PaymentMethodDetails";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContextProvider";
+import { AlertContextProvider } from "./context/AlertContextProvider";
 
 function App() {
   const { Theme } = useContext(UserContext);
   return (
     <Router>
-      <MyNavbar />
-      <main className="m-0 p-0" data-bs-theme={Theme}>
-        <Routes>
-          {/* rotte PROTETTE */}
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/me" element={<Me />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            {/* TRANSAZIONI */}
-            <Route path="/transactions" element={<AllTransactions />}>
-              <Route path=":transactionId" element={<TransactionDetails />} />
+      <AlertContextProvider>
+        <MyNavbar />
+        <main className="m-0 p-0" data-bs-theme={Theme}>
+          <Routes>
+            {/* rotte PROTETTE */}
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/me" element={<Me />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              {/* TRANSAZIONI */}
+              <Route path="/transactions" element={<AllTransactions />}>
+                <Route path=":transactionId" element={<TransactionDetails />} />
+              </Route>
+              {/* CATEGORIE */}
+              <Route path="categories" element={<AllCategories />}>
+                <Route path=":categoryId" element={<CategoryDetails />} />
+              </Route>
+              {/* METODI DI PAGAMENTO */}
+              <Route path="paymentMethods" element={<AllPaymentMethods />}>
+                <Route
+                  path=":paymentMethodId"
+                  element={<PaymentMethodDetails />}
+                />
+              </Route>
             </Route>
-            {/* CATEGORIE */}
-            <Route path="categories" element={<AllCategories />}>
-              <Route path=":categoryId" element={<CategoryDetails />} />
+            {/* rotte NON PROTETTE */}
+            <Route element={<UnprotectedRoutes />}>
+              <Route path="/login" element={<Home />} />
             </Route>
-            {/* METODI DI PAGAMENTO */}
-            <Route path="paymentMethods" element={<AllPaymentMethods />}>
-              <Route
-                path=":paymentMethodId"
-                element={<PaymentMethodDetails />}
-              />
-            </Route>
-          </Route>
-          {/* rotte NON PROTETTE */}
-          <Route element={<UnprotectedRoutes />}>
-            <Route path="/login" element={<Home />} />
-          </Route>
-          {/* rotte GUEST */}
-          <Route path="/*" element={<Navigate to="/404" />} />
-          <Route path="/404" element={<NotFound />} />
-        </Routes>
-      </main>
-      <MyFooter />
+            {/* rotte GUEST */}
+            <Route path="/*" element={<Navigate to="/404" />} />
+            <Route path="/404" element={<NotFound />} />
+          </Routes>
+        </main>
+        <MyFooter />
+      </AlertContextProvider>
     </Router>
   );
 }

@@ -89,7 +89,10 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faCalendarDays} />
+                <span>
+                  Nome &#160;
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
@@ -103,27 +106,16 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
           <Form.Group>
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faLocationDot} />
+                <span>
+                  Tipo &#160;
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </span>
               </Form.Label>
             )}
             <Form.Control
               type="text"
               name="type"
               value={TypesPaymentMethod[paymentMethod.type]}
-              disabled
-            />
-          </Form.Group>
-
-          <Form.Group>
-            {index === 0 && (
-              <Form.Label className="d-block text-center">
-                <FontAwesomeIcon icon={faEuro} />
-              </Form.Label>
-            )}
-            <Form.Control
-              type="text"
-              name="description"
-              value={paymentMethod.description}
               disabled
             />
           </Form.Group>
