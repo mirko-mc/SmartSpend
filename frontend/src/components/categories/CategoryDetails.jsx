@@ -5,10 +5,13 @@ import { UserContext } from "../../context/UserContextProvider";
 import { CardLoader } from "../loader/CardLoader";
 import { GetCategory } from "../../data/fetch";
 import { SingleCategory } from "./SingleCategory";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const CategoryDetails = () => {
   // * CONTEXT
-  const { Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const CategoryId = useParams().categoryId;
   const [Category, SetCategory] = useState(null);
@@ -17,7 +20,19 @@ export const CategoryDetails = () => {
     CategoryId &&
       GetCategory(CategoryId)
         .then((data) => SetCategory(data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          SetAlertFormValue(
+            "getCategory",
+            "danger",
+            "ERROR",
+            "Si è verificato un errore, riprova più tardi"
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
   }, [CategoryId]);
   if (!Category) return <CardLoader />;
   if (Category)
@@ -26,7 +41,11 @@ export const CategoryDetails = () => {
         <Row>
           <Col xs={1} className="mb-3"></Col>
           <Col xs={10} className="mb-3">
-            <SingleCategory category={Category} type="full" />
+            {ShowAlert?.Type === "getCategories" ? (
+              <MyAlert />
+            ) : (
+              <SingleCategory category={Category} type="full" />
+            )}
           </Col>
         </Row>
       </Container>

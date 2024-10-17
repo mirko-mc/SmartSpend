@@ -5,10 +5,14 @@ import { NewPaymentMethod } from "../paymentMethods/NewPaymentMethod";
 import { SetInitialFormValues } from "../../data/formValue";
 import { PostCategory, PostPaymentMethod } from "../../data/fetch";
 import { UserContext } from "../../context/UserContextProvider";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const NewModal = ({ tipo, Show, SetShow }) => {
   // * CONTEXT
   const { Theme, LoggedUser } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * FUNZIONI
   const HandleClose = () => SetShow(false);
   const [NewCPMFormValue, SetNewCPMFormValue] = useState(
@@ -19,23 +23,38 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
   }, []);
   const HandleNewCPM = async (e) => {
     e.preventDefault();
-    // todo gestire errore creazione categoria
-    // todo implementare alert di conferma/errore creazione categoria
-    console.log(NewCPMFormValue);
     if (tipo === "category")
       PostCategory(NewCPMFormValue)
-        .then(() => {
-          alert("CATEGORIA AGGIUNTA CORRETTAMENTE");
-          SetShow(false);
-        })
-        .catch((err) => console.log(err));
+        .then(() => SetShow(false))
+        .catch((err) => {
+          SetAlertFormValue(
+            "postCategory",
+            "danger",
+            "ERROR",
+            "Si è verificato un errore, riprova più tardi"
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
     if (tipo === "paymentMethod")
       PostPaymentMethod(NewCPMFormValue)
-        .then(() => {
-          alert("METODO AGGIUNTO CORRETTAMENTE");
-          SetShow(false);
-        })
-        .catch((err) => console.log(err));
+        .then(() => SetShow(false))
+        .catch((err) => {
+          SetAlertFormValue(
+            "postPaymentMethod",
+            "danger",
+            "ERROR",
+            "Si è verificato un errore, riprova più tardi"
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
   };
   return (
     <>
@@ -53,20 +72,26 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
           )}
         </Modal.Header>
         <Modal.Body>
-          {tipo === "category" && (
-            <NewCategory
-              NewCPMFormValue={NewCPMFormValue}
-              SetNewCPMFormValue={SetNewCPMFormValue}
-              HandleNewCPM={HandleNewCPM}
-            />
-          )}
-          {tipo === "paymentMethod" && (
-            <NewPaymentMethod
-              NewCPMFormValue={NewCPMFormValue}
-              SetNewCPMFormValue={SetNewCPMFormValue}
-              HandleNewCPM={HandleNewCPM}
-            />
-          )}
+          {tipo === "category" &&
+            (ShowAlert?.Type === "postCategory" ? (
+              <MyAlert />
+            ) : (
+              <NewCategory
+                NewCPMFormValue={NewCPMFormValue}
+                SetNewCPMFormValue={SetNewCPMFormValue}
+                HandleNewCPM={HandleNewCPM}
+              />
+            ))}
+          {tipo === "paymentMethod" &&
+            (ShowAlert?.Type === "postPaymentMethod" ? (
+              <MyAlert />
+            ) : (
+              <NewPaymentMethod
+                NewCPMFormValue={NewCPMFormValue}
+                SetNewCPMFormValue={SetNewCPMFormValue}
+                HandleNewCPM={HandleNewCPM}
+              />
+            ))}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={HandleClose}>

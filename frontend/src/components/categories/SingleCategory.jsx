@@ -30,10 +30,14 @@ import {
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const SingleCategory = ({ category, index, type }) => {
   // * CONTEXT
   const { Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
@@ -58,14 +62,36 @@ export const SingleCategory = ({ category, index, type }) => {
   const HandleDeleteCategory = () => {
     DeleteCategory(category._id)
       .then(() => {
-        alert("Categoria eliminata correttamente!");
+        SetAlertFormValue(
+          "deleteCategory",
+          "success",
+          "Categoria eliminata con successo",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
       })
       .catch((err) => console.log(err))
       .finally(() => Navigate("/categories"));
   };
   const HandleEditCategory = () => {
     PutCategory(EditCategoryFormValues._id, EditCategoryFormValues)
-      .then(() => alert("Categoria modificata correttamente!"))
+      .then(() => {
+        SetAlertFormValue(
+          "putCategory",
+          "success",
+          "Categoria modificata correttamente",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      })
       .catch((err) => console.log(err))
       .finally(() => Navigate(0));
   };
@@ -229,20 +255,26 @@ export const SingleCategory = ({ category, index, type }) => {
         </Card.Body>
         <CardFooter className="d-flex justify-content-evenly">
           {EditMode ? (
-            <>
-              <Button
-                variant={Theme === "dark" ? "outline-danger" : "danger"}
-                onClick={() => SetEditMode(false)}
-              >
-                <FontAwesomeIcon icon={faCancel} />
-              </Button>
-              <Button
-                variant={Theme === "dark" ? "outline-success" : "success"}
-                onClick={HandleEditCategory}
-              >
-                <FontAwesomeIcon icon={faSave} />
-              </Button>
-            </>
+            ShowAlert?.Type === "putCategories" ? (
+              <MyAlert />
+            ) : (
+              <>
+                <Button
+                  variant={Theme === "dark" ? "outline-danger" : "danger"}
+                  onClick={() => SetEditMode(false)}
+                >
+                  <FontAwesomeIcon icon={faCancel} />
+                </Button>
+                <Button
+                  variant={Theme === "dark" ? "outline-success" : "success"}
+                  onClick={HandleEditCategory}
+                >
+                  <FontAwesomeIcon icon={faSave} />
+                </Button>
+              </>
+            )
+          ) : ShowAlert?.Type === "deleteCategories" ? (
+            <MyAlert />
           ) : (
             <>
               <Button

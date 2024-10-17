@@ -8,16 +8,44 @@ import { UserContext } from "../../context/UserContextProvider";
 import { PutUser } from "../../data/fetch";
 import { Toggle } from "../utils/Toggle";
 import { Link } from "react-router-dom";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const MyNavbar = () => {
   // * CONTEXT
   const { LoggedUser, Logout, Theme, ThemeClassName } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   // * FUNZIONI
   const HandleSaveTheme = () => {
     PutUser(LoggedUser._id, { favoriteTheme: Theme })
-      .then(() => alert("Dati modificati correttamente!"))
-      .catch((err) => console.log(err));
+      .then(() => {
+        SetAlertFormValue(
+          "putUser",
+          "success",
+          "Modifica effettuata",
+          "Tema preferito modificato correttamente"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      })
+      .catch((err) => {
+        SetAlertFormValue(
+          "putUser",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
   };
   return (
     <header sticky="top">
@@ -68,10 +96,14 @@ export const MyNavbar = () => {
                     <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
                   </NavDropdown>
                 )}
-                <Toggle
-                  favoriteTheme={LoggedUser?.favoriteTheme}
-                  HandleSaveTheme={HandleSaveTheme}
-                />
+                {ShowAlert?.Type === "putUser" ? (
+                  <MyAlert />
+                ) : (
+                  <Toggle
+                    favoriteTheme={LoggedUser?.favoriteTheme}
+                    HandleSaveTheme={HandleSaveTheme}
+                  />
+                )}
               </Container>
               <Navbar.Brand
                 as={Link}
