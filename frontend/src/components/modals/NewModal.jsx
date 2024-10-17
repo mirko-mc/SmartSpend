@@ -58,8 +58,8 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
   };
   return (
     <>
-      <Modal show={Show} onHide={HandleClose}>
-        <Modal.Header closeButton>
+      <Modal show={Show} onHide={HandleClose} data-bs-theme={Theme}>
+        <Modal.Header closeButton variant={Theme}>
           {tipo === "category" && (
             <h5 className="modal-title" id="newModalLabel">
               Aggiungi una nuova categoria
@@ -94,7 +94,7 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
             ))}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={HandleClose}>
+          <Button variant={Theme} onClick={HandleClose}>
             Close
           </Button>
           <Button variant={Theme} onClick={HandleNewCPM}>

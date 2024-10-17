@@ -5,10 +5,14 @@ import { UserContext } from "../../context/UserContextProvider";
 import { GetCategories } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
 import { SingleCategory } from "../../components/categories/SingleCategory";
+import { MyAlert } from "../../components/utils/MyAlert";
+import { AlertContext } from "../../context/AlertContextProvider";
 
 export const AllCategories = () => {
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const [Categories, SetCategories] = useState(null);
   const CategoryId = useParams().categoryId;
@@ -17,7 +21,19 @@ export const AllCategories = () => {
     if (LoggedUser) {
       GetCategories()
         .then((data) => SetCategories(data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          SetAlertFormValue(
+            "getCategories",
+            "danger",
+            "ERROR",
+            "Si è verificato un errore, riprova più tardi"
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
     }
   }, [LoggedUser]);
   if (!Categories) return <CardLoader />;
@@ -35,14 +51,21 @@ export const AllCategories = () => {
                 <Card.Title>Elenco categorie</Card.Title>
               </Card.Header>
               <Card.Body>
-                {Categories.map((category, index) => (
-                  <SingleCategory
-                    key={category._id}
-                    category={category}
-                    type="mini"
-                    index={index}
-                  />
-                ))}
+                {ShowAlert?.Type === "getCategories" && <MyAlert />}
+                {!Categories[0]?.date ? (
+                  <Card.Text className="text-center">
+                    Non ci sono categorie.
+                  </Card.Text>
+                ) : (
+                  Categories.map((category, index) => (
+                    <SingleCategory
+                      key={category._id}
+                      category={category}
+                      type="mini"
+                      index={index}
+                    />
+                  ))
+                )}
               </Card.Body>
             </Card>
           </Col>

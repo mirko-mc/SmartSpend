@@ -19,11 +19,15 @@ import {
   faSave,
   faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../../components/utils/MyAlert";
 
 export const Me = () => {
   // * PROPS
   // * CONTEXT
   const { Token, LoggedUser, SetToken, Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const [EditMode, SetEditMode] = useState(false);
   const [UserFormValue, SetUserFormValue] = useState(null);
@@ -35,8 +39,32 @@ export const Me = () => {
   }, [LoggedUser]);
   const HandleSave = () => {
     PutUser(LoggedUser._id, UserFormValue)
-      .then(() => alert("Dati modificati correttamente!"))
-      .catch((err) => console.log(err));
+      .then(() => {
+        SetAlertFormValue(
+          "putUser",
+          "success",
+          "Dati aggiornati",
+          "Dati aggiornati correttamente"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      })
+      .catch((err) => {
+        SetAlertFormValue(
+          "putUser",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
     SetEditMode(false);
   };
   const HandleOnChange = (e) => {
@@ -47,11 +75,33 @@ export const Me = () => {
       .then(() => {
         localStorage.removeItem("token");
         SetToken(null);
-        alert("Utente eliminato correttamente!");
+        SetAlertFormValue(
+          "deleteUser",
+          "success",
+          "Ci dispiace ci abbia abbandonato",
+          "Utente eliminato con successo"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        SetAlertFormValue(
+          "deleteUser",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 5 * 1000);
+      });
   };
-
+  // todo implementare alert visivo
   if (Token && UserFormValue)
     return (
       <Container className="pt-xs-2 pt-md-3 pt-lg-5">
@@ -188,6 +238,8 @@ export const Me = () => {
                       </Col>
                     </Form.Group>
                   </Col>
+                  {ShowAlert?.Type === "putUser" && <MyAlert />}
+                  {ShowAlert?.Type === "deleteUser" && <MyAlert />}
                 </Row>
               </Card.Body>
 

@@ -5,10 +5,14 @@ import { UserContext } from "../../context/UserContextProvider";
 import { GetPaymentMethods } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
 import { SinglePaymentMethod } from "../../components/paymentMethods/SinglePaymentMethod";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../../components/utils/MyAlert";
 
 export const AllPaymentMethods = () => {
   // * CONTEXT
   const { LoggedUser, Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const [PaymentMethods, SetPaymentMethods] = useState(null);
   const PaymentMethodId = useParams().paymentMethodId;
@@ -17,7 +21,19 @@ export const AllPaymentMethods = () => {
     if (LoggedUser) {
       GetPaymentMethods()
         .then((data) => SetPaymentMethods(data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          SetAlertFormValue(
+            "getPaymentMethods",
+            "danger",
+            "ERROR",
+            "Si è verificato un errore, riprova più tardi"
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 5 * 1000);
+        });
     }
   }, [LoggedUser]);
   if (!PaymentMethods) return <CardLoader />;
@@ -35,14 +51,21 @@ export const AllPaymentMethods = () => {
                 <Card.Title>Elenco metodi di pagamento</Card.Title>
               </Card.Header>
               <Card.Body>
-                {PaymentMethods.map((paymentMethod, index) => (
-                  <SinglePaymentMethod
-                    key={paymentMethod._id}
-                    paymentMethod={paymentMethod}
-                    type="mini"
-                    index={index}
-                  />
-                ))}
+                {ShowAlert?.Type === "getPaymentMethods" && <MyAlert />}
+                {!PaymentMethods[0]?.date ? (
+                  <Card.Text className="text-center">
+                    Non ci sono categorie.
+                  </Card.Text>
+                ) : (
+                  PaymentMethods.map((paymentMethod, index) => (
+                    <SinglePaymentMethod
+                      key={paymentMethod._id}
+                      paymentMethod={paymentMethod}
+                      type="mini"
+                      index={index}
+                    />
+                  ))
+                )}
               </Card.Body>
             </Card>
           </Col>
