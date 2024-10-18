@@ -64,7 +64,7 @@ export const AllCategories = () => {
                   />
                 </Button>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="px-0">
                 {ShowAlert?.Type === "getCategories" && <MyAlert />}
                 {!Categories[0]?.name ? (
                   <Card.Text className="text-center">

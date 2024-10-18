@@ -54,7 +54,7 @@ export const AllPaymentMethods = () => {
                 <Card.Title>Elenco metodi di pagamento</Card.Title>
                 <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} size="sm" onClick={() => SetShow(true)}>
                   <span className="d-none d-md-inline">
-                    Nuova categoria &nbsp;
+                    Nuovo metodo di pagamento &nbsp;
                   </span>
                   <FontAwesomeIcon
                     icon={faAdd}
@@ -63,7 +63,7 @@ export const AllPaymentMethods = () => {
                   />
                 </Button>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="px-0">
                 {ShowAlert?.Type === "getPaymentMethods" && <MyAlert />}
                 {!PaymentMethods[0]?.name ? (
                   <Card.Text className="text-center">
