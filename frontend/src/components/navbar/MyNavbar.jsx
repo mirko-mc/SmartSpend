@@ -8,44 +8,16 @@ import { UserContext } from "../../context/UserContextProvider";
 import { PutUser } from "../../data/fetch";
 import { Toggle } from "../utils/Toggle";
 import { Link } from "react-router-dom";
-import { AlertContext } from "../../context/AlertContextProvider";
-import { MyAlert } from "../utils/MyAlert";
 import SmartSpendLogo from "../../utils/SmartSpendLogo.jpg";
 export const MyNavbar = () => {
   // * CONTEXT
   const { LoggedUser, Logout, Theme, ThemeClassName } = useContext(UserContext);
-  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
-    useContext(AlertContext);
   // * STATI
   // * FUNZIONI
   const HandleSaveTheme = () => {
-    PutUser(LoggedUser._id, { favoriteTheme: Theme })
-      .then(() => {
-        SetAlertFormValue(
-          "putTheme",
-          "success",
-          "Modifica effettuata",
-          "Tema preferito modificato correttamente"
-        ).then((AlertFormValue) => {
-          SetShowAlert(AlertFormValue);
-        });
-        setTimeout(() => {
-          SetShowAlert(false);
-        }, 3 * 1000);
-      })
-      .catch((err) => {
-        SetAlertFormValue(
-          "putTheme",
-          "danger",
-          "ERROR",
-          "Si è verificato un errore, riprova più tardi"
-        ).then((AlertFormValue) => {
-          SetShowAlert(AlertFormValue);
-        });
-        setTimeout(() => {
-          SetShowAlert(false);
-        }, 3 * 1000);
-      });
+    PutUser(LoggedUser._id, { favoriteTheme: Theme }).catch((err) => {
+      alert("C'è stato un errore, riprova più tardi.");
+    });
   };
   return (
     <header sticky="top">
@@ -96,14 +68,10 @@ export const MyNavbar = () => {
                     <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
                   </NavDropdown>
                 )}
-                {ShowAlert?.Type === "putTheme" ? (
-                  <MyAlert />
-                ) : (
-                  <Toggle
-                    favoriteTheme={LoggedUser?.favoriteTheme}
-                    HandleSaveTheme={HandleSaveTheme}
-                  />
-                )}
+                <Toggle
+                  favoriteTheme={LoggedUser?.favoriteTheme}
+                  HandleSaveTheme={HandleSaveTheme}
+                />
               </Container>
               <Navbar.Brand
                 as={Link}
