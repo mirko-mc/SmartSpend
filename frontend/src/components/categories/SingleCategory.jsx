@@ -20,15 +20,9 @@ import {
   faEdit,
   faTrashAlt,
   faSave,
-  faCalendarDays,
 } from "@fortawesome/free-regular-svg-icons";
 import { UserContext } from "../../context/UserContextProvider";
-import {
-  faCancel,
-  faEuro,
-  faLocationDot,
-  faSliders,
-} from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faSliders } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../utils/MyAlert";
@@ -46,12 +40,12 @@ export const SingleCategory = ({ category, index, type }) => {
     useState(category);
   // * FUNZIONI
   useEffect(() => {
-    type === "mini"
+    !EditMode && type === "mini"
       ? GetCategories()
           .then((data) => SetCategories(data))
           .catch((err) => console.log(err))
       : SetCategories(category);
-  }, []);
+  }, [EditMode]);
   const HandleChange = (e) => {
     e.preventDefault();
     SetEditCategoryFormValues({
@@ -72,10 +66,23 @@ export const SingleCategory = ({ category, index, type }) => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+          Navigate("/categories");
+        }, 3 * 1000);
       })
-      .catch((err) => console.log(err))
-      .finally(() => Navigate("/categories"));
+      .catch((err) => {
+        SetAlertFormValue(
+          "deleteCategory",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+          Navigate("/categories");
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 3 * 1000);
+      });
   };
   const HandleEditCategory = () => {
     PutCategory(EditCategoryFormValues._id, EditCategoryFormValues)
@@ -83,17 +90,30 @@ export const SingleCategory = ({ category, index, type }) => {
         SetAlertFormValue(
           "putCategory",
           "success",
-          "Categoria modificata correttamente",
-          "Si è verificato un errore, riprova più tardi"
+          "Categoria modificata",
+          "Categoria modificata correttamente"
         ).then((AlertFormValue) => {
           SetShowAlert(AlertFormValue);
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+          Navigate(0);
+        }, 3 * 1000);
       })
-      .catch((err) => console.log(err))
-      .finally(() => Navigate(0));
+      .catch((err) => {
+        SetAlertFormValue(
+          "putCategory",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+          Navigate("/categories");
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 3 * 1000);
+      });
   };
   // * RENDER
   if (category && type === "mini")
@@ -103,13 +123,10 @@ export const SingleCategory = ({ category, index, type }) => {
           key={category._id}
           className="d-flex justify-content-evenly align-items-center w-100"
         >
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <span>
-                  Nome &#160;
-                  <FontAwesomeIcon icon={faCalendarDays} />
-                </span>
+                <span>Nome</span>
               </Form.Label>
             )}
             <Form.Control
@@ -123,13 +140,10 @@ export const SingleCategory = ({ category, index, type }) => {
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1 text-truncate">
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <span>
-                  Descrizione &#160;
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </span>
+                <span>Descrizione</span>
               </Form.Label>
             )}
             <Form.Control
@@ -143,14 +157,16 @@ export const SingleCategory = ({ category, index, type }) => {
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
                 <FontAwesomeIcon icon={faSliders} />
               </Form.Label>
             )}
             <Button
-              variant={Theme}
+              variant={
+                Theme === "light" ? "outline-primary" : "outline-secondary"
+              }
               onClick={() => Navigate(`/categories/${category._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
@@ -255,21 +271,23 @@ export const SingleCategory = ({ category, index, type }) => {
         </Card.Body>
         <CardFooter className="d-flex justify-content-evenly">
           {EditMode ? (
-            ShowAlert?.Type === "putCategories" ? (
+            ShowAlert?.Type === "putCategory" ? (
               <MyAlert />
             ) : (
               <>
                 <Button
-                  variant={Theme === "dark" ? "outline-danger" : "danger"}
+                  variant={Theme === "dark" ? "danger" : "danger"}
                   onClick={() => SetEditMode(false)}
                 >
-                  <FontAwesomeIcon icon={faCancel} />
+                  <span>Annulla &nbsp;</span>
+                  <FontAwesomeIcon icon={faXmark} size="xl" />
                 </Button>
                 <Button
-                  variant={Theme === "dark" ? "outline-success" : "success"}
+                  variant="success"
                   onClick={HandleEditCategory}
                 >
-                  <FontAwesomeIcon icon={faSave} />
+                  <span>Salva &nbsp;</span>
+                  <FontAwesomeIcon icon={faSave} size="xl" />
                 </Button>
               </>
             )
@@ -278,13 +296,18 @@ export const SingleCategory = ({ category, index, type }) => {
           ) : (
             <>
               <Button
-                variant={Theme === "dark" ? `outline-light` : "dark"}
+                variant={Theme === "dark" ? `outline-secondary` : `outline-primary`}
                 onClick={() => SetEditMode(true)}
               >
-                <FontAwesomeIcon icon={faEdit} />
+                <span>Modifica &nbsp;</span>
+                <FontAwesomeIcon icon={faEdit} size="xl" />
               </Button>
-              <Button variant="danger" onClick={HandleDeleteCategory}>
-                <FontAwesomeIcon icon={faTrashAlt} />
+              <Button
+                variant="danger"
+                onClick={HandleDeleteCategory}
+              >
+                <span>Elimina &nbsp;</span>
+                <FontAwesomeIcon icon={faTrashAlt} size="xl" />
               </Button>
             </>
           )}

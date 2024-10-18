@@ -7,6 +7,8 @@ import { PostCategory, PostPaymentMethod } from "../../data/fetch";
 import { UserContext } from "../../context/UserContextProvider";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../utils/MyAlert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const NewModal = ({ tipo, Show, SetShow }) => {
   // * CONTEXT
@@ -37,7 +39,7 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
     if (tipo === "paymentMethod")
       PostPaymentMethod(NewCPMFormValue)
@@ -53,13 +55,16 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   };
   return (
     <>
-      <Modal show={Show} onHide={HandleClose} data-bs-theme={Theme}>
-        <Modal.Header closeButton variant={Theme}>
+      <Modal show={Show} onHide={HandleClose}>
+        <Modal.Header
+          closeButton
+          className={Theme === "dark" && "modal-header-dark"}
+        >
           {tipo === "category" && (
             <h5 className="modal-title" id="newModalLabel">
               Aggiungi una nuova categoria
@@ -71,7 +76,10 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
             </h5>
           )}
         </Modal.Header>
-        <Modal.Body>
+
+        <Modal.Body
+          className={"modal-body-dark"}
+        >
           {tipo === "category" &&
             (ShowAlert?.Type === "postCategory" ? (
               <MyAlert />
@@ -93,12 +101,26 @@ export const NewModal = ({ tipo, Show, SetShow }) => {
               />
             ))}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant={Theme} onClick={HandleClose}>
-            Close
+
+        <Modal.Footer
+          variant={Theme}
+          className={Theme === "dark" && "dark"}
+        >
+          <Button
+            variant={Theme === "light" ? "danger" : "outline-danger"}
+            onClick={HandleClose}
+          >
+            <span>
+              Chiudi &nbsp; <FontAwesomeIcon icon={faXmark} />
+            </span>
           </Button>
-          <Button variant={Theme} onClick={HandleNewCPM}>
-            Save Changes
+          <Button
+            variant={Theme === "light" ? "success" : "outline-success"}
+            onClick={HandleNewCPM}
+          >
+            <span>
+              Salva &nbsp; <FontAwesomeIcon icon={faSave} />
+            </span>
           </Button>
         </Modal.Footer>
       </Modal>

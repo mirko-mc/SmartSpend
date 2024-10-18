@@ -10,7 +10,7 @@ import { Toggle } from "../utils/Toggle";
 import { Link } from "react-router-dom";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../utils/MyAlert";
-
+import SmartSpendLogo from "../../utils/SmartSpendLogo.jpg";
 export const MyNavbar = () => {
   // * CONTEXT
   const { LoggedUser, Logout, Theme, ThemeClassName } = useContext(UserContext);
@@ -22,7 +22,7 @@ export const MyNavbar = () => {
     PutUser(LoggedUser._id, { favoriteTheme: Theme })
       .then(() => {
         SetAlertFormValue(
-          "putUser",
+          "putTheme",
           "success",
           "Modifica effettuata",
           "Tema preferito modificato correttamente"
@@ -31,11 +31,11 @@ export const MyNavbar = () => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       })
       .catch((err) => {
         SetAlertFormValue(
-          "putUser",
+          "putTheme",
           "danger",
           "ERROR",
           "Si è verificato un errore, riprova più tardi"
@@ -44,7 +44,7 @@ export const MyNavbar = () => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       });
   };
   return (
@@ -96,7 +96,7 @@ export const MyNavbar = () => {
                     <NavDropdown.Item onClick={Logout}>Logout</NavDropdown.Item>
                   </NavDropdown>
                 )}
-                {ShowAlert?.Type === "putUser" ? (
+                {ShowAlert?.Type === "putTheme" ? (
                   <MyAlert />
                 ) : (
                   <Toggle
@@ -112,7 +112,7 @@ export const MyNavbar = () => {
               >
                 <span className="d-none d-md-inline me-2">SmartSpend</span>
                 <Image
-                  src="https://static4.depositphotos.com/1006994/298/v/950/depositphotos_2983099-stock-illustration-grunge-design.jpg"
+                  src={SmartSpendLogo}
                   width="30"
                   height="30"
                   className="d-inline-block align-top"

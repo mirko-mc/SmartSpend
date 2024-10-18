@@ -1,27 +1,313 @@
 :root {
   background-color: black !important;
-  color: white !important;
+  color: rgb(22, 223, 152) !important;
 }
 [data-bs-theme="dark"] {
-  background-color: rgb(68, 60, 60) !important;
-  color: white !important;
+  background-color: rgb(19, 18, 18) !important;
+  color: rgb(22, 223, 152) !important;
 }
-[data-bs-theme="light"] {
-  background-color: rgb(211, 186, 186) !important;
-  color: black !important;
+[data-bs-theme="dark"] .card {
+  background-color: rgb(19, 18, 18) !important;
+  color: rgb(22, 223, 152) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
 }
-[data-bs-theme="dark"] .bg-dark:hover {
-  background-color: black !important;
-  color: white !important;
+nav.dark,
+footer.dark,
+[data-bs-theme="dark"] .card-header,
+[data-bs-theme="dark"] .card-footer,
+.modal-header-dark,
+[data-bs-theme="dark"].modal-footer-dark {
+  background-color: rgb(0, 0, 0) !important;
+  color: rgb(22, 223, 152) !important;
 }
 
-nav.dark,
-footer.dark {
-  background-color: black !important;
-  color: white !important;
+[data-bs-theme="dark"] .footer .svg {
+  color: rgb(22, 223, 152) !important;
 }
+
+[data-bs-theme="dark"] .modal-body-dark {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+[data-bs-theme="dark"] .card {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+@media screen and (max-width: 600px) {
+  .mini-date {
+    max-width: 35% !important;
+  }
+}
+
+[data-bs-theme="dark"] .outline-primary {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+.btn-outline-secondary {
+  --bs-btn-color: rgb(22, 223, 152) !important;
+  --bs-btn-border-color: rgb(22, 223, 152) !important;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgb(8, 28, 21) !important;
+  --bs-btn-hover-border-color: rgb(8, 28, 21) !important;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgb(8, 28, 21) !important;
+  --bs-btn-active-border-color: #fff !important;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: rgb(235, 243, 231) !important;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: rgb(149, 213, 178) !important;
+  --bs-gradient: none;
+}
+
+[data-bs-theme="dark"] .list-group-item {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-control {
+  color: rgb(8, 28, 21) !important;
+  background-color: rgb(216, 243, 220) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-menu-light {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item {
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:active {
+  background-color: rgb(8, 28, 21) !important;
+  color: rgb(216, 243, 220) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:focus {
+  background-color: rgb(8, 28, 21) !important;
+  color: rgb(216, 243, 220) !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .btn-group > label {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .btn-group > label:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-control:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-control:read-only {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-control:focus {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-control:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-select {
+  color: rgb(8, 28, 21) !important;
+  background-color: rgb(216, 243, 220) !important;
+}
+
+[data-bs-theme="dark"] .form-select:focus {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-select:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-select:read-only {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+[data-bs-theme="dark"] .form-select option:hover {
+  background-color: rgb(216, 243, 220) !important;
+}
+
+/* ------------------------------------------------------------------------------------------ */
+[data-bs-theme="light"] {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
 nav.light,
-footer.light {
-  background-color: rgb(0, 147, 192) !important;
-  color: black !important;
+footer.light,
+.card-header,
+.card-footer,
+.modal-header,
+.modal-footer {
+  background-color: rgb(149, 213, 178) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+footer svg {
+  color: rgb(8, 28, 21) !important;
+}
+
+.modal-body {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+.card {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+@media screen and (max-width: 600px) {
+  .mini-date {
+    max-width: 35% !important;
+  }
+}
+
+.outline-primary {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+.btn-outline-primary {
+  --bs-btn-color: rgb(8, 28, 21) !important;
+  --bs-btn-border-color: rgb(8, 28, 21) !important;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgb(8, 28, 21) !important;
+  --bs-btn-hover-border-color: rgb(8, 28, 21) !important;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgb(8, 28, 21) !important;
+  --bs-btn-active-border-color: #fff !important;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: rgb(235, 243, 231) !important;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: rgb(149, 213, 178) !important;
+  --bs-gradient: none;
+}
+
+.list-group-item {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-control {
+  color: rgb(8, 28, 21) !important;
+  background-color: rgb(216, 243, 220) !important;
+}
+
+.dropdown-menu-light {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.dropdown-item {
+  color: rgb(8, 28, 21) !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.dropdown-item:active {
+  background-color: rgb(8, 28, 21) !important;
+  color: rgb(216, 243, 220) !important;
+}
+
+.dropdown-item:focus {
+  background-color: rgb(8, 28, 21) !important;
+  color: rgb(216, 243, 220) !important;
+}
+
+.dropdown-item:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.btn-group > label {
+  background-color: rgb(235, 243, 231) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+.btn-group > label:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+}
+
+.form-control:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-control:read-only {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-control:focus {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-control:hover {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+  border: 1px solid rgb(8, 28, 21) !important;
+  border-shadow: 1px solid rgb(8, 28, 21) !important;
+}
+
+.form-select {
+  color: rgb(8, 28, 21) !important;
+  background-color: rgb(216, 243, 220) !important;
+}
+
+.form-select:focus {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-select:disabled {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-select:read-only {
+  background-color: rgb(216, 243, 220) !important;
+  color: rgb(8, 28, 21) !important;
+}
+
+.form-select option:hover {
+  background-color: rgb(216, 243, 220) !important;
 }

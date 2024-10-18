@@ -24,7 +24,6 @@ export const PaymentMethods = () => {
   // * STATI
   const [Show, SetShow] = useState(false);
   const [PaymentMethods, SetPaymentMethods] = useState(null);
-  const [Editing, SetEditing] = useState(false);
   const Navigate = useNavigate();
   // * FUNZIONI
   useEffect(() => {
@@ -43,7 +42,7 @@ export const PaymentMethods = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [LoggedUser, Show]);
   if (!PaymentMethods)
@@ -59,10 +58,10 @@ export const PaymentMethods = () => {
       <Card.Header className="d-flex justify-content-between">
         <Card.Title>I miei metodi di pagamento</Card.Title>
       </Card.Header>
-      <Card.Body>
+      <Card.Body className="p-0">
         <ListGroup variant="flush">
           {ShowAlert?.Type === "getPaymentMethods" && <MyAlert />}
-          {!PaymentMethods[0]?.date ? (
+          {!PaymentMethods[0]?.name ? (
             <Card.Text className="text-center">
               Non ci sono metodi di pagamento.
             </Card.Text>
@@ -79,10 +78,10 @@ export const PaymentMethods = () => {
         </ListGroup>
       </Card.Body>
       <CardFooter className="d-flex justify-content-evenly">
-        <Button variant={Theme} onClick={() => Navigate("/paymentMethods")}>
+        <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} onClick={() => Navigate("/paymentMethods")}>
           Visualizza tutti
         </Button>
-        <Button variant={Theme} onClick={() => SetShow(true)}>
+        <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} onClick={() => SetShow(true)}>
           Aggiungi metodo di pagamento
         </Button>
       </CardFooter>

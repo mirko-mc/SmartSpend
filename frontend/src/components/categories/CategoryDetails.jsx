@@ -31,16 +31,16 @@ export const CategoryDetails = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [CategoryId]);
   if (!Category) return <CardLoader />;
   if (Category)
     return (
-      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
-        <Row>
-          <Col xs={1} className="mb-3"></Col>
-          <Col xs={10} className="mb-3">
+      <Container>
+        <Row className="pt-3">
+          <h1 className="text-center">Dettaglio della categoria</h1>
+          <Col xs={10} className="mt-4 offset-1">
             {ShowAlert?.Type === "getCategories" ? (
               <MyAlert />
             ) : (

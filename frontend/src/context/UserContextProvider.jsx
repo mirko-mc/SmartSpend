@@ -25,7 +25,7 @@ export const UserContextProvider = ({ children }) => {
       const MeData = await GetMeInfo();
       SetLoggedUser(MeData);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       // rimuovo il token dal localStorage e dallo stato
       Logout();
     }
@@ -54,6 +54,7 @@ export const UserContextProvider = ({ children }) => {
     IsPrivacy,
     SetIsPrivacy,
     ThemeClassName,
+    GetMeData,
   };
   return <UserContext.Provider value={Value}>{children}</UserContext.Provider>;
 };

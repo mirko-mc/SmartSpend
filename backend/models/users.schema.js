@@ -5,12 +5,7 @@ const Users = new Schema(
     // googleId
     googleId: {
       type: String,
-      // ??? 2 google id a null non si possono avere e sparse non funziona
-      // unique: true,
-      // sparse: true,
     },
-    // todo facebookId
-    // todo telegramId
     // nome dell'utente
     name: {
       type: String,
@@ -28,6 +23,8 @@ const Users = new Schema(
     email: {
       type: String,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
     // password hashata dall'utente
     password: {

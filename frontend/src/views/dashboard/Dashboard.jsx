@@ -52,13 +52,13 @@ export const Dashboard = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [LoggedUser, IsNewTransaction]);
 
   if (LoggedUser)
     return (
-      <Container data-bs-theme={Theme} className={`pt-3 ${ThemeClassName()}`}>
+      <Container className={`pt-3 ${Theme}`}>
         <Row className="mb-3">
           <Col>
             <h1 className="text-center">Dashboard</h1>
@@ -93,7 +93,7 @@ export const Dashboard = () => {
             )}
           </Col>
 
-          <Col md={6}>
+          <Col md={6} className="mt-3 mt-md-0">
             {!LoggedUser || !Theme ? (
               <CardLoader />
             ) : (

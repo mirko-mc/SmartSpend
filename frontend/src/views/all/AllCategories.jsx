@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -7,6 +7,9 @@ import { CardLoader } from "../../components/loader/CardLoader";
 import { SingleCategory } from "../../components/categories/SingleCategory";
 import { MyAlert } from "../../components/utils/MyAlert";
 import { AlertContext } from "../../context/AlertContextProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { NewModal } from "../../components/modals/NewModal";
 
 export const AllCategories = () => {
   // * CONTEXT
@@ -16,9 +19,10 @@ export const AllCategories = () => {
   // * STATI
   const [Categories, SetCategories] = useState(null);
   const CategoryId = useParams().categoryId;
+  const [Show, SetShow] = useState(false);
   // * FUNZIONI
   useEffect(() => {
-    if (LoggedUser) {
+    if (LoggedUser && !Show) {
       GetCategories()
         .then((data) => SetCategories(data))
         .catch((err) => {
@@ -32,29 +36,39 @@ export const AllCategories = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
     }
-  }, [LoggedUser]);
-  if (!Categories) return <CardLoader />;
+  }, [LoggedUser, Show]);
 
+  if (!Categories) return <CardLoader />;
   if (CategoryId) return <Outlet />;
 
   if (Categories)
     return (
-      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
+      <Container className="pt-4">
         <Row>
           <h1 className="text-center mb-3">Categorie</h1>
           <Col>
             <Card className="mb-3 shadow">
-              <Card.Header className="d-flex justify-content-between">
+              <Card.Header className="d-flex justify-content-between align-items-center">
                 <Card.Title>Elenco categorie</Card.Title>
+                <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} size="sm" onClick={() => SetShow(true)}>
+                  <span className="d-none d-md-inline">
+                    Nuova categoria &nbsp;
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faAdd}
+                    size="xl"
+                    onClick={() => SetShow(true)}
+                  />
+                </Button>
               </Card.Header>
               <Card.Body>
                 {ShowAlert?.Type === "getCategories" && <MyAlert />}
-                {!Categories[0]?.date ? (
+                {!Categories[0]?.name ? (
                   <Card.Text className="text-center">
-                    Non ci sono categorie.
+                    Non esistono categorie.
                   </Card.Text>
                 ) : (
                   Categories.map((category, index) => (
@@ -66,6 +80,7 @@ export const AllCategories = () => {
                     />
                   ))
                 )}
+                <NewModal Show={Show} SetShow={SetShow} tipo="category" />
               </Card.Body>
             </Card>
           </Col>

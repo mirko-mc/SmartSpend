@@ -50,7 +50,6 @@ export const GetMeInfo = async (req, res) => {
 // POST /register => crea un nuovo utente
 export const PostRegister = async (req, res) => {
   try {
-    // todo controllo che la mail sia in formato valida
     // se l'utente è già presente nel database genero un errore
     if (await usersSchema.findOne({ email: req.body.email }))
       throw new Error("User already exists");

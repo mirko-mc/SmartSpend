@@ -32,16 +32,16 @@ export const TransactionDetails = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [TransactionId]);
   if (!Transaction) return <CardLoader />;
   if (Transaction)
     return (
-      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
-        <Row>
-          <Col xs={1} className="mb-3"></Col>
-          <Col xs={10} className="mb-3">
+      <Container>
+        <Row className="pt-3">
+          <h1 className="text-center">Dettaglio del movimento</h1>
+          <Col xs={10} className="mt-4 offset-1">
             {ShowAlert?.Type === "getTransaction" ? (
               <MyAlert />
             ) : (

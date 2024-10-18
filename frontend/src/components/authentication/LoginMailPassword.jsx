@@ -31,7 +31,7 @@ export const LoginMailPassword = () => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       });
   };
     return (
@@ -47,7 +47,7 @@ export const LoginMailPassword = () => {
         >
           <Form.Group className="mb-3" controlId="emailPasswordForm">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Inserisci email" />
+            <Form.Control type="email" placeholder="Inserisci email" required />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
@@ -55,9 +55,10 @@ export const LoginMailPassword = () => {
               type="password"
               placeholder="Inserisci password"
               minLength={6}
+              required
             />
           </Form.Group>
-          <Button variant={Theme} type="submit">
+          <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} type="submit">
             Accedi
           </Button>
         </Form>

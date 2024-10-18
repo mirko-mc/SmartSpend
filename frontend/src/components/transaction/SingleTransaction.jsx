@@ -28,7 +28,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { UserContext } from "../../context/UserContextProvider";
 import {
-  faCancel,
+  faXmark,
   faEuro,
   faLeftLong,
   faLocationDot,
@@ -37,10 +37,14 @@ import {
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const SingleTransaction = ({ transaction, index, type }) => {
   // * CONTEXT
   const { Theme, IsPrivacy } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
@@ -69,26 +73,74 @@ export const SingleTransaction = ({ transaction, index, type }) => {
   const HandleDeleteTransaction = () => {
     DeleteTransaction(transaction._id)
       .then(() => {
-        alert("Transazione eliminata correttamente!");
-        Navigate("/transactions");
+        SetAlertFormValue(
+          "deleteTransaction",
+          "success",
+          "Movimento eliminato",
+          "Movimento eliminato con successo"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate("/transactions");
+        }, 3 * 1000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        SetAlertFormValue(
+          "deleteTransaction",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate("/transactions");
+        }, 3 * 1000);
+      });
   };
   const HandleEditTransaction = () => {
     PutTransaction(EditTransactionFormValues._id, EditTransactionFormValues)
-      .then(() => alert("Transazione modificata correttamente!"))
-      .catch((err) => console.log(err))
-      .finally(() => Navigate(0));
+      .then(() => {
+        SetAlertFormValue(
+          "editTransaction",
+          "success",
+          "Movimento modificato",
+          "Movimento modificato con successo"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate("/transactions");
+        }, 3 * 1000);
+      })
+      .catch((err) => {
+        SetAlertFormValue(
+          "editTransaction",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 3 * 1000);
+      });
   };
   // * RENDER
+  if (ShowAlert) return <MyAlert />;
   if (transaction && type === "mini")
     return (
       <ListGroup variant="flush" className="mb-1 shadow">
         <ListGroup.Item
-          key={transaction._id}
-          className="d-flex justify-content-evenly align-items-center w-100"
+          key={transaction?._id}
+          className="d-flex justify-content-evenly align-items-center"
         >
-          <Form.Group>
+          <Form.Group className="mini-date pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
                 <span>
@@ -103,12 +155,12 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               value={new Date(transaction.date).toISOString().slice(0, 10)}
               disabled
               style={{
-                border: `1px solid ${EditTransactionFormValues.category.color}`,
+                border: `1px solid ${EditTransactionFormValues.category?.color}`,
               }}
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
                 <span>
@@ -118,17 +170,18 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               </Form.Label>
             )}
             <Form.Control
+              className="text-truncate"
               type="text"
               name="shop"
-              value={transaction.shop}
+              value={transaction?.shop}
               disabled
               style={{
-                border: `1px solid ${EditTransactionFormValues.category.color}`,
+                border: `1px solid ${EditTransactionFormValues.category?.color}`,
               }}
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
                 <span>
@@ -141,16 +194,18 @@ export const SingleTransaction = ({ transaction, index, type }) => {
               type={IsPrivacy ? "text" : "number"}
               name="amount"
               value={
-                IsPrivacy ? "******" : parseFloat(transaction.amount).toFixed(2)
+                IsPrivacy
+                  ? "******"
+                  : parseFloat(EditTransactionFormValues.amount).toFixed(2)
               }
               disabled
               style={{
-                border: `0.5px solid ${EditTransactionFormValues.category.color}`,
+                border: `0.5px solid ${EditTransactionFormValues.category?.color}`,
               }}
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
                 <FontAwesomeIcon icon={faRightLeft} />
@@ -165,19 +220,19 @@ export const SingleTransaction = ({ transaction, index, type }) => {
             </Form.Label>
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label>
                 <FontAwesomeIcon icon={faSliders} />
               </Form.Label>
             )}
-            <Form.Label
-              className="d-block text-center"
-              variant={Theme}
-              onClick={() => Navigate(`/transactions/${transaction._id}`)}
+            <Button
+              className="d-block text-center m-0 p-0 border-0 mb-2"
+              variant={Theme === "light" ? "outline-primary" : "outline-secondary"}
+              onClick={() => Navigate(`/transactions/${transaction?._id}`)}
             >
               <FontAwesomeIcon icon={faEye} className="text-center" />
-            </Form.Label>
+            </Button>
           </Form.Group>
         </ListGroup.Item>
       </ListGroup>
@@ -185,18 +240,48 @@ export const SingleTransaction = ({ transaction, index, type }) => {
   if (!Categories || !PaymentMethods) return <CardLoader />;
   if (transaction && type === "full")
     return (
-      <Card className="mb-3 shadow">
+      <Card className="shadow mb-3">
         <Card.Header className="d-flex justify-content-between">
-          <Card.Title>
-            {`Shop: ${EditTransactionFormValues.shop} - Data ${new Date(
-              EditTransactionFormValues.date
-            ).toLocaleDateString()}`}
+          <Card.Title className="text-truncate my-2">
+            {EditTransactionFormValues.description}
           </Card.Title>
         </Card.Header>
         <Card.Body as={Row}>
           {EditMode && (
             <>
               <FormGroup as={Row} className="mb-2">
+                <FormGroup as={Row} className="mb-2">
+                  <Form.Label column sm={3} className="text-end">
+                    Data
+                  </Form.Label>
+                  <Col sm={9}>
+                    <Form.Control
+                      id="date"
+                      type="date"
+                      name="date"
+                      value={new Date(EditTransactionFormValues.date)
+                        .toISOString()
+                        .slice(0, 10)}
+                      onChange={HandleChange}
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup as={Row} className="mb-2">
+                  <Form.Label column sm={3} className="text-end">
+                    Dove
+                  </Form.Label>
+                  <Col sm={9}>
+                    <Form.Control
+                      id="shop"
+                      type="text"
+                      name="shop"
+                      value={EditTransactionFormValues.shop}
+                      onChange={HandleChange}
+                    />
+                  </Col>
+                </FormGroup>
+
                 <Form.Label column sm={3} className="text-end">
                   Indirizzo
                 </Form.Label>
@@ -213,31 +298,14 @@ export const SingleTransaction = ({ transaction, index, type }) => {
 
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
-                  Data
+                  Importo
                 </Form.Label>
                 <Col sm={9}>
                   <Form.Control
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={new Date(EditTransactionFormValues.date)
-                      .toISOString()
-                      .slice(0, 10)}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Shop
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="shop"
-                    type="text"
-                    name="shop"
-                    value={EditTransactionFormValues.shop}
+                    id="amount"
+                    type="number"
+                    name="amount"
+                    value={EditTransactionFormValues.amount}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -254,21 +322,6 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                     type="text"
                     name="description"
                     value={EditTransactionFormValues.description}
-                    onChange={HandleChange}
-                  />
-                </Col>
-              </FormGroup>
-
-              <FormGroup as={Row} className="mb-2">
-                <Form.Label column sm={3} className="text-end">
-                  Importo
-                </Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    id="amount"
-                    type="number"
-                    name="amount"
-                    value={EditTransactionFormValues.amount}
                     onChange={HandleChange}
                   />
                 </Col>
@@ -354,7 +407,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.shop}</CardText>
+                  <CardText>{transaction?.shop}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -365,18 +418,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.address}</CardText>
-                </ListGroupItem>
-              </ListGroup>
-
-              <ListGroup variant={Theme} horizontal>
-                <ListGroupItem className="border-0 text-end w-50">
-                  <Card.Subtitle className="d-inline align-baseline">
-                    Descrizione:
-                  </Card.Subtitle>
-                </ListGroupItem>
-                <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.description}</CardText>
+                  <CardText>{transaction?.address}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -387,7 +429,18 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>€ {transaction.amount}</CardText>
+                  <CardText>€ {transaction?.amount}</CardText>
+                </ListGroupItem>
+              </ListGroup>
+
+              <ListGroup variant={Theme} horizontal>
+                <ListGroupItem className="border-0 text-end w-50">
+                  <Card.Subtitle className="d-inline align-baseline">
+                    Descrizione:
+                  </Card.Subtitle>
+                </ListGroupItem>
+                <ListGroupItem className="border-0 w-50 text-start">
+                  <CardText>{transaction?.description}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -399,7 +452,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
                   <CardText>
-                    {transaction.inOut === "in" ? (
+                    {transaction?.inOut === "in" ? (
                       <FontAwesomeIcon
                         icon={faLeftLong}
                         color="green"
@@ -423,7 +476,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.paymentMethod?.name}</CardText>
+                  <CardText>{transaction?.paymentMethod?.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
 
@@ -434,7 +487,7 @@ export const SingleTransaction = ({ transaction, index, type }) => {
                   </Card.Subtitle>
                 </ListGroupItem>
                 <ListGroupItem className="border-0 w-50 text-start">
-                  <CardText>{transaction.category?.name}</CardText>
+                  <CardText>{transaction?.category?.name}</CardText>
                 </ListGroupItem>
               </ListGroup>
             </>
@@ -444,27 +497,31 @@ export const SingleTransaction = ({ transaction, index, type }) => {
           {EditMode ? (
             <>
               <Button
-                variant={Theme === "dark" ? "outline-danger" : "danger"}
+                variant="danger"
                 onClick={() => SetEditMode(false)}
               >
-                <FontAwesomeIcon icon={faCancel} />
+                <span>Annulla &nbsp;</span>
+                <FontAwesomeIcon icon={faXmark} size="xl" />
               </Button>
               <Button
-                variant={Theme === "dark" ? "outline-success" : "success"}
+                variant="success"
                 onClick={HandleEditTransaction}
               >
+                <span>Salva &nbsp;</span>
                 <FontAwesomeIcon icon={faSave} />
               </Button>
             </>
           ) : (
             <>
               <Button
-                variant={Theme === "dark" ? `outline-light` : "dark"}
+                variant={Theme === "dark" ? `outline-secondary` : `outline-primary`}
                 onClick={() => SetEditMode(true)}
               >
+                <span>Modifica &nbsp;</span>
                 <FontAwesomeIcon icon={faEdit} />
               </Button>
               <Button variant="danger" onClick={HandleDeleteTransaction}>
+                <span>Elimina &nbsp;</span>
                 <FontAwesomeIcon icon={faTrashAlt} />
               </Button>
             </>

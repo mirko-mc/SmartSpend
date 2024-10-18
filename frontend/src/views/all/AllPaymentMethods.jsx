@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
@@ -7,6 +7,9 @@ import { CardLoader } from "../../components/loader/CardLoader";
 import { SinglePaymentMethod } from "../../components/paymentMethods/SinglePaymentMethod";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../../components/utils/MyAlert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NewModal } from "../../components/modals/NewModal";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export const AllPaymentMethods = () => {
   // * CONTEXT
@@ -16,9 +19,10 @@ export const AllPaymentMethods = () => {
   // * STATI
   const [PaymentMethods, SetPaymentMethods] = useState(null);
   const PaymentMethodId = useParams().paymentMethodId;
+  const [Show, SetShow] = useState(false);
   // * FUNZIONI
   useEffect(() => {
-    if (LoggedUser) {
+    if (LoggedUser && !Show) {
       GetPaymentMethods()
         .then((data) => SetPaymentMethods(data))
         .catch((err) => {
@@ -32,29 +36,38 @@ export const AllPaymentMethods = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
     }
-  }, [LoggedUser]);
+  }, [LoggedUser, Show]);
   if (!PaymentMethods) return <CardLoader />;
-
   if (PaymentMethodId) return <Outlet />;
 
   if (PaymentMethods)
     return (
-      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
+      <Container className="pt-4">
         <Row>
           <h1 className="text-center mb-3">Metodi di pagamento</h1>
           <Col>
             <Card className="mb-3 shadow">
-              <Card.Header className="d-flex justify-content-between">
+              <Card.Header className="d-flex justify-content-between align-items-center">
                 <Card.Title>Elenco metodi di pagamento</Card.Title>
+                <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} size="sm" onClick={() => SetShow(true)}>
+                  <span className="d-none d-md-inline">
+                    Nuova categoria &nbsp;
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faAdd}
+                    size="xl"
+                    onClick={() => SetShow(true)}
+                  />
+                </Button>
               </Card.Header>
               <Card.Body>
                 {ShowAlert?.Type === "getPaymentMethods" && <MyAlert />}
-                {!PaymentMethods[0]?.date ? (
+                {!PaymentMethods[0]?.name ? (
                   <Card.Text className="text-center">
-                    Non ci sono categorie.
+                    Non esistono metodi di pagamento.
                   </Card.Text>
                 ) : (
                   PaymentMethods.map((paymentMethod, index) => (
@@ -66,6 +79,7 @@ export const AllPaymentMethods = () => {
                     />
                   ))
                 )}
+                <NewModal Show={Show} SetShow={SetShow} tipo="paymentMethod" />
               </Card.Body>
             </Card>
           </Col>

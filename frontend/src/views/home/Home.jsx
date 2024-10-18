@@ -15,13 +15,12 @@ export const Home = () => {
   if (!Token)
     return (
       <Container
-        data-bs-theme={Theme}
         className={`h-100 ${ThemeClassName()} d-flex justify-content-center align-items-center`}
         bg={`bg-${Theme}`}
         fluid
       >
         {ShowLoginRegister && (
-          <Row>
+          <Row className="py-2">
             <h1 className="text-center">Benvenuto su SmartSpend</h1>
             <p className="text-center">
               Il sito che ti permette di creare la cronologia dei tuoi movimenti
@@ -53,7 +52,7 @@ export const Home = () => {
     );
   if (Token && Theme)
     return (
-      <Container data-bs-theme={Theme} bg={`bg-${Theme}`}>
+      <Container>
         <Row>
           <Dashboard />
         </Row>

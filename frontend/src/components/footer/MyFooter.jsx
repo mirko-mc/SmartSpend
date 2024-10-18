@@ -17,7 +17,7 @@ export const MyFooter = () => {
   if (Theme)
     return (
       <footer className={ThemeClassName()} data-bs-theme={Theme}>
-        <Container className="mb-3 text-center">
+        <Container className="mb-3 text-center d-flex flex-column align-items-center justify-content-center h-100">
           <Row>
             <Col>
               <Link
@@ -26,7 +26,7 @@ export const MyFooter = () => {
                 rel="noreferrer"
                 className={ThemeClassName()}
               >
-                <FontAwesomeIcon icon={faGithub} size="2x" />
+                <FontAwesomeIcon icon={faGithub} size="2x" className="mx-2" />
               </Link>
               &nbsp;
               <Link
@@ -35,7 +35,7 @@ export const MyFooter = () => {
                 rel="noreferrer"
                 className={ThemeClassName()}
               >
-                <FontAwesomeIcon icon={faLinkedin} size="2x" />
+                <FontAwesomeIcon icon={faLinkedin} size="2x" className="mx-2" />
               </Link>
               &nbsp;
               <Link
@@ -44,10 +44,14 @@ export const MyFooter = () => {
                 rel="noreferrer"
                 className={ThemeClassName()}
               >
-                <FontAwesomeIcon icon={faTelegram} size="2x" />
+                <FontAwesomeIcon icon={faTelegram} size="2x" className="mx-2" />
               </Link>
-              <p className="text-muted">
-                <FontAwesomeIcon icon={faCopyright} /> SmartSpend 2024 Mirko
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p className="text-muted p-0 m-0">
+                <FontAwesomeIcon icon={faCopyright} /> SmartSpend - 2024 - Mirko
                 Campetiello
               </p>
             </Col>

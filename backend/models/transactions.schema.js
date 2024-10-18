@@ -35,11 +35,13 @@ const Transactions = new Schema(
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
     },
     // metodo di pagamento usato per effettuare la transazione
     paymentMethod: {
       type: Schema.Types.ObjectId,
       ref: "PaymentMethod",
+      required: true,
     },
     // utente che ha effettuato la transazione
     user: {

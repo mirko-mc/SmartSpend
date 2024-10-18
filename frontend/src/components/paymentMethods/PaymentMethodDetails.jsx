@@ -32,16 +32,17 @@ export const PaymentMethodDetails = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [PaymentMethodId]);
   if (!PaymentMethod) return <CardLoader />;
   if (PaymentMethod)
     return (
-      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
-        <Row>
-          <Col xs={10} className="mb-3 offset-1">
-            {ShowAlert?.Type === "getCategories" ? (
+      <Container>
+        <Row className="pt-3">
+          <h1 className="text-center">Dettaglio del metodo di pagamento</h1>
+          <Col xs={10} className="mt-4 offset-1">
+            {ShowAlert?.Type === "getPaymentMethod" ? (
               <MyAlert />
             ) : (
               <SinglePaymentMethod paymentMethod={PaymentMethod} type="full" />

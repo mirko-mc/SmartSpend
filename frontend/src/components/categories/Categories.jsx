@@ -36,7 +36,7 @@ export const Categories = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
   }, [LoggedUser, Show]);
   if (!Categories)
@@ -54,11 +54,11 @@ export const Categories = () => {
         <Card.Header className="d-flex justify-content-between">
           <Card.Title>Le mie categorie</Card.Title>
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="p-0">
           {ShowAlert?.Type === "getCategories" && <MyAlert />}
-          {!Categories[0]?.date ? (
+          {!Categories[0]?.name ? (
             <Card.Text className="text-center">
-              Non ci sono categorie.
+              Non esistono categorie.
             </Card.Text>
           ) : (
             Categories.map((category, index) => (
@@ -72,10 +72,10 @@ export const Categories = () => {
           )}
         </Card.Body>
         <Card.Footer className="d-flex justify-content-evenly">
-          <Button variant={Theme} onClick={() => SetShow(true)}>
+          <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} onClick={() => SetShow(true)}>
             Aggiungi categoria
           </Button>
-          <Button variant={Theme} onClick={() => Navigate("/categories")}>
+          <Button variant={Theme === "light" ? "outline-primary" : "outline-secondary"} onClick={() => Navigate("/categories")}>
             Visualizza tutte
           </Button>
         </Card.Footer>

@@ -63,6 +63,8 @@ export const NewPaymentMethod = ({
         <Form.Label>Descrizione</Form.Label>
         <Form.Control
           type="text"
+          as="textarea"
+          rows={3}
           placeholder="Inserisci descrizione"
           name="description"
           id="description"

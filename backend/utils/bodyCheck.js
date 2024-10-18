@@ -6,13 +6,11 @@ export const userCheck = async (body, post) => {
     const Password = body?.password;
     const PasswordConfirm = body?.passwordConfirm;
     const Birthdate = body?.birthdate;
+    const FavoriteTheme = body?.favoriteTheme ? body?.favoriteTheme : "light";
     // let avatar = body?.avatar;
     // controllo dati prima di inviarli al database
     // verifica campi
-    if (
-      post &&
-      (!Name || !Email || !Password || !PasswordConfirm || !Birthdate)
-    )
+    if (post && (!Name || !Email || !Password || !PasswordConfirm))
       throw new Error("Please fill all the fields");
     // verifico la lunghezza della password
     if (Password && Password.length < 6)
@@ -33,7 +31,7 @@ export const userCheck = async (body, post) => {
       email: Email,
       password: Password,
       // avatar: avatar,
-      favoriteTheme: body?.favoriteTheme,
+      favoriteTheme: FavoriteTheme,
       googleId: body?.googleId,
       verifiedAt: body?.verifiedAt,
     };
@@ -56,7 +54,7 @@ export const transactionCheck = async (body, post) => {
     const InOut = body?.inOut;
     if (
       post &&
-      (!Date || !Shop || !Description || !Amount || !Address || !InOut)
+      (!Date || !Shop || !Amount || !InOut)
     )
       throw new Error("Please fill all the fields");
     if (post && (!Category || !PaymentMethod || !User))

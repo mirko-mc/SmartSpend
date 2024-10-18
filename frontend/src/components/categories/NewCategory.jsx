@@ -14,37 +14,41 @@ export const NewCategory = ({
   };
   return (
     <Form onSubmit={HandleNewCPM}>
-      <Form.Group className="mb-3">
-        <Form.Label>Nome</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Inserisci nome"
-          name="name"
-          id="name"
-          maxLength={50}
-          value={NewCPMFormValue.name}
-          onChange={HandleOnChange}
-        />
-      </Form.Group>
-
-      <Form.Group as={Row} className="mb-3">
-        <Col md={6} className="w-50"></Col>
-        <Col md={6} className="w-50">
-          <Form.Label>Colore</Form.Label>
-          <Form.Control
-            type="color"
-            name="color"
-            id="color"
-            value={NewCPMFormValue.color}
-            onChange={HandleOnChange}
-          />
+      <Row>
+        <Col xs={3}>
+          <Form.Group className="mb-3">
+            <Form.Label>Colore</Form.Label>
+            <Form.Control
+              type="color"
+              name="color"
+              id="color"
+              value={NewCPMFormValue.color}
+              onChange={HandleOnChange}
+            />
+          </Form.Group>
         </Col>
-      </Form.Group>
+        <Col xs={9}>
+          <Form.Group className="mb-3">
+            <Form.Label>Nome</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Inserisci nome"
+              name="name"
+              id="name"
+              maxLength={50}
+              value={NewCPMFormValue.name}
+              onChange={HandleOnChange}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
 
       <Form.Group className="mb-3">
         <Form.Label>Descrizione</Form.Label>
         <Form.Control
           type="text"
+          as="textarea"
+          rows={3}
           placeholder="Inserisci descrizione"
           name="description"
           id="description"

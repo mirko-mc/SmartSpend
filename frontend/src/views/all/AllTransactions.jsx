@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   Col,
   Container,
@@ -14,6 +15,9 @@ import { GetTransactions } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../../components/utils/MyAlert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { NewTransaction } from "../../components/transaction/NewTransaction";
 
 export const AllTransactions = () => {
   // * CONTEXT
@@ -22,10 +26,12 @@ export const AllTransactions = () => {
     useContext(AlertContext);
   // * STATI
   const [Transactions, SetTransactions] = useState(null);
-  const TransactionId = useParams();
+  const TransactionId = useParams().transactionId;
+  const [IsNewTransaction, SetIsNewTransaction] = useState(false);
+  const [ResultSearch, SetResultSearch] = useState(null);
   // * FUNZIONI
   useEffect(() => {
-    if (LoggedUser) {
+    if (LoggedUser && !ShowAlert) {
       GetTransactions()
         .then((data) => SetTransactions(data))
         .catch((err) => {
@@ -39,46 +45,94 @@ export const AllTransactions = () => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
     }
-  }, [LoggedUser]);
+  }, [LoggedUser, ShowAlert]);
+
   const HandleChange = (e) => {
-    // todo implementa ricerca
+    e.preventDefault();
+    SetResultSearch(
+      Transactions.filter((transaction) =>
+        transaction.shop.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    );
+
+    if (!e.target.value) SetResultSearch(null);
   };
+
   if (!Transactions) return <CardLoader />;
-
-  if (TransactionId?.transactionId) return <Outlet />;
-
-  if (Transactions)
+  if (TransactionId) return <Outlet />;
+  if (IsNewTransaction)
     return (
-      <Container className="pt-xs-2 pt-md-3 pt-lg-5">
+      <Container className="pt-4">
+        <Row>
+          <h1 className="text-center mb-3">Nuovo movimento</h1>
+          <Col>
+            <NewTransaction SetIsNewTransaction={SetIsNewTransaction} />;
+          </Col>
+        </Row>
+      </Container>
+    );
+  if (Transactions || ResultSearch)
+    return (
+      <Container className="pt-4">
         <Row>
           <h1 className="text-center mb-3">Movimenti in entrata e uscita</h1>
           <Col>
             <Card className="mb-3 shadow">
-              <Card.Header className="d-flex justify-content-between">
+              <Card.Header className="d-flex justify-content-between align-items-center">
                 <Card.Title>Elenco movimenti</Card.Title>
+                <Button
+                  variant={
+                    Theme === "light" ? "outline-primary" : "outline-secondary"
+                  }
+                  size="sm"
+                  onClick={() => SetIsNewTransaction(true)}
+                >
+                  <span className="d-none d-md-inline">
+                    Nuovo movimento &nbsp;
+                  </span>
+                  <FontAwesomeIcon
+                    icon={faAdd}
+                    size="xl"
+                    onClick={() => SetIsNewTransaction(true)}
+                  />
+                </Button>
               </Card.Header>
-              <Card.Body>
-                <FormGroup>
-                  <FormControl type="text" onChange={HandleChange} />
-                </FormGroup>
-
+              <Card.Body className="px-0">
                 {ShowAlert?.Type === "getTransactions" && <MyAlert />}
                 {!Transactions[0]?.date ? (
                   <Card.Text className="text-center">
                     Non ci sono movimenti.
                   </Card.Text>
                 ) : (
-                  Transactions.map((transaction) => (
-                    <SingleTransaction
-                      key={transaction._id}
-                      transaction={transaction}
-                      type="mini"
+                  <FormGroup className="mb-3 w-75 mx-auto">
+                    <FormControl
+                      type="text"
+                      onChange={HandleChange}
+                      placeholder="Cerca un movimento nel negozio...."
                     />
-                  ))
+                  </FormGroup>
                 )}
+
+                {ResultSearch
+                  ? ResultSearch.map((transaction, index) => (
+                      <SingleTransaction
+                        key={transaction._id}
+                        transaction={transaction}
+                        index={index}
+                        type="mini"
+                      />
+                    ))
+                  : Transactions.map((transaction, index) => (
+                      <SingleTransaction
+                        key={transaction._id}
+                        transaction={transaction}
+                        index={index}
+                        type="mini"
+                      />
+                    ))}
               </Card.Body>
             </Card>
           </Col>

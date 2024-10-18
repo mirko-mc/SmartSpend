@@ -11,8 +11,8 @@ code {
     monospace;
 }
 
-#body {
-  /* height: 100vh; */
+#root {
+  height: 100vh;
   min-height: 100vh;
 }
 
@@ -21,9 +21,10 @@ header {
 }
 
 main {
-  height: 80%;
+  min-height: 80%;
 }
 
 footer {
   height: 10%;
+  max-height: 15%!important;
 }

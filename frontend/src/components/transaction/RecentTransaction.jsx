@@ -10,7 +10,7 @@ import { MyAlert } from "../utils/MyAlert";
 
 export const RecentTransaction = ({ SetIsNewTransaction }) => {
   // * CONTEXT
-  const { LoggedUser } = useContext(UserContext);
+  const { LoggedUser, Theme } = useContext(UserContext);
   const { SetAlertFormValue, SetShowAlert, ShowAlert } =
     useContext(AlertContext);
   // * STATI
@@ -34,7 +34,7 @@ export const RecentTransaction = ({ SetIsNewTransaction }) => {
           });
           setTimeout(() => {
             SetShowAlert(false);
-          }, 5 * 1000);
+          }, 3 * 1000);
         });
     SetLoader(false);
   }, [LoggedUser]);
@@ -46,9 +46,8 @@ export const RecentTransaction = ({ SetIsNewTransaction }) => {
         <Card.Header className="d-flex justify-content-between">
           <Card.Title>Movimenti recenti</Card.Title>
         </Card.Header>
-        <Card.Body>
+        <Card.Body className="p-0">
           {ShowAlert?.Type === "getTransactions" && <MyAlert />}
-          {console.log(!Transactions[0]?.date)}
           {!Transactions[0]?.date ? (
             <Card.Text className="text-center">
               Non ci sono movimenti recenti
@@ -66,13 +65,13 @@ export const RecentTransaction = ({ SetIsNewTransaction }) => {
         </Card.Body>
         <CardFooter className="d-flex justify-content-evenly">
           <Button
-            variant="outline-warning"
+            variant={Theme === "dark" ? "outline-secondary" : "outline-primary"}
             onClick={() => Navigate("/transactions")}
           >
             Visualizza tutti
           </Button>
           <Button
-            variant="outline-warning"
+            variant={Theme === "dark" ? "outline-secondary" : "outline-primary"}
             onClick={() => SetIsNewTransaction(true)}
           >
             Aggiungi movimento

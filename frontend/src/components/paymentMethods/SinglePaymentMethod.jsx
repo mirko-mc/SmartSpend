@@ -27,17 +27,20 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { UserContext } from "../../context/UserContextProvider";
 import {
-  faCancel,
-  faEuro,
+  faXmark,
   faLocationDot,
   faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 import { CardLoader } from "../loader/CardLoader";
 import { SetInitialFormValues } from "../../data/formValue";
+import { AlertContext } from "../../context/AlertContextProvider";
+import { MyAlert } from "../utils/MyAlert";
 
 export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
   // * CONTEXT
   const { Theme } = useContext(UserContext);
+  const { ShowAlert, SetShowAlert, SetAlertFormValue } =
+    useContext(AlertContext);
   // * STATI
   const Navigate = useNavigate();
   const [EditMode, SetEditMode] = useState(false);
@@ -47,7 +50,7 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
   const TypesPaymentMethod = SetInitialFormValues("typePaymentMethod");
   // * FUNZIONI
   useEffect(() => {
-    !EditMode && type === "mini"
+    !EditMode
       ? GetPaymentMethods()
           .then((data) => SetPaymentMethods(data))
           .catch((err) => console.log(err))
@@ -61,22 +64,69 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
     });
   };
   const HandleDeletePaymentMethod = () => {
+    console.log(paymentMethod);
     DeletePaymentMethod(paymentMethod._id)
       .then(() => {
-        // Navigate(0);
-        alert("Metodo di pagamento eliminato correttamente!");
+        SetAlertFormValue(
+          "deletePaymentMethod",
+          "success",
+          "ELIMINAZIONE COMPLETATA",
+          "Metodo di pagamento eliminato con successo"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate("/paymentMethods");
+        }, 3 * 1000);
       })
-      .catch((err) => console.log(err))
-      .finally(() => Navigate("/paymentMethods"));
+      .catch((err) => {
+        SetAlertFormValue(
+          "deletePaymentMethod",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate("/paymentMethods");
+        }, 3 * 1000);
+      });
   };
   const HandleEditPaymentMethod = () => {
     PutPaymentMethod(
       EditPaymentMethodFormValues._id,
       EditPaymentMethodFormValues
     )
-      .then(() => alert("Metodo di pagamento modificato correttamente!"))
-      .catch((err) => console.log(err))
-      .finally(() => Navigate(0));
+      .then(() => {
+        SetAlertFormValue(
+          "putPaymentMethod",
+          "success",
+          "Modifica effettuata",
+          "Metodo di pagamento modificato correttamente"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+          Navigate(0);
+        }, 3 * 1000);
+      })
+      .catch((err) => {
+        SetAlertFormValue(
+          "putPaymentMethod",
+          "danger",
+          "ERROR",
+          "Si è verificato un errore, riprova più tardi"
+        ).then((AlertFormValue) => {
+          SetShowAlert(AlertFormValue);
+        });
+        setTimeout(() => {
+          SetShowAlert(false);
+        }, 3 * 1000);
+      });
   };
   // * RENDER
   if (paymentMethod && type === "mini")
@@ -86,13 +136,10 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
           key={paymentMethod._id}
           className="d-flex justify-content-evenly align-items-center w-100"
         >
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <span>
-                  Nome &#160;
-                  <FontAwesomeIcon icon={faCalendarDays} />
-                </span>
+                <span>Nome</span>
               </Form.Label>
             )}
             <Form.Control
@@ -103,13 +150,10 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group className="pe-1">
             {index === 0 && (
               <Form.Label className="d-block text-center">
-                <span>
-                  Tipo &#160;
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </span>
+                <span>Tipo pagamento</span>
               </Form.Label>
             )}
             <Form.Control
@@ -127,7 +171,9 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
               </Form.Label>
             )}
             <Button
-              variant={Theme}
+              variant={
+                Theme === "light" ? "outline-primary" : "outline-secondary"
+              }
               onClick={() => Navigate(`/paymentMethods/${paymentMethod._id}`)}
             >
               <FontAwesomeIcon icon={faEye} />
@@ -161,7 +207,6 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
                   />
                 </Col>
               </FormGroup>
-
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
                   Saldo iniziale
@@ -176,7 +221,6 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
                   />
                 </Col>
               </FormGroup>
-
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
                   Nome
@@ -191,7 +235,6 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
                   />
                 </Col>
               </FormGroup>
-
               <FormGroup as={Row} className="mb-2">
                 <Form.Label column sm={3} className="text-end">
                   Tipo
@@ -269,30 +312,38 @@ export const SinglePaymentMethod = ({ paymentMethod, index, type }) => {
         </Card.Body>
         <CardFooter className="d-flex justify-content-evenly">
           {EditMode ? (
-            <>
-              <Button
-                variant={Theme === "dark" ? "outline-danger" : "danger"}
-                onClick={() => SetEditMode(false)}
-              >
-                <FontAwesomeIcon icon={faCancel} />
-              </Button>
-              <Button
-                variant={Theme === "dark" ? "outline-success" : "success"}
-                onClick={HandleEditPaymentMethod}
-              >
-                <FontAwesomeIcon icon={faSave} />
-              </Button>
-            </>
+            ShowAlert?.Type === "putPaymentMethod" ? (
+              <MyAlert />
+            ) : (
+              <>
+                <Button
+                  variant="danger"
+                  onClick={() => SetEditMode(false)}
+                >
+                  <span>Annulla &nbsp;</span>
+                  <FontAwesomeIcon icon={faXmark} size="xl" />
+                </Button>
+                <Button
+                  variant="success"
+                  onClick={HandleEditPaymentMethod}
+                >
+                  <span>Salva &nbsp;</span>
+                  <FontAwesomeIcon icon={faSave} size="xl" />
+                </Button>
+              </>
+            )
           ) : (
             <>
               <Button
-                variant={Theme === "dark" ? `outline-light` : "dark"}
+                variant={Theme === "dark" ? `outline-secondary` : `outline-primary`}
                 onClick={() => SetEditMode(true)}
               >
-                <FontAwesomeIcon icon={faEdit} />
+                <span>Modifica &nbsp;</span>
+                <FontAwesomeIcon icon={faEdit} size="xl" />
               </Button>
               <Button variant="danger" onClick={HandleDeletePaymentMethod}>
-                <FontAwesomeIcon icon={faTrashAlt} />
+                <span>Elimina &nbsp;</span>
+                <FontAwesomeIcon icon={faTrashAlt} size="xl" />
               </Button>
             </>
           )}

@@ -48,7 +48,7 @@ export const SetInitialFormValues = (FormValuesType) => {
         debitCard: "Carta di debito",
         creditCard: "Carta di credito",
         cash: "Contanti",
-        digitalWallet: "Portafoglio digitali",
+        digitalWallet: "Portafoglio digitale",
       };
     default:
       return { message: "Type not found" };

@@ -39,7 +39,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       });
     GetCategories()
       .then((data) => SetCategories(data))
@@ -54,7 +54,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       });
     SetNewTransaction({ ...NewTransaction, user: LoggedUser._id });
   }, []);
@@ -79,7 +79,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
         setTimeout(() => {
           SetShowAlert(false);
           SetIsNewTransaction(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       })
       .catch(() => {
         SetAlertFormValue(
@@ -92,7 +92,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
         });
         setTimeout(() => {
           SetShowAlert(false);
-        }, 5 * 1000);
+        }, 3 * 1000);
       });
   };
 
@@ -105,8 +105,8 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
             <Card.Title>Nuova transazione</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Form.Group as={Row} className="mb-3">
-              <Col md={6}>
+            <Form.Group as={Row}>
+              <Col md={6} className="mb-3">
                 <Form.Label>Dove</Form.Label>
                 <Form.Control
                   type="text"
@@ -118,7 +118,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   required
                 />
               </Col>
-              <Col md={6}>
+              <Col md={6} className="mb-3">
                 <Form.Label>Indirizzo</Form.Label>
                 <Form.Control
                   type="text"
@@ -131,8 +131,8 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
-              <Col md={4}>
+            <Form.Group as={Row}>
+              <Col md={4} className="mb-3">
                 <Form.Label>Importo</Form.Label>
                 <Form.Control
                   type="number"
@@ -147,7 +147,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   max={9999.99}
                 />
               </Col>
-              <Col md={4}>
+              <Col md={4} className="mb-3">
                 <Form.Label>Data</Form.Label>
                 <Form.Control
                   type="date"
@@ -159,7 +159,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                   onChange={HandleOnChange}
                 />
               </Col>
-              <Col md={4}>
+              <Col md={4} className="mb-3">
                 <Form.Label>Tipo</Form.Label>
                 <Form.Select
                   name="inOut"
@@ -179,6 +179,8 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               <Form.Label>Descrizione</Form.Label>
               <Form.Control
                 type="text"
+                as="textarea"
+                rows={3}
                 placeholder="Inserisci descrizione"
                 name="description"
                 id="description"
@@ -188,8 +190,8 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               />
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
-              <Col md={6}>
+            <Form.Group as={Row}>
+              <Col md={6} className="mb-3">
                 <Form.Label>Categoria</Form.Label>
                 <Form.Select
                   name="category"
@@ -207,7 +209,7 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
                     ))}
                 </Form.Select>
               </Col>
-              <Col md={6}>
+              <Col md={6} className="mb-3">
                 <Form.Label>Metodo di pagamento</Form.Label>
                 <Form.Select
                   name="paymentMethod"
@@ -232,13 +234,15 @@ export const NewTransaction = ({ SetIsNewTransaction }) => {
               variant={Theme === "light" ? "danger" : "outline-danger"}
               onClick={() => SetIsNewTransaction(false)}
             >
-              Annulla <FontAwesomeIcon icon={faXmark} size="xl" />
+              <span>Annulla &nbsp;</span>
+              <FontAwesomeIcon icon={faXmark} size="xl" />
             </Button>
             <Button
               variant={Theme === "light" ? "success" : "outline-success"}
               type="submit"
             >
-              Salva <FontAwesomeIcon icon={faSave} size="xl" />
+              <span>Salva &nbsp;</span>
+              <FontAwesomeIcon icon={faSave} size="xl" />
             </Button>
           </Card.Footer>
         </Form>
