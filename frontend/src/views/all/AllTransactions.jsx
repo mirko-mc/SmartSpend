@@ -157,14 +157,14 @@ export const AllTransactions = () => {
                         placeholder="Cerca un movimento nel negozio...."
                       />
                     </FormGroup>
-                    <Form.Select aria-label="Default select example">
+                    <FormSelect aria-label="Default select example">
                       <option>Open this select menu</option>
                       {Categories.map((category) => {
                         <option value={category.name}>
                           {category.name} onChange={HandleChangeCategory}
                         </option>;
                       })}
-                    </Form.Select>
+                    </FormSelect>
                   </>
                 )}
 
