@@ -6,13 +6,14 @@ import {
   Container,
   FormControl,
   FormGroup,
+  FormSelect,
   Row,
 } from "react-bootstrap";
 import { Outlet, useParams } from "react-router-dom";
 import { SingleTransaction } from "../../components/transaction/SingleTransaction";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
-import { GetTransactions } from "../../data/fetch";
+import { GetCategories, GetTransactions } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../../components/utils/MyAlert";
@@ -31,6 +32,7 @@ export const AllTransactions = () => {
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
   const [ResultSearch, SetResultSearch] = useState(null);
   const [Total, SetTotal] = useState(null);
+  const [Categories, SetCategories] = useState(null);
   // * FUNZIONI
   useEffect(() => {
     if (LoggedUser && !ShowAlert) {
@@ -51,16 +53,8 @@ export const AllTransactions = () => {
         });
     }
   }, [LoggedUser, ShowAlert]);
-
+  // calcolo saldo
   useEffect(() => {
-    ResultSearch &&
-      SetTotal(
-        ResultSearch.reduce(
-          (acc, curr) =>
-            curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
-          0
-        )
-      );
     Transactions &&
       SetTotal(
         Transactions.reduce(
@@ -69,9 +63,34 @@ export const AllTransactions = () => {
           0
         )
       );
+    ResultSearch &&
+      SetTotal(
+        ResultSearch.reduce(
+          (acc, curr) =>
+            curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
+          0
+        )
+      );
     console.table(ResultSearch);
     console.table(Transactions);
   }, [Transactions, ResultSearch]);
+
+  // categorie
+  useEffect(() => {
+    LoggedUser && GetCategories.then((data) => SetCategories(data));
+  }, [LoggedUser]);
+  const HandleChangeCategory = (e) => {
+    e.preventDefault();
+    SetResultSearch(
+      Transactions.filter((transaction) =>
+        transaction.category.name
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase())
+      )
+    );
+    if (!e.target.value) SetResultSearch(null);
+  };
+  // ricerca per negozio
   const HandleChange = (e) => {
     e.preventDefault();
     SetResultSearch(
@@ -130,13 +149,23 @@ export const AllTransactions = () => {
                     Non ci sono movimenti.
                   </Card.Text>
                 ) : (
-                  <FormGroup className="mb-3 w-75 mx-auto">
-                    <FormControl
-                      type="text"
-                      onChange={HandleChange}
-                      placeholder="Cerca un movimento nel negozio...."
-                    />
-                  </FormGroup>
+                  <>
+                    <FormGroup className="mb-3 w-75 mx-auto">
+                      <FormControl
+                        type="text"
+                        onChange={HandleChange}
+                        placeholder="Cerca un movimento nel negozio...."
+                      />
+                    </FormGroup>
+                    <Form.Select aria-label="Default select example">
+                      <option>Open this select menu</option>
+                      {Categories.map((category) => {
+                        <option value={category.name}>
+                          {category.name} onChange={HandleChangeCategory}
+                        </option>;
+                      })}
+                    </Form.Select>
+                  </>
                 )}
 
                 {ResultSearch
