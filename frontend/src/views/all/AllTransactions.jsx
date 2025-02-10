@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  CardText,
   Col,
   Container,
   FormControl,
@@ -29,6 +30,7 @@ export const AllTransactions = () => {
   const TransactionId = useParams().transactionId;
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
   const [ResultSearch, SetResultSearch] = useState(null);
+  const [Total, SetTotal] = useState(null);
   // * FUNZIONI
   useEffect(() => {
     if (LoggedUser && !ShowAlert) {
@@ -50,6 +52,26 @@ export const AllTransactions = () => {
     }
   }, [LoggedUser, ShowAlert]);
 
+  useEffect(() => {
+    ResultSearch &&
+      SetTotal(
+        ResultSearch.reduce(
+          (acc, curr) =>
+            curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
+          0
+        )
+      );
+    Transactions &&
+      SetTotal(
+        Transactions.reduce(
+          (acc, curr) =>
+            curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
+          0
+        )
+      );
+    console.table(ResultSearch);
+    console.table(Transactions);
+  }, [Transactions, ResultSearch]);
   const HandleChange = (e) => {
     e.preventDefault();
     SetResultSearch(
@@ -69,7 +91,7 @@ export const AllTransactions = () => {
         <Row>
           <h1 className="text-center mb-3">Nuovo movimento</h1>
           <Col>
-            <NewTransaction SetIsNewTransaction={SetIsNewTransaction} />;
+            <NewTransaction SetIsNewTransaction={SetIsNewTransaction} />
           </Col>
         </Row>
       </Container>
@@ -83,6 +105,7 @@ export const AllTransactions = () => {
             <Card className="mb-3 shadow">
               <Card.Header className="d-flex justify-content-between align-items-center">
                 <Card.Title>Elenco movimenti</Card.Title>
+                <CardText>Saldo: {Total}</CardText>
                 <Button
                   variant={
                     Theme === "light" ? "outline-primary" : "outline-secondary"
