@@ -77,7 +77,7 @@ export const AllTransactions = () => {
 
   // categorie
   useEffect(() => {
-    LoggedUser && GetCategories.then((data) => SetCategories(data));
+    LoggedUser && GetCategories().then((data) => SetCategories(data));
   }, [LoggedUser]);
   const HandleChangeCategory = (e) => {
     e.preventDefault();
@@ -157,13 +157,13 @@ export const AllTransactions = () => {
                         placeholder="Cerca un movimento nel negozio...."
                       />
                     </FormGroup>
-                    <FormSelect aria-label="Default select example">
-                      <option>Open this select menu</option>
-                      {Categories.map((category) => {
-                        <option value={category.name}>
-                          {category.name} onChange={HandleChangeCategory}
-                        </option>;
-                      })}
+                    <FormSelect aria-label="Default select example" onChange={HandleChangeCategory}>
+                      <option>Seleziona una categoria</option>
+                      {Categories?.map((category) => (
+                        <option key={category._id} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
                     </FormSelect>
                   </>
                 )}
