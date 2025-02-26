@@ -33,6 +33,8 @@ export const GetMeInfo = async () => {
     return data;
   } catch (err) {
     console.log(err);
+    localStorage.removeItem("token");
+    console.log("TOKEN rimosso, effettuare nuovamente l'accesso");
   }
 };
 

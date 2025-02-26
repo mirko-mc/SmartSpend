@@ -4,6 +4,7 @@ import {
   CardText,
   Col,
   Container,
+  Form,
   FormControl,
   FormGroup,
   FormSelect,
@@ -149,23 +150,26 @@ export const AllTransactions = () => {
                     Non ci sono movimenti.
                   </Card.Text>
                 ) : (
-                  <>
-                    <FormGroup className="mb-3 w-75 mx-auto">
+                  <Form>
+                    <FormGroup className="mb-3 mx-auto">
                       <FormControl
                         type="text"
                         onChange={HandleChange}
                         placeholder="Cerca un movimento nel negozio...."
                       />
+                      <FormSelect
+                        aria-label="Default select example"
+                        onChange={HandleChangeCategory}
+                      >
+                        <option>Seleziona una categoria</option>
+                        {Categories?.map((category) => (
+                          <option key={category._id} value={category.name}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </FormSelect>
                     </FormGroup>
-                    <FormSelect aria-label="Default select example" onChange={HandleChangeCategory}>
-                      <option>Seleziona una categoria</option>
-                      {Categories?.map((category) => (
-                        <option key={category._id} value={category.name}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </FormSelect>
-                  </>
+                  </Form>
                 )}
 
                 {ResultSearch
