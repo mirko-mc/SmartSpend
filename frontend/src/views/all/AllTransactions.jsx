@@ -14,7 +14,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { SingleTransaction } from "../../components/transaction/SingleTransaction";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContextProvider";
-import { GetCategories, GetTransactions } from "../../data/fetch";
+import { GetCategories, GetTotals, GetTransactions } from "../../data/fetch";
 import { CardLoader } from "../../components/loader/CardLoader";
 import { AlertContext } from "../../context/AlertContextProvider";
 import { MyAlert } from "../../components/utils/MyAlert";
@@ -33,6 +33,7 @@ export const AllTransactions = () => {
   const [IsNewTransaction, SetIsNewTransaction] = useState(false);
   const [ResultSearch, SetResultSearch] = useState(null);
   const [Total, SetTotal] = useState(null);
+  const [ResultSearchTotal, SetResultSearchTotal] = useState(0);
   const [Categories, SetCategories] = useState(null);
   // * FUNZIONI
   useEffect(() => {
@@ -57,29 +58,44 @@ export const AllTransactions = () => {
   // calcolo saldo
   useEffect(() => {
     Transactions &&
-      SetTotal(
-        Transactions.reduce(
-          (acc, curr) =>
-            curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
-          0
-        )
-      );
+      GetTotals(LoggedUser._id)
+        .then((data) => {
+          SetTotal("€ " + (data.totalIn - data.totalOut).toFixed(2));
+        })
+        .catch(() => {
+          SetAlertFormValue(
+            "chart",
+            "danger",
+            "ERROR",
+            "Errore nel recupero dei dati, riprova più tardi."
+          ).then((AlertFormValue) => {
+            SetShowAlert(AlertFormValue);
+          });
+          setTimeout(() => {
+            SetShowAlert(false);
+          }, 3 * 1000);
+        });
+  }, [Transactions, Total]);
+
+  useEffect(() => {
     ResultSearch &&
-      SetTotal(
+      SetResultSearchTotal(
         ResultSearch.reduce(
           (acc, curr) =>
             curr.inOut === "in" ? acc + curr.amount : acc - curr.amount,
           0
         )
       );
-    console.table(ResultSearch);
-    console.table(Transactions);
-  }, [Transactions, ResultSearch]);
+    // console.table(ResultSearch);
+    // console.table(Transactions);
+  }, [ResultSearch]);
 
   // categorie
   useEffect(() => {
     LoggedUser && GetCategories().then((data) => SetCategories(data));
   }, [LoggedUser]);
+
+  // filtro per categorie
   const HandleChangeCategory = (e) => {
     e.preventDefault();
     SetResultSearch(
@@ -91,6 +107,7 @@ export const AllTransactions = () => {
     );
     if (!e.target.value) SetResultSearch(null);
   };
+
   // ricerca per negozio
   const HandleChange = (e) => {
     e.preventDefault();
@@ -125,7 +142,12 @@ export const AllTransactions = () => {
             <Card className="mb-3 shadow">
               <Card.Header className="d-flex justify-content-between align-items-center">
                 <Card.Title>Elenco movimenti</Card.Title>
-                <CardText>Saldo: {Total}</CardText>
+                <div className="text-center">
+                  <CardText>Saldo: {Total}</CardText>
+                  {ResultSearchTotal !== 0 && (
+                    <CardText>Totale Categoria: {ResultSearchTotal} </CardText>
+                  )}
+                </div>
                 <Button
                   variant={
                     Theme === "light" ? "outline-primary" : "outline-secondary"
@@ -161,7 +183,7 @@ export const AllTransactions = () => {
                         aria-label="Default select example"
                         onChange={HandleChangeCategory}
                       >
-                        <option>Seleziona una categoria</option>
+                        <option value={null}>Seleziona una categoria</option>
                         {Categories?.map((category) => (
                           <option key={category._id} value={category.name}>
                             {category.name}
